@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Recall X247 — Product Deck</title>
+<link rel="icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-2:#f8fafc;
+    --bg-3:#f1f5f9;
+    --ink-1:#0f172a;
+    --ink-2:#334155;
+    --ink-3:#64748b;
+    --ink-4:#94a3b8;
+    --line:#e2e8f0;
+    --line-2:#cbd5e1;
+    --accent:#4f46e5;
+    --accent-2:#6366f1;
+    --accent-tint:#eef2ff;
+    --accent-soft:#e0e7ff;
+    --good:#059669;
+    --warn:#d97706;
+    --err:#dc2626;
+    --shadow-sm:0 1px 2px rgba(15,23,42,.04);
+    --shadow:0 4px 16px rgba(15,23,42,.06);
+    --shadow-lg:0 12px 40px rgba(15,23,42,.08);
+    --display:'Manrope',ui-sans-serif,system-ui,sans-serif;
+    --body:'Inter',ui-sans-serif,system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--bg-2);color:var(--ink-1);font-family:var(--body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:var(--accent);text-decoration:none}
+  button{font-family:inherit}
+
+  /* Stage */
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .frame{
+    position:relative;width:min(96vw,1600px);aspect-ratio:16/9;max-height:92vh;
+    background:var(--bg);border-radius:18px;box-shadow:var(--shadow-lg);
+    overflow:hidden;border:1px solid var(--line);
+  }
+  .slide{position:absolute;inset:0;padding:5.5vmin 6vmin;display:none;flex-direction:column}
+  .slide.active{display:flex}
+
+  /* Chrome */
+  .chrome{position:fixed;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;pointer-events:none;z-index:5}
+  .chrome.top{top:0}
+  .chrome.bot{bottom:0}
+  .chrome > *{pointer-events:auto}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--ink-3);font-weight:600;font-size:13px;letter-spacing:.2px}
+  .brand .dot{width:9px;height:9px;border-radius:3px;background:var(--accent);box-shadow:0 0 0 4px var(--accent-tint)}
+  .counter{font-variant-numeric:tabular-nums;color:var(--ink-3);font-size:13px;font-weight:600;background:var(--bg);border:1px solid var(--line);padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-sm)}
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;transition:width .3s ease;z-index:6}
+  .keyhint{font-size:11px;color:var(--ink-4);font-weight:500}
+  .pillbtn{font-size:11px;color:var(--ink-2);font-weight:600;background:var(--bg);border:1px solid var(--line);padding:6px 10px;border-radius:8px;cursor:pointer;letter-spacing:.3px}
+  .pillbtn:hover{border-color:var(--line-2);color:var(--ink-1)}
+
+  /* Notes drawer */
+  .notes{position:fixed;right:0;top:0;bottom:0;width:380px;background:var(--bg);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .25s ease;z-index:10;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(15,23,42,.06)}
+  .notes.open{transform:translateX(0)}
+  .notes header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .notes header h3{margin:0;font-family:var(--display);font-size:14px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+  .notes-body{padding:20px 22px;overflow-y:auto;flex:1}
+  .notes-body h4{font-family:var(--display);font-size:18px;margin:0 0 10px;color:var(--ink-1)}
+  .notes-body p, .notes-body li{font-size:14px;line-height:1.65;color:var(--ink-2);margin:0 0 10px}
+  .notes-body ul{padding-left:20px;margin:0 0 10px}
+  .closeNotes{background:none;border:none;font-size:18px;color:var(--ink-3);cursor:pointer;padding:0;line-height:1}
+
+  /* Typography */
+  h1.kicker{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin:0 0 18px}
+  h2.title{font-family:var(--display);font-weight:800;font-size:5.4vmin;line-height:1.05;letter-spacing:-.02em;color:var(--ink-1);margin:0 0 14px;text-wrap:balance}
+  h2.title.lg{font-size:7.2vmin}
+  p.lede{font-size:2.2vmin;line-height:1.5;color:var(--ink-2);margin:0;max-width:60ch;text-wrap:pretty}
+  .rule{height:3px;width:54px;background:var(--accent);border-radius:3px;margin:0 0 22px}
+
+  ul.bullets{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:14px}
+  ul.bullets li{position:relative;padding-left:30px;font-size:2vmin;line-height:1.5;color:var(--ink-2)}
+  ul.bullets li::before{content:"";position:absolute;left:0;top:.7em;width:14px;height:2px;background:var(--accent);border-radius:2px}
+  ul.bullets li b{color:var(--ink-1);font-weight:600}
+
+  /* Layouts */
+  .row{display:flex;flex:1;gap:5vmin;align-items:stretch}
+  .col{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .col.fixed{flex:0 0 auto}
+  .stack{display:flex;flex-direction:column;gap:14px}
+  .meta{display:flex;align-items:center;gap:12px;color:var(--ink-3);font-size:13px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+  .meta .num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--accent-tint);color:var(--accent);font-family:var(--display);font-size:13px;font-weight:800}
+
+  /* Title slide */
+  .hero{display:flex;flex-direction:column;justify-content:center;height:100%;position:relative}
+  .hero .wordmark{font-family:var(--display);font-weight:800;font-size:13.5vmin;line-height:.95;letter-spacing:-.04em;color:var(--ink-1)}
+  .hero .wordmark .x{color:var(--accent)}
+  .hero .tag{margin-top:22px;font-family:var(--display);font-weight:600;font-size:3.4vmin;color:var(--ink-2);max-width:24ch;line-height:1.2}
+  .hero .sub{margin-top:30px;display:flex;align-items:center;gap:14px;color:var(--ink-3);font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+  .hero .sub .chip{background:var(--accent-tint);color:var(--accent);padding:6px 12px;border-radius:999px;font-weight:700}
+  .hero .pattern{position:absolute;right:-3vmin;bottom:-3vmin;width:55vmin;height:55vmin;background:radial-gradient(circle at 30% 30%,var(--accent-soft),transparent 60%);border-radius:50%;opacity:.7;pointer-events:none}
+  .hero .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:8vmin 8vmin;mask-image:radial-gradient(circle at 80% 80%,black 0,transparent 70%);opacity:.35;pointer-events:none}
+
+  /* Section divider */
+  .divider{justify-content:center;align-items:flex-start;background:linear-gradient(135deg,var(--bg) 60%,var(--accent-tint) 100%)}
+  .divider .num{font-family:var(--display);font-weight:800;font-size:18vmin;line-height:.9;color:var(--accent);opacity:.18;letter-spacing:-.05em}
+  .divider .lab{font-family:var(--display);font-weight:700;font-size:1.6vmin;text-transform:uppercase;letter-spacing:3px;color:var(--accent);margin-bottom:10px}
+  .divider .ttl{font-family:var(--display);font-weight:800;font-size:8vmin;line-height:1;letter-spacing:-.025em;color:var(--ink-1);margin:0}
+
+  /* Loop diagram (solution) */
+  .loop{display:grid;grid-template-columns:repeat(4,1fr);gap:2.4vmin;margin-top:4vmin}
+  .loop .step{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:2.6vmin 2.4vmin;box-shadow:var(--shadow-sm)}
+  .loop .step .n{font-family:var(--display);font-weight:800;font-size:1.4vmin;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+  .loop .step h4{font-family:var(--display);font-weight:800;font-size:3vmin;margin:8px 0 8px;letter-spacing:-.01em;color:var(--ink-1)}
+  .loop .step p{font-size:1.6vmin;color:var(--ink-2);line-height:1.5;margin:0}
+  .loop .step::after{content:"→";position:absolute;right:-2.2vmin;top:50%;transform:translateY(-50%);font-family:var(--display);color:var(--accent);font-weight:800;font-size:2.6vmin}
+  .loop .step:last-child::after{content:"↻";color:var(--ink-4)}
+
+  /* Personas */
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:3vmin;margin-top:3vmin}
+  .persona{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:3vmin;display:flex;flex-direction:column;gap:1.2vmin;position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .persona::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--accent)}
+  .persona .ico{width:42px;height:42px;border-radius:11px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;margin-bottom:6px}
+  .persona h4{font-family:var(--display);font-weight:800;font-size:2.6vmin;margin:0;letter-spacing:-.01em}
+  .persona .role{font-size:1.4vmin;color:var(--ink-3);font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-top:-2px}
+  .persona p{font-size:1.7vmin;color:var(--ink-2);line-height:1.5;margin:6px 0 0}
+  .persona .uses{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);font-size:1.4vmin;color:var(--ink-3)}
+  .persona .uses b{color:var(--ink-1);font-weight:600}
+
+  /* Journey */
+  .journey{display:grid;grid-template-columns:repeat(6,1fr);gap:1.4vmin;margin-top:3vmin}
+  .step-card{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:2vmin 1.6vmin;display:flex;flex-direction:column;gap:8px;position:relative;box-shadow:var(--shadow-sm)}
+  .step-card .n{font-family:var(--display);font-weight:800;font-size:3vmin;color:var(--accent);line-height:1}
+  .step-card h5{font-family:var(--display);font-weight:700;font-size:1.7vmin;margin:0;color:var(--ink-1);letter-spacing:-.01em;line-height:1.15}
+  .step-card p{font-size:1.4vmin;color:var(--ink-3);margin:0;line-height:1.45}
+  .journey-foot{margin-top:2.6vmin;padding:2vmin 2.4vmin;background:var(--accent-tint);border-radius:12px;color:var(--ink-2);font-size:1.7vmin;line-height:1.5;border-left:3px solid var(--accent)}
+  .journey-foot b{color:var(--ink-1);font-weight:600}
+
+  /* Feature slide right column */
+  .feature-visual{flex:0 0 38%;background:linear-gradient(180deg,var(--bg-2),var(--accent-tint));border-radius:18px;padding:3vmin;display:flex;flex-direction:column;gap:1.6vmin;justify-content:center;border:1px solid var(--line)}
+  .feature-visual .pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:1.4vmin;color:var(--ink-2);font-weight:600;width:fit-content;box-shadow:var(--shadow-sm)}
+  .feature-visual .pill .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .feature-visual .stat{font-family:var(--display);font-weight:800;font-size:6vmin;color:var(--ink-1);line-height:1;letter-spacing:-.03em;margin-top:6px}
+  .feature-visual .stat-label{font-size:1.5vmin;color:var(--ink-3);text-transform:uppercase;letter-spacing:1.2px;font-weight:600}
+  .feature-visual ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+  .feature-visual ul li{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:1.5vmin;color:var(--ink-2)}
+  .feature-visual ul li .tag{font-family:var(--mono);font-size:1.1vmin;background:var(--accent-tint);color:var(--accent);padding:3px 7px;border-radius:5px;font-weight:600;margin-left:auto}
+  .feature-visual .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .feature-visual .grid3 .b{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;font-size:1.4vmin;color:var(--ink-2);font-weight:600}
+  .feature-visual .grid3 .b b{display:block;font-family:var(--display);font-size:2.4vmin;color:var(--accent);font-weight:800;margin-bottom:2px}
+  .quote{font-family:var(--display);font-style:italic;font-weight:600;font-size:2vmin;color:var(--ink-2);line-height:1.4;border-left:3px solid var(--accent);padding-left:14px}
+
+  /* What's new (3 columns of themes) */
+  .whats-new{display:grid;grid-template-columns:repeat(3,1fr);gap:2vmin;margin-top:2.6vmin}
+  .new-card{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:2.2vmin;box-shadow:var(--shadow-sm)}
+  .new-card .badge{display:inline-flex;align-items:center;gap:6px;font-size:1.2vmin;font-family:var(--display);font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);background:var(--accent-tint);padding:4px 9px;border-radius:6px}
+  .new-card h4{font-family:var(--display);font-weight:700;font-size:2vmin;margin:10px 0 8px;letter-spacing:-.01em}
+  .new-card p{font-size:1.55vmin;color:var(--ink-2);margin:0;line-height:1.5}
+
+  /* Roadmap */
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vmin;margin-top:2.6vmin}
+  .horizon{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:2.6vmin;display:flex;flex-direction:column;gap:14px;position:relative;box-shadow:var(--shadow-sm)}
+  .horizon .hdr{display:flex;align-items:center;gap:12px}
+  .horizon .hdr .when{font-family:var(--display);font-weight:800;font-size:1.3vmin;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);background:var(--accent-tint);padding:4px 9px;border-radius:6px}
+  .horizon h4{font-family:var(--display);font-weight:800;font-size:2.4vmin;margin:0;letter-spacing:-.01em}
+  .horizon ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+  .horizon ul li{font-size:1.55vmin;color:var(--ink-2);padding-left:18px;position:relative;line-height:1.45}
+  .horizon ul li::before{content:"›";position:absolute;left:0;top:-1px;color:var(--accent);font-family:var(--display);font-weight:800}
+
+  /* Architecture */
+  .arch{display:flex;flex-direction:column;gap:2vmin;margin-top:3vmin;flex:1;justify-content:center}
+  .arch-row{display:grid;grid-template-columns:1fr 50px 1fr 50px 1fr;gap:1vmin;align-items:center}
+  .box{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:2.4vmin;text-align:center;box-shadow:var(--shadow-sm);min-height:13vmin;display:flex;flex-direction:column;justify-content:center;gap:6px}
+  .box.accent{background:var(--accent-tint);border-color:var(--accent-soft)}
+  .box .lbl{font-family:var(--display);font-weight:800;font-size:1.4vmin;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+  .box h5{font-family:var(--display);font-weight:800;font-size:2.4vmin;margin:0;color:var(--ink-1);letter-spacing:-.01em}
+  .box p{font-size:1.45vmin;color:var(--ink-3);margin:0;line-height:1.4}
+  .arrow{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent);font-family:var(--display);font-weight:700;font-size:1.1vmin;letter-spacing:1px;text-transform:uppercase}
+  .arrow .line{width:100%;height:2px;background:var(--accent);position:relative}
+  .arrow .line::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left-color:var(--accent)}
+  .arch-foot{display:flex;gap:1.4vmin;margin-top:2vmin;flex-wrap:wrap;justify-content:center}
+  .chip-tech{font-family:var(--mono);font-size:1.3vmin;background:var(--bg-3);border:1px solid var(--line);color:var(--ink-2);padding:6px 11px;border-radius:7px}
+
+  /* Closing */
+  .closing{justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,var(--bg) 0%,var(--accent-tint) 100%)}
+  .closing .big{font-family:var(--display);font-weight:800;font-size:11vmin;line-height:1;letter-spacing:-.04em;color:var(--ink-1);margin:0 0 18px;text-wrap:balance}
+  .closing .big .x{color:var(--accent)}
+  .closing .lede{font-size:2.6vmin;color:var(--ink-2);max-width:30ch;margin:0 auto 32px;text-wrap:pretty;text-align:center}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+  .cta-row .cta{background:var(--accent);color:#fff;padding:14px 26px;border-radius:11px;font-weight:700;font-family:var(--display);font-size:14px;letter-spacing:.4px;box-shadow:0 8px 24px rgba(79,70,229,.28)}
+  .cta-row .cta.alt{background:var(--bg);color:var(--ink-1);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .closing .meta-row{margin-top:36px;display:flex;gap:24px;justify-content:center;color:var(--ink-3);font-size:13px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+
+  /* Problem */
+  .problems{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1.6vmin;margin-top:3vmin;flex:1}
+  .pcell{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:2vmin;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-sm)}
+  .pcell .ico{font-family:var(--display);font-weight:800;font-size:1.3vmin;letter-spacing:1.4px;color:var(--accent);text-transform:uppercase}
+  .pcell h5{font-family:var(--display);font-weight:700;font-size:2vmin;margin:0;letter-spacing:-.01em;color:var(--ink-1)}
+  .pcell p{font-size:1.5vmin;color:var(--ink-2);margin:0;line-height:1.45}
+
+  /* Print — each slide paginates as its own landscape A4 page */
+  @page{ size: A4 landscape; margin: 0 }
+  @media print{
+    html,body{background:#fff;height:auto;overflow:visible}
+    .stage{position:static;display:block;width:100%;height:auto;overflow:visible}
+    .frame{width:100%;max-width:none;max-height:none;aspect-ratio:auto;height:auto;border-radius:0;box-shadow:none;border:none;overflow:visible;background:transparent}
+    .slide{display:flex !important;position:relative;inset:auto;width:100%;height:100vh;min-height:100vh;page-break-after:always;break-after:page;padding:6vmin 7vmin;background:var(--bg);overflow:hidden}
+    .slide:last-child{page-break-after:auto;break-after:auto}
+    .chrome,.notes,.progress{display:none !important}
+  }
+</style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <div class="chrome top">
+    <div class="brand"><span class="dot"></span> Recall <span style="color:var(--accent)">X247</span> · Product Deck</div>
+    <div style="display:flex;gap:8px">
+      <button class="pillbtn" id="notesBtn" title="Toggle speaker notes (N)">Speaker notes</button>
+      <a class="pillbtn" id="downloadBtn" href="recall-x247-deck.pdf" download="Recall-X247-Product-Deck.pdf" title="Download pre-rendered PDF (D)">Download PDF</a>
+      <button class="pillbtn" id="printBtn" title="Print / save as PDF (P)">Print</button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="frame" id="frame">
+
+      <!-- 1. TITLE -->
+      <section class="slide" data-title="Title" data-notes="title">
+        <div class="hero">
+          <div class="grid-bg"></div>
+          <div class="pattern"></div>
+          <div class="brand" style="margin-bottom:24px"><span class="dot"></span> April 2026 · Product Overview</div>
+          <div class="wordmark">Recall <span class="x">X247</span></div>
+          <div class="tag">Your AI second brain — capture once, recall anywhere, act on what matters.</div>
+          <div class="sub">
+            <span class="chip">v2 · Light</span>
+            <span>For founders, researchers &amp; operators</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. PROBLEM -->
+      <section class="slide" data-title="The problem" data-notes="problem">
+        <div class="meta"><span class="num">01</span> The problem</div>
+        <h2 class="title">Knowledge work is leaking out of your week.</h2>
+        <p class="lede">You read, watch, and learn constantly — but the insights never make it into Monday morning. Notes go cold. Tabs close. Tools fragment. Nothing closes the loop from input to action.</p>
+        <div class="problems">
+          <div class="pcell"><div class="ico">Overload</div><h5>Too many sources</h5><p>YouTube, articles, PDFs, voice memos, Slack — knowledge piles up in twelve different inboxes.</p></div>
+          <div class="pcell"><div class="ico">Loss</div><h5>Notes go cold</h5><p>You highlight, you screenshot, you forget. Two weeks later the insight is gone and the link is dead.</p></div>
+          <div class="pcell"><div class="ico">No execution</div><h5>Learning ≠ doing</h5><p>You finish a great talk and write nothing down. No task gets created. The idea evaporates.</p></div>
+          <div class="pcell"><div class="ico">Forgetting</div><h5>No retrieval</h5><p>You know you saved it — somewhere. Search by keyword fails. Your past self is unreachable.</p></div>
+          <div class="pcell"><div class="ico">No focus</div><h5>Mornings start cold</h5><p>No daily brief, no priorities, no &ldquo;here&rsquo;s what changed overnight.&rdquo; You re-orient from scratch.</p></div>
+          <div class="pcell"><div class="ico">Fragmentation</div><h5>Six tabs, one brain</h5><p>Notion, Apple Notes, Readwise, Calendar, Tasks — none of them know about each other.</p></div>
+        </div>
+      </section>
+
+      <!-- 3. SOLUTION LOOP -->
+      <section class="slide" data-title="The solution" data-notes="solution">
+        <div class="meta"><span class="num">02</span> The solution</div>
+        <h2 class="title">One loop. From any input, to a daily action.</h2>
+        <p class="lede">Recall X247 turns scattered inputs into a queryable knowledge vault and a daily plan. Capture anything, recall it semantically, act on what matters today, review tomorrow.</p>
+        <div class="loop">
+          <div class="step"><div class="n">Step 1</div><h4>Capture</h4><p>Drop a link, a PDF, a voice memo or a thought. Specialist agents extract, summarize and tag.</p></div>
+          <div class="step"><div class="n">Step 2</div><h4>Recall</h4><p>Three-tier semantic search returns cited passages from your vault — not the open web.</p></div>
+          <div class="step"><div class="n">Step 3</div><h4>Act</h4><p>Tasks, calendar events and study sessions auto-link back to the source memory.</p></div>
+          <div class="step"><div class="n">Step 4</div><h4>Review</h4><p>Morning briefing, inbox queue and flashcards close the loop and feed tomorrow.</p></div>
+        </div>
+      </section>
+
+      <!-- 4. PERSONAS -->
+      <section class="slide" data-title="Who it&rsquo;s for" data-notes="personas">
+        <div class="meta"><span class="num">03</span> Who it&rsquo;s for</div>
+        <h2 class="title">Built for the three people who can&rsquo;t afford to forget.</h2>
+        <div class="personas">
+          <div class="persona">
+            <div class="ico">F</div>
+            <h4>Founders</h4>
+            <div class="role">Move fast, never lose context</div>
+            <p>Capture investor calls, podcasts and product ideas in seconds. Recall them word-for-word in pitch prep.</p>
+            <div class="uses"><b>Lives in:</b> Capture · Briefing · Agent Hub</div>
+          </div>
+          <div class="persona">
+            <div class="ico">R</div>
+            <h4>Researchers</h4>
+            <div class="role">Synthesize, cite, retain</div>
+            <p>Index papers, lectures and PDFs into a personal corpus. Ask follow-up questions and get cited answers.</p>
+            <div class="uses"><b>Lives in:</b> Recall · Graph · Flashcards</div>
+          </div>
+          <div class="persona">
+            <div class="ico">O</div>
+            <h4>Operators</h4>
+            <div class="role">Run the day on rails</div>
+            <p>Turn meeting notes and voice memos into prioritized tasks, calendar slots and a focused morning briefing.</p>
+            <div class="uses"><b>Lives in:</b> Tasks · Calendar · Inbox</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. JOURNEY -->
+      <section class="slide" data-title="New user journey" data-notes="journey">
+        <div class="meta"><span class="num">04</span> First fifteen minutes</div>
+        <h2 class="title">What a brand new user actually does on day one.</h2>
+        <div class="journey">
+          <div class="step-card"><div class="n">1</div><h5>Sign up</h5><p>Email or Google. No setup wizard.</p></div>
+          <div class="step-card"><div class="n">2</div><h5>Land on Dashboard</h5><p>Empty-state hints point to Capture.</p></div>
+          <div class="step-card"><div class="n">3</div><h5>Capture first item</h5><p>Paste a YouTube link or a PDF.</p></div>
+          <div class="step-card"><div class="n">4</div><h5>Ask the Agent</h5><p>&ldquo;Summarize what I just saved.&rdquo;</p></div>
+          <div class="step-card"><div class="n">5</div><h5>Get a Briefing</h5><p>Morning email + in-app card.</p></div>
+          <div class="step-card"><div class="n">6</div><h5>Review Inbox</h5><p>Confirm or skip the day&rsquo;s queue.</p></div>
+        </div>
+        <div class="journey-foot">
+          The first capture lights up the whole product: a memory becomes searchable, generates flashcards on demand, and shows up in tomorrow&rsquo;s briefing — <b>no configuration required</b>.
+        </div>
+      </section>
+
+      <!-- 6. CAPTURE -->
+      <section class="slide" data-title="Knowledge Capture" data-notes="capture">
+        <div class="meta"><span class="num">05</span> Feature · Capture</div>
+        <h2 class="title">Knowledge Capture — anything in, structured out.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Five input types:</b> YouTube, web articles, PDFs, plain notes, and voice memos.</li>
+              <li><b>Specialist extractors</b> per source — transcripts for video, readability for the web, OCR for PDFs.</li>
+              <li><b>Auto-summary, key points and tags</b> generated on save, no second click.</li>
+              <li><b>Source preserved verbatim</b> so every later answer can cite the original passage.</li>
+              <li><b>Voice mode</b> with live transcription and a clean &ldquo;Checking Live availability&rdquo; status.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Capture pipeline</div>
+            <ul>
+              <li>YouTube link <span class="tag">video</span></li>
+              <li>arXiv paper.pdf <span class="tag">pdf</span></li>
+              <li>Hacker News article <span class="tag">web</span></li>
+              <li>&ldquo;Idea about pricing&rdquo; <span class="tag">voice</span></li>
+              <li>Meeting notes <span class="tag">note</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. RECALL -->
+      <section class="slide" data-title="Neural Recall" data-notes="recall">
+        <div class="meta"><span class="num">06</span> Feature · Neural Recall</div>
+        <h2 class="title">Neural Recall — three-tier semantic search with cited sources.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Tier 1 — Vector search</b> over titles, summaries and chunks for instant matches.</li>
+              <li><b>Tier 2 — Cross-encoder rerank</b> promotes the passages that actually answer the question.</li>
+              <li><b>Tier 3 — Agent synthesis</b> stitches a cited answer from the top passages.</li>
+              <li><b>Every claim links back</b> to the source memory, with the exact quote highlighted.</li>
+              <li><b>No web fallback by default</b> — answers come from your vault, not the open internet.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Sample query</div>
+            <div class="quote">&ldquo;What did Lex Fridman say about long-term memory in transformers?&rdquo;</div>
+            <div class="grid3">
+              <div class="b"><b>3</b>cited sources</div>
+              <div class="b"><b>0.42s</b>retrieval</div>
+              <div class="b"><b>96%</b>passage match</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. TASKS -->
+      <section class="slide" data-title="Tasks &amp; Projects" data-notes="tasks">
+        <div class="meta"><span class="num">07</span> Feature · Tasks</div>
+        <h2 class="title">Tasks &amp; Projects — every action traces back to a memory.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Priority &amp; due dates</b> with smart sorting: today, this week, blocked, snoozed.</li>
+              <li><b>Linked to source memories</b> — open the task, see the article that spawned it.</li>
+              <li><b>Project grouping</b> for multi-step work so themes don&rsquo;t get lost in a flat list.</li>
+              <li><b>Created from anywhere</b>: chat with the Agent, the briefing card, or directly from a memory.</li>
+              <li><b>Per-tab view memory</b> — list, board or calendar view stays where you left it.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Today</div>
+            <ul>
+              <li>Draft seed announcement <span class="tag">P1</span></li>
+              <li>Reply to design feedback <span class="tag">P2</span></li>
+              <li>Review competitor PDF <span class="tag">P2</span></li>
+              <li>Block 90m for deep work <span class="tag">P3</span></li>
+            </ul>
+            <div class="grid3">
+              <div class="b"><b>14</b>open</div>
+              <div class="b"><b>4</b>today</div>
+              <div class="b"><b>91%</b>on-time</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. CALENDAR -->
+      <section class="slide" data-title="Calendar &amp; Study" data-notes="calendar">
+        <div class="meta"><span class="num">08</span> Feature · Calendar</div>
+        <h2 class="title">Calendar &amp; study scheduling — learning gets a real time slot.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Events and study sessions</b> live in one timeline alongside meetings.</li>
+              <li><b>ICS &amp; Google import</b> so existing calendars sync in without manual entry.</li>
+              <li><b>Auto-suggest study blocks</b> against open windows in the day.</li>
+              <li><b>Linked to memories</b> — a study session opens straight into the source material.</li>
+              <li><b>Briefing-aware:</b> tomorrow&rsquo;s schedule appears in the morning email.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Tomorrow · Tue</div>
+            <ul>
+              <li>09:00 · Morning briefing review <span class="tag">15m</span></li>
+              <li>10:00 · Investor sync <span class="tag">30m</span></li>
+              <li>14:00 · Study: transformers paper <span class="tag">45m</span></li>
+              <li>16:00 · Deep work <span class="tag">90m</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. FLASHCARDS -->
+      <section class="slide" data-title="Flashcards" data-notes="flashcards">
+        <div class="meta"><span class="num">09</span> Feature · Flashcards</div>
+        <h2 class="title">Flashcards &amp; spaced repetition — retention without the busywork.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Auto-generated Q&amp;A</b> from any memory, on demand — no manual deck building.</li>
+              <li><b>Spaced repetition scoring</b> tracks what you know, what you don&rsquo;t, and what to review.</li>
+              <li><b>Partial sessions count</b> — close a deck early and your score still lands.</li>
+              <li><b>Deep-link from a memory</b> straight into its deck via a single Smart Action.</li>
+              <li><b>Per-deck progress</b> visible in the dashboard study card.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Study session</div>
+            <div class="grid3">
+              <div class="b"><b>5</b>cards</div>
+              <div class="b"><b>4 / 5</b>known</div>
+              <div class="b"><b>80%</b>score</div>
+            </div>
+            <div class="quote">&ldquo;What property does multi-head attention preserve across token positions?&rdquo;</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. BRIEFING & ANALYTICS -->
+      <section class="slide" data-title="Briefing &amp; Analytics" data-notes="briefing">
+        <div class="meta"><span class="num">10</span> Feature · Briefing</div>
+        <h2 class="title">Daily briefing &amp; learning analytics — your morning, pre-thought.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Morning briefing email</b> at a time you choose, with weekend skip when you don&rsquo;t want it.</li>
+              <li><b>In-app briefing card</b> on the dashboard mirrors the email and stays fresh all day.</li>
+              <li><b>Streaks &amp; learning velocity</b> show how much you captured, recalled and reviewed.</li>
+              <li><b>Domain radar</b> visualizes where your attention has actually gone this week.</li>
+              <li><b>Tomorrow&rsquo;s focus</b> surfaces what to act on first, generated from inbox + calendar.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> This week</div>
+            <div class="grid3">
+              <div class="b"><b>21</b>captures</div>
+              <div class="b"><b>9</b>day streak</div>
+              <div class="b"><b>+18%</b>velocity</div>
+            </div>
+            <ul>
+              <li>Top domain · AI research <span class="tag">42%</span></li>
+              <li>Top domain · Product <span class="tag">28%</span></li>
+              <li>Top domain · Hiring <span class="tag">18%</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. AGENT HUB -->
+      <section class="slide" data-title="Agent Hub" data-notes="agent">
+        <div class="meta"><span class="num">11</span> Feature · Agent Hub</div>
+        <h2 class="title">Agent Hub — multi-agent chat with live streaming and a workflow trace.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Seven specialist agents</b> coordinated by an orchestrator: Capture, Recall, Plan, Briefing, Live, Library, Workspace.</li>
+              <li><b>Live SSE streaming</b> — tokens, tool calls and partial results arrive as they happen.</li>
+              <li><b>Workflow trace panel</b> shows which agent ran, what it called, and how long it took.</li>
+              <li><b>Codename masking</b> keeps internal agent identifiers out of user-facing copy.</li>
+              <li><b>Command palette</b> jumps from anywhere to the agent, with the inbox count surfaced inline.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Active workflow</div>
+            <ul>
+              <li>recall.search <span class="tag">42ms</span></li>
+              <li>recall.rerank <span class="tag">128ms</span></li>
+              <li>plan.draft_response <span class="tag">streaming…</span></li>
+              <li>library.cite_sources <span class="tag">queued</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. GRAPH / TIMELINE / WORKSPACE -->
+      <section class="slide" data-title="Graph · Timeline · Workspace" data-notes="views">
+        <div class="meta"><span class="num">12</span> Feature · Knowledge views</div>
+        <h2 class="title">Graph, Timeline &amp; Workspace — three lenses on the same vault.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Knowledge Graph</b> — nodes are memories, edges are shared topics, people and projects.</li>
+              <li><b>Timeline</b> — every capture, task and event on one scrollable spine, by day.</li>
+              <li><b>Workspace</b> — a freeform canvas to assemble memories into a thesis, brief or doc.</li>
+              <li><b>Cross-linked</b> — clicking a node anywhere opens the same memory detail with full context.</li>
+              <li><b>Filter once, applies everywhere</b> — domain, source, project carry across views.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Three lenses, one vault</div>
+            <div class="grid3">
+              <div class="b"><b>Graph</b>relationships</div>
+              <div class="b"><b>Timeline</b>chronology</div>
+              <div class="b"><b>Workspace</b>synthesis</div>
+            </div>
+            <div class="quote">&ldquo;Show me everything I read about pricing in the last 30 days.&rdquo;</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14. INBOX & REVIEW -->
+      <section class="slide" data-title="Inbox &amp; Review" data-notes="inbox">
+        <div class="meta"><span class="num">13</span> Feature · Inbox</div>
+        <h2 class="title">Inbox &amp; review — one queue between input and action.</h2>
+        <div class="row">
+          <div class="col">
+            <ul class="bullets">
+              <li><b>Waiting count</b> visible in the sidebar and command palette so the queue is never invisible.</li>
+              <li><b>Filters &amp; full-inbox search</b> — find that one item from three weeks ago in seconds.</li>
+              <li><b>Bulk actions with undo</b> for triage at speed; reverse a confirm in one click.</li>
+              <li><b>Smart classification</b> routes items to read, watch, listen, or follow-up lanes.</li>
+              <li><b>Closes the loop</b> back into Tasks, Calendar and the next morning&rsquo;s briefing.</li>
+            </ul>
+          </div>
+          <div class="col fixed feature-visual">
+            <div class="pill"><span class="d"></span> Inbox · 12 waiting</div>
+            <ul>
+              <li>YouTube · &ldquo;State of GPU&rdquo; <span class="tag">watch</span></li>
+              <li>Article · Pricing teardown <span class="tag">read</span></li>
+              <li>Voice · Idea, Sunday <span class="tag">follow-up</span></li>
+              <li>PDF · Q1 OKRs <span class="tag">read</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. WHAT'S NEW -->
+      <section class="slide" data-title="What&rsquo;s new" data-notes="whatsnew">
+        <div class="meta"><span class="num">14</span> What&rsquo;s new</div>
+        <h2 class="title">Recent enhancements shipped this cycle.</h2>
+        <p class="lede">A focused round of polish across briefing, voice, inbox, mobile, safety and ergonomics — driven by what daily users hit most.</p>
+        <div class="whats-new">
+          <div class="new-card">
+            <span class="badge">Briefing</span>
+            <h4>Morning email + weekend skip</h4>
+            <p>Briefing now arrives by email at your chosen time and quietly stays out of weekends unless you opt in.</p>
+          </div>
+          <div class="new-card">
+            <span class="badge">Voice</span>
+            <h4>Voice mode polish</h4>
+            <p>Cleaner &ldquo;Checking Live availability&rdquo; status, fewer keyboard / fan-noise false triggers.</p>
+          </div>
+          <div class="new-card">
+            <span class="badge">Inbox</span>
+            <h4>Bulk undo + full search</h4>
+            <p>Triage faster with bulk actions, reverse mistakes in one click, and search across the entire inbox — not just the visible page.</p>
+          </div>
+          <div class="new-card">
+            <span class="badge">Mobile</span>
+            <h4>Mobile layout improvements</h4>
+            <p>Tighter vertical density, sticky action bars and better thumb reach across Capture, Tasks and Recall.</p>
+          </div>
+          <div class="new-card">
+            <span class="badge">Safety</span>
+            <h4>Vendor-name leak guards</h4>
+            <p>Python copy checks plus a GitHub Actions guard keep internal vendor names out of user-facing strings.</p>
+          </div>
+          <div class="new-card">
+            <span class="badge">Ergonomics</span>
+            <h4>Per-tab view memory · agent codename masking · palette inbox count</h4>
+            <p>Per-tab views remember themselves, agent codenames stay internal, and the command palette surfaces the inbox count where it matters.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 16. ROADMAP -->
+      <section class="slide" data-title="Roadmap" data-notes="roadmap">
+        <div class="meta"><span class="num">15</span> What&rsquo;s next</div>
+        <h2 class="title">Roadmap — the next three horizons.</h2>
+        <div class="roadmap">
+          <div class="horizon">
+            <div class="hdr"><span class="when">Now → 30 days</span></div>
+            <h4>Sharper daily loop</h4>
+            <ul>
+              <li>Briefing personalization per persona</li>
+              <li>Inbox keyboard shortcuts &amp; saved views</li>
+              <li>Voice capture latency &amp; transcript quality</li>
+              <li>Recall citations with inline highlighting</li>
+            </ul>
+          </div>
+          <div class="horizon">
+            <div class="hdr"><span class="when">30 → 90 days</span></div>
+            <h4>Deeper knowledge work</h4>
+            <ul>
+              <li>Workspace canvas v2 with multi-memory blocks</li>
+              <li>Project-aware Agent Hub with shared context</li>
+              <li>Calendar two-way sync (Google &amp; iCloud)</li>
+              <li>Flashcard scheduler with cohort spacing</li>
+            </ul>
+          </div>
+          <div class="horizon">
+            <div class="hdr"><span class="when">90+ days</span></div>
+            <h4>Multi-brain &amp; integrations</h4>
+            <ul>
+              <li>Team vaults with role-scoped recall</li>
+              <li>Public API for capture &amp; recall</li>
+              <li>Browser extension for one-click capture</li>
+              <li>Mobile app — native capture &amp; offline recall</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17. ARCHITECTURE -->
+      <section class="slide" data-title="Architecture" data-notes="arch">
+        <div class="meta"><span class="num">16</span> Architecture at a glance</div>
+        <h2 class="title">How it&rsquo;s wired — three layers, streaming end to end.</h2>
+        <div class="arch">
+          <div class="arch-row">
+            <div class="box">
+              <div class="lbl">Layer 1</div>
+              <h5>Frontend</h5>
+              <p>React · Vite · TypeScript · 13 product views</p>
+            </div>
+            <div class="arrow"><span>SSE</span><div class="line"></div></div>
+            <div class="box accent">
+              <div class="lbl">Layer 2</div>
+              <h5>Multi-agent orchestrator</h5>
+              <p>FastAPI · 7 specialist agents · OpenAI function calling</p>
+            </div>
+            <div class="arrow"><span>read · write</span><div class="line"></div></div>
+            <div class="box">
+              <div class="lbl">Layer 3</div>
+              <h5>Knowledge vault</h5>
+              <p>Firestore · embeddings · per-user isolation</p>
+            </div>
+          </div>
+          <div class="arch-foot">
+            <span class="chip-tech">React 18</span>
+            <span class="chip-tech">Vite</span>
+            <span class="chip-tech">TypeScript</span>
+            <span class="chip-tech">FastAPI</span>
+            <span class="chip-tech">OpenAI</span>
+            <span class="chip-tech">Server-Sent Events</span>
+            <span class="chip-tech">Firestore</span>
+            <span class="chip-tech">Firebase Admin</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 18. CLOSING -->
+      <section class="slide closing" data-title="Try Recall X247" data-notes="closing">
+        <h1 class="kicker">Ready when you are</h1>
+        <h2 class="big">Try Recall <span class="x">X247</span></h2>
+        <p class="lede">Capture once, recall anywhere, act on what matters today. Your second brain is fifteen minutes away.</p>
+        <div class="cta-row">
+          <span class="cta">Sign up · 60 seconds</span>
+          <span class="cta alt">Book a walkthrough</span>
+        </div>
+        <div class="meta-row">
+          <span>recall.x247</span>
+          <span>·</span>
+          <span>April 2026</span>
+          <span>·</span>
+          <span>Founders · Researchers · Operators</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="chrome bot">
+    <div class="keyhint">← / → navigate · N speaker notes · P print · D download PDF · F fullscreen</div>
+    <div class="counter" id="counter">1 / 18</div>
+  </div>
+
+  <aside class="notes" id="notes">
+    <header>
+      <h3>Speaker notes</h3>
+      <button class="closeNotes" id="closeNotes" aria-label="Close speaker notes">×</button>
+    </header>
+    <div class="notes-body" id="notesBody"></div>
+  </aside>
+
+<script>
+  const NOTES = {
+    title: {
+      h: "Title — Recall X247",
+      body: `<p>Open by setting the tone: this is a product overview for a brand-new audience — anyone who could be a Founder, Researcher or Operator. Frame the deck as the full story in eighteen slides: problem, solution, who it&rsquo;s for, what they do on day one, every major feature, what just shipped, what&rsquo;s next, how it&rsquo;s built.</p><p>Pause on the wordmark for a beat — the brand colour (indigo) repeats on every slide and is your visual anchor.</p>`
+    },
+    problem: {
+      h: "01 · The problem",
+      body: `<p>Lead with empathy, not jargon. The pain we&rsquo;re solving is universal: knowledge work leaks out of the week. People consume more than ever and execute less of it. Walk the six cells left-to-right, top-to-bottom — they map to the features later in the deck (capture, retrieval, action, briefing, integrations).</p><ul><li>Don&rsquo;t dwell &mdash; 30&ndash;45 seconds total.</li><li>Land the closing line: &ldquo;six tabs, one brain.&rdquo;</li></ul>`
+    },
+    solution: {
+      h: "02 · The solution loop",
+      body: `<p>This is the spine of the deck. Trace the four arrows: <b>Capture &rarr; Recall &rarr; Act &rarr; Review</b>, then loop back. Every later slide is one of these four boxes in detail.</p><p>Land that the loop is closed: the morning briefing feeds the next capture session, which feeds tomorrow&rsquo;s briefing. Most tools stop at one or two of these — Recall X247 closes all four.</p>`
+    },
+    personas: {
+      h: "03 · Who it&rsquo;s for",
+      body: `<p>Three personas, three different daily entry points. Use this slide to let the audience self-identify.</p><ul><li><b>Founders</b> &mdash; speed, context, never lose a thought.</li><li><b>Researchers</b> &mdash; depth, citations, retention.</li><li><b>Operators</b> &mdash; structure, scheduling, daily plan.</li></ul><p>Tell the audience the rest of the deck will show what each persona does first.</p>`
+    },
+    journey: {
+      h: "04 · New user journey",
+      body: `<p>This is the sales close for trial conversion. Walk all six steps in order — they map exactly to what a new account experiences in fifteen minutes. The footer is the punchline: a single capture lights up the entire product surface area.</p><ul><li>If presenting live, do this slide as a mini-demo if you have a clean account.</li></ul>`
+    },
+    capture: {
+      h: "05 · Knowledge Capture",
+      body: `<p>Five input types, one structured output. Emphasize that summaries, key points and tags happen <b>automatically on save</b> — there is no second click. The right rail shows the spread of source types Recall handles in a typical day.</p><p>Mention voice mode &mdash; the &ldquo;Checking Live availability&rdquo; status is a recent polish item users notice immediately.</p>`
+    },
+    recall: {
+      h: "06 · Neural Recall",
+      body: `<p>The differentiator. Walk the three tiers slowly — most knowledge tools stop at tier 1 (vector search). The cross-encoder rerank is what makes the answers feel right, and the agent synthesis is what gives you a written answer with citations.</p><p>Land the &ldquo;no web fallback by default&rdquo; line firmly &mdash; this is a vault, not a search engine.</p>`
+    },
+    tasks: {
+      h: "07 · Tasks &amp; Projects",
+      body: `<p>Tasks aren&rsquo;t just a list — every task points back to the memory that spawned it. That&rsquo;s the bit that earns trust over weeks: nothing is orphaned.</p><p>Mention per-tab view memory as a small but loved ergonomic win.</p>`
+    },
+    calendar: {
+      h: "08 · Calendar &amp; Study",
+      body: `<p>Most knowledge tools ignore time. Recall X247 puts <b>study sessions</b> on the same timeline as meetings so learning gets a real slot, not a wishful intention.</p><ul><li>ICS &amp; Google import is the &ldquo;why I tried it&rdquo; trigger for many operators.</li></ul>`
+    },
+    flashcards: {
+      h: "09 · Flashcards",
+      body: `<p>Auto-generated Q&amp;A from any memory means there is zero deck-building cost. The partial-session scoring point is important: people don&rsquo;t finish decks, and we count what they did do — that&rsquo;s why retention sticks.</p>`
+    },
+    briefing: {
+      h: "10 · Briefing &amp; Analytics",
+      body: `<p>The briefing is the product&rsquo;s heartbeat. Two surfaces: an email at a chosen time, and a card on the dashboard. Both reflect the same model so users always see one truth.</p><p>Streaks, velocity and the domain radar give a sense of where attention is going — without judging it.</p>`
+    },
+    agent: {
+      h: "11 · Agent Hub",
+      body: `<p>Lead with the orchestration story: seven specialist agents working under a coordinator, not one giant prompt. The workflow trace makes the system inspectable — users can see exactly which agent did what.</p><p>Codename masking matters because the user-facing names should never expose internal vendor or tool names.</p>`
+    },
+    views: {
+      h: "12 · Graph · Timeline · Workspace",
+      body: `<p>Three lenses, one vault. Don&rsquo;t over-explain — show that the same memory can be reached from a relationship view, a chronological view, or a synthesis canvas.</p><ul><li>Filter-once-applies-everywhere is the usability headline.</li></ul>`
+    },
+    inbox: {
+      h: "13 · Inbox &amp; Review",
+      body: `<p>The inbox is what makes the loop closeable. Without a queue, items just leak. Walk the four highlights: visible count, full search, bulk undo, smart classification.</p><p>Bulk undo is recent and well-loved — call it out.</p>`
+    },
+    whatsnew: {
+      h: "14 · What&rsquo;s new",
+      body: `<p>Use this slide to demonstrate momentum, not features. The themes are: briefing, voice, inbox, mobile, safety, ergonomics. Each card is one shipped improvement from the current cycle.</p><ul><li>If pressed for time, read the badges and skip the body copy &mdash; the audience will infer.</li></ul>`
+    },
+    roadmap: {
+      h: "15 · Roadmap",
+      body: `<p>Three horizons: now, next quarter, beyond. Be honest about which items are funded and which are exploratory. The 90+ horizon is intentionally a vision — team vaults, public API, browser extension, mobile app.</p>`
+    },
+    arch: {
+      h: "16 · Architecture at a glance",
+      body: `<p>Keep this short — it&rsquo;s a credibility slide, not a tech talk. Three layers, streaming end to end, real-world stack. Mention SSE between frontend and orchestrator, and per-user isolation in the vault.</p>`
+    },
+    closing: {
+      h: "17 · Closing CTA",
+      body: `<p>Land the close: sixty seconds to sign up, fifteen minutes to a populated second brain. If presenting to a single prospect, offer the walkthrough. If presenting to an audience, drop the URL.</p>`
+    }
+  };
+
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let idx = 0;
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const notes = document.getElementById('notes');
+  const notesBody = document.getElementById('notesBody');
+
+  function render(){
+    slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+    counter.textContent = `${idx+1} / ${slides.length}`;
+    progress.style.width = ((idx+1)/slides.length*100)+'%';
+    const key = slides[idx].dataset.notes;
+    const n = NOTES[key];
+    if(n){ notesBody.innerHTML = `<h4>${n.h}</h4>${n.body}`; }
+    history.replaceState(null,'','#'+(idx+1));
+  }
+  function next(){ if(idx<slides.length-1){ idx++; render(); } }
+  function prev(){ if(idx>0){ idx--; render(); } }
+  function go(n){ idx = Math.max(0, Math.min(slides.length-1, n)); render(); }
+
+  document.addEventListener('keydown', e=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); next(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); prev(); break;
+      case 'Home': go(0); break;
+      case 'End': go(slides.length-1); break;
+      case 'n': case 'N': notes.classList.toggle('open'); break;
+      case 'p': case 'P': window.print(); break;
+      case 'd': case 'D': document.getElementById('downloadBtn')?.click(); break;
+      case 'f': case 'F': if(!document.fullscreenElement){ document.documentElement.requestFullscreen?.(); } else { document.exitFullscreen?.(); } break;
+    }
+  });
+
+  // Click to advance (but ignore clicks on chrome buttons/notes)
+  document.getElementById('frame').addEventListener('click', e=>{
+    if(e.target.closest('button')) return;
+    next();
+  });
+
+  document.getElementById('notesBtn').addEventListener('click', ()=>notes.classList.toggle('open'));
+  document.getElementById('closeNotes').addEventListener('click', ()=>notes.classList.remove('open'));
+  document.getElementById('printBtn').addEventListener('click', ()=>window.print());
+
+  // Hash deep-link
+  const start = parseInt((location.hash||'#1').slice(1),10);
+  if(!isNaN(start)) idx = Math.max(0, Math.min(slides.length-1, start-1));
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{
+  "entities": {
+    "Memory": {
+      "title": "Knowledge Memory",
+      "description": "A summarized piece of knowledge captured from a source.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The title of the content." },
+        "summary": { "type": "string", "description": "A 3-sentence summary of the content." },
+        "key_points": { "type": "array", "description": "5 key bullet points." },
+        "tags": { "type": "array", "description": "3-5 lowercase single-word tags." },
+        "domain": { "type": "string", "description": "The category of the knowledge." },
+        "source_type": { "type": "string", "enum": ["youtube", "web", "pdf", "note"] },
+        "source_url": { "type": "string", "format": "uri" },
+        "userId": { "type": "string", "description": "The ID of the user who owns this memory." },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "summary", "userId", "created_at"]
+    },
+    "Task": {
+      "title": "User Task",
+      "description": "A task created by the user, potentially linked to a memory.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "linked_memory_id": { "type": "string", "description": "Optional reference to a Memory document ID." },
+        "due_date": { "type": "string", "format": "date" },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "status": { "type": "string", "enum": ["todo", "in-progress", "completed"] },
+        "userId": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "status", "userId", "created_at"]
+    },
+    "Schedule": {
+      "title": "Calendar Event",
+      "description": "A study session or event scheduled on the calendar.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "time": { "type": "string", "format": "time" },
+        "duration_minutes": { "type": "number" },
+        "linked_task_id": { "type": "string", "description": "Optional reference to a Task document ID." },
+        "gcal_event_id": { "type": "string", "description": "The ID of the event in Google Calendar." },
+        "userId": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "date", "time", "userId", "created_at"]
+    },
+    "InteractionLog": {
+      "title": "Interaction Log",
+      "description": "A log of a user interaction with the KnowledgeCoordinator.",
+      "type": "object",
+      "properties": {
+        "session_id": { "type": "string" },
+        "user_message": { "type": "string" },
+        "reply": { "type": "string" },
+        "agents_called": { "type": "array" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["user_message", "reply", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/memories/{memoryId}": {
+      "schema": { "$ref": "Memory" },
+      "description": "Collection of captured knowledge memories."
+    },
+    "/tasks/{taskId}": {
+      "schema": { "$ref": "Task" },
+      "description": "Collection of user tasks."
+    },
+    "/schedules/{scheduleId}": {
+      "schema": { "$ref": "Schedule" },
+      "description": "Collection of scheduled calendar events."
+    },
+    "/interaction_logs/{logId}": {
+      "schema": { "$ref": "InteractionLog" },
+      "description": "Collection of interaction logs for auditing and improvement."
+    }
+  }
+}

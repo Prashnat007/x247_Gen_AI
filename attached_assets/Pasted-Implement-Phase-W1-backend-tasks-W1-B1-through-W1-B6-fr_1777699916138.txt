@@ -1,0 +1,61 @@
+Implement Phase W1 backend tasks W1-B1 through W1-B6 from
+`.local/plans/capture-enrichment-plan.md`.
+
+Concretely:
+
+1. Add `GET /workspace/folders/flat` in `app/main.py` calling a new
+   `list_flat_folders(user_id)` helper in `app/workspace_agent.py`.
+   Returns `[{project_id, project_name, folder_id, folder_name,
+   color, recent_use_at}]` sorted by `recent_use_at desc`.
+
+2. Add `POST /memories/related` in `app/main.py`. Body
+   `{text: str, tags?: list[str], exclude_id?: str, limit?: int = 5}`.
+   Implement `find_related_memories(text, tags, exclude_id, limit)`
+   in `app/recall_agent.py` by extracting the existing rerank logic.
+   Returns `[{id, title, snippet, score, reason}]`.
+
+3. Add `POST /capture/save-bundle` in `app/main.py`. Body:
+   `{
+     memory: {...standard memory fields},
+     folder_ref?: {project_id, folder_id, section_id?},
+     tasks?: [{title, due_date?, priority?}],
+     calendar?: [{title, date, time, duration_minutes}],
+     habit_ref?: {habit_id},
+     revisit?: {frequency, next_due?},
+     linked_memory_ids?: [str]
+   }`.
+   Implement in `app/capture_agent.py` as `save_bundle(payload, user_id)`.
+   Order: save memory → add to folder → create tasks (each with
+   `linked_memory_id = memory.id`) → create events (each with
+   `linked_memory_id`) → link habit → create revisit → write
+   `linked_memory_ids` array on memory. On any sub-step failure DO NOT
+   abort — append to a `warnings: []` list and continue. Returns
+   `{memory_id, created: {folder, task_ids, event_ids, habit_linked,
+   revisit_id}, warnings}`.
+
+4. Extend `capture_agent.analyze()` to ALSO return:
+   `suggested_folder_hint: str`, `suggested_tasks: [{title, priority}]`
+   (max 3), `suggested_event: {title, date, time, duration_minutes} |
+   None`, `suggested_habit_link: {habit_id, reason} | None`,
+   `suggested_revisit: {frequency, next_due} | None`.
+   Run the suggestion call IN PARALLEL with the main analysis (use
+   asyncio.gather), 8-second timeout, soft-fail to empty values.
+   Use the cheap fallback model for suggestions.
+
+5. Add memory schema fields (set default empty list) in the writer:
+   `folder_ref?, linked_memory_ids?, linked_task_ids?,
+   linked_event_ids?, linked_habit_ids?, linked_revisit_ids?`.
+
+6. Create new file `app/folder_matcher.py` with
+   `match_folder(suggested_hint: str, folders: list[dict]) ->
+   {folder_id, score} | {create: True, suggested_name}`. Use
+   rapidfuzz token_set_ratio. Threshold 0.55 — below that, suggest
+   create.
+
+Acceptance (verify with curl/HTTP client):
+- `GET /workspace/folders/flat` returns flat folder list.
+- `POST /memories/related` returns top 5 ranked memories.
+- `POST /capture/save-bundle` with full body creates memory + folder
+  item + 2 tasks + 1 event + revisit, all bidirectionally linked.
+- `POST /capture` response now includes the 5 `suggested_*` fields.
+- Run vendor-leaks workflow — must stay green.

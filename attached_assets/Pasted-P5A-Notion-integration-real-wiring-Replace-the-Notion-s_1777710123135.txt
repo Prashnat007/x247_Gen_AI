@@ -1,0 +1,51 @@
+P5A — Notion integration (real wiring)
+Replace the Notion stub in `IntegrationsPage.tsx` with a real
+integration.
+1. Read the `integrations` skill at
+   `.local/skills/integrations/SKILL.md`. Use `search_integrations`
+   to check whether a Notion connector exists in Replit. If yes,
+   use `listConnections('notion')` from the code_execution sandbox
+   to get OAuth credentials. If no connector, fall back to a manual
+   Notion integration token entered via the env-secrets skill (ask
+   the user once to create an integration token at
+   https://www.notion.so/my-integrations and paste it).
+2. Create `app/integrations/__init__.py` (shared layer): exposes
+   `get_connection(name)`, error handling for `NotConnectedError`,
+   shared rate-limit backoff helper.
+3. Create `app/integrations/notion.py`:
+   - `list_databases(connection)` → `[{id, title, last_edited}]`
+   - `list_pages(connection, database_id, since?)` →
+     `[{page_id, title, url, last_edited}]`
+   - `fetch_page_content(connection, page_id)` → `{title, blocks_md,
+     url}` (convert blocks to markdown)
+   - `import_page_as_memory(connection, page_id, user_id)` →
+     creates a memory with `source_type="notion"`, source URL,
+     content from blocks_md; ALSO creates an `external_ref` row
+     linking memory ↔ Notion page.
+4. Endpoints in `main.py`:
+   - `GET /integrations/notion/status` → connected? scopes?
+   - `GET /integrations/notion/databases`
+   - `POST /integrations/notion/import` body
+     `{database_id, mode: "one-time" | "sync"}` → imports all pages
+     as memories; for "sync" mode, schedules a daily refresh via
+     existing job system.
+   - `POST /integrations/notion/disconnect` → revokes connection.
+5. Frontend in `IntegrationsPage.tsx`: replace the Notion card
+   stub with real Connect / Disconnect buttons, a "Last synced"
+   line, and an inline list of databases with import buttons.
+6. In `CapturePage.tsx`, add a "From Notion" source-picker option
+   (only shown if connected). Selecting it shows a database picker;
+   picking a page fetches content and runs through the standard
+   capture flow with `source_type="notion"`.
+7. In `MemoryLinksPanel.tsx`, the External refs section now shows
+   Notion-back-linked items with an "Open in Notion ↗" button.
+Acceptance:
+- Click Connect on Notion card → OAuth flow → status shows
+  "Connected".
+- Pick a database → click Import → all pages appear as memories
+  with Notion source URL preserved.
+- Open a Notion-imported memory → External refs section shows the
+  Notion page → "Open in Notion ↗" opens the original page in a
+  new tab.
+- Sync mode: edit a Notion page → within 24 h the memory content
+  refreshes.

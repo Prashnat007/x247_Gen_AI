@@ -1,0 +1,50 @@
+Implement Phase W1 frontend tasks W1-F1 through W1-F4 from
+`.local/plans/capture-enrichment-plan.md`.
+
+1. Add new client helpers in `src/lib/api.ts`:
+   - `fetchFlatFolders(): Promise<FlatFolder[]>`
+   - `fetchRelatedMemories(text, tags?, excludeId?): Promise<Related[]>`
+   - `saveCaptureBundle(payload): Promise<BundleResult>`
+   Type the responses; reuse types from `src/lib/types.ts`.
+
+2. Create `src/components/capture/EnrichPanel.tsx`. Props:
+   `{ preview: CapturePreview, onChange(state): void }`.
+   Internally manages `enrichState: { folder?, tasks?, related?,
+   calendar?, habit?, revisit? }`.
+   Renders a collapsible card titled "Enrich & connect" with 6
+   chips in a flex row. Each chip shows AI-suggested preview text or
+   an "Add..." placeholder. Click a chip → inline expander below.
+
+3. Create one component per chip in `src/components/capture/`:
+   - `FolderChip.tsx` — dropdown of all flat folders + "Create new
+     folder" option. Default: AI suggestion.
+   - `TasksChip.tsx` — editable rows (title, priority, optional
+     due_date). Add/remove rows. Default: AI suggestions.
+   - `RelatedChip.tsx` — on expand calls `fetchRelatedMemories` with
+     the preview text, shows top 5 with checkboxes + view-link.
+   - `ScheduleChip.tsx` — single event form (title prefilled, date,
+     time, duration). "Add another" supports multiple.
+   - `HabitChip.tsx` — dropdown of existing habits + "Create new
+     habit" option. Default: AI suggestion if non-null.
+   - `RevisitChip.tsx` — frequency dropdown (once / daily / weekly /
+     monthly) + next_due date. Default: AI suggestion.
+
+4. Mount `<EnrichPanel/>` in `src/pages/CapturePage.tsx` between the
+   "AI analysis unavailable" notice (around line 2475) and the
+   existing preview body. Auto-expand once on first render if any
+   `suggested_*` field is non-empty; collapsed otherwise.
+
+5. Save handler: switch from existing `/capture/save` to
+   `saveCaptureBundle(...)`. Build the payload from `enrichState`.
+   On success show a toast: "Saved + {n} tasks + {m} events +
+   linked to *{folder_name}*" with deep-links to /tasks, /calendar,
+   /workspace.
+
+6. Run `tsc --noEmit` and the vendor-leaks workflow — both must pass.
+
+Acceptance:
+- Open `/capture`, capture a note → panel shows with 6 chips, each
+  pre-filled by AI.
+- Click each chip — inline editor opens, edits persist in state.
+- Click Save to Vault → memory + tasks + events + folder all created
+  in one round trip; toast shows the deep-links.

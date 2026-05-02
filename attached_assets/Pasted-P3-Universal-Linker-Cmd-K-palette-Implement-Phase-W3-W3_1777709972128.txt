@@ -1,0 +1,45 @@
+P3 — Universal Linker (Cmd-K palette)
+Implement Phase W3 (W3-B1, W3-B2, W3-F1 through W3-F4) from
+`.local/plans/capture-enrichment-plan.md`.
+Backend:
+1. Create `app/global_search.py` with `global_search(q, kinds,
+   user_id, limit=20)`. Fans out to each kind's list endpoint
+   in parallel, scores by simple text match + recency boost, returns
+   `[{kind, id, title, meta, snippet, score}]`. Add
+   `GET /search/global?q=...&kinds=memory,task,event,habit,revisit,
+   folder,flashcard&limit=20` in `main.py`.
+2. Create `app/links.py` with `create_link(from_kind, from_id,
+   to_kind, to_id, user_id)`. Validates the kind pair, writes
+   bidirectionally using each agent's helper. Add
+   `POST /links` in `main.py`.
+Frontend:
+3. Create `src/contexts/LinkerContext.tsx` providing
+   `{ openLinker(mode: "jump"|"link"|"create", context?:
+   {kind, id, title}) }`. Stored in React context, used by both the
+   global keybind hook and the MemoryLinksPanel "+ Link existing"
+   button.
+4. Create `src/components/CommandPalette.tsx`. Keyboard-first modal,
+   sticky on top of all pages. Modes:
+   - **jump** (default): typing fuzzy-searches everything; Enter
+     navigates.
+   - **link** (when `context` is set): same search but Enter calls
+     `POST /links` with `{from: context, to: selected}`.
+     Header shows "Linking *Memory: ...* → ?".
+   - **create** (`/` prefix): filters commands `/task`, `/event`,
+     `/revisit`, `/habit`, `/folder`, `/note`. Enter opens an inline
+     mini-form pre-filled from context; submit creates AND links.
+   - Result row: kind icon, title, one-line meta.
+   - Keyboard nav: ↑↓ to move, Enter to act, Esc to close.
+5. Wire up `Cmd/Ctrl+K` keybind in `src/App.tsx` via a global
+   useEffect. ESC closes. Mount the palette at app root.
+6. In `MemoryLinksPanel.tsx`, replace the P2B stub for "+ Link
+   existing" — call `openLinker("link", { kind: "memory", id,
+   title })`.
+Acceptance:
+- Cmd-K from any page → palette opens in jump mode.
+- Type "react" → mixed results across all kinds within 200 ms.
+- From a memory detail page, click "+ Link existing" on the Tasks
+  row → palette opens in link mode pre-filtered to kind=task →
+  pick a task → palette closes, panel updates with the new link.
+- `/task buy milk` from the palette creates a task linked to the
+  current memory in one shot.

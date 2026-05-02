@@ -1,0 +1,42 @@
+P4A — AI auto-link layer, backend
+Implement Phase W4 backend tasks W4-1 through W4-5 + W4-B1 through
+W4-B4 from `.local/plans/capture-enrichment-plan.md`.
+1. Create `app/auto_linker.py` with `suggest_links(memory_id,
+   user_id) -> list[{kind, ref_id, reason, confidence}]`. Use the
+   fallback (cheap) model. Returns up to 8 suggestions across kinds.
+2. **Auto-folder placement**: in the `/capture/save-bundle` handler,
+   if `folder_ref` is empty, call `folder_matcher` against AI hint;
+   if confidence > 0.7, silently file it and return
+   `auto_filed: {folder_id, folder_name}` in the response so the UI
+   can show an undo toast.
+3. **Habit-memory matcher**: in `briefing_agent.py`, add
+   `scan_habit_memory_links(user_id)` run on the briefing trigger.
+   For each memory created in last 24 h, compare tags vs habit names;
+   if overlap, write a suggestion.
+4. **Cross-memory clustering**: add `cluster_weekly(user_id)` to
+   `insight_agent.py`. Groups last-7-days memories by topic via LLM,
+   if any cluster ≥ 5 → create a suggestion to bundle them into a
+   workspace folder.
+5. **Revisit recommendations**: extend `revisit_agent.ai_plan_revisit`
+   to scan for memories with no revisit in 14+ days whose tags appear
+   in 3+ recent captures → suggest a revisit.
+6. **Stale task surfacing**: in `briefing_agent.py`, find tasks with
+   `linked_memory_id` not touched in 14 days → add to today's
+   briefing as "Still pending from your {date} capture".
+7. Endpoints in `main.py`:
+   - `GET /suggestions/links?for_memory={id}` → list pending
+     suggestions for a memory.
+   - `GET /suggestions/inbox` → all pending suggestions, paged.
+   - `POST /suggestions/{id}/accept` → applies the link.
+   - `POST /suggestions/{id}/reject` → marks dismissed +
+     trains per-user dismissal store.
+8. Per-user `suggestion_dismissals` collection
+   `{user_id, kind, signature, dismissed_at}` so future suggestions
+   matching the signature are filtered out.
+Acceptance:
+- Save a capture without picking a folder → response includes
+  `auto_filed` if AI confidence > 0.7.
+- `GET /suggestions/inbox` returns pending suggestions (verify after
+  running the briefing scan).
+- Reject a suggestion → repeat scan does NOT resurface the same
+  signature.

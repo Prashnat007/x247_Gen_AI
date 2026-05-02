@@ -1,0 +1,61 @@
+uploads = []
+
+[[generated]]
+id = "CCkBxIGGv2IjgBE3PfwQH"
+uri = "file://src/assets/login-keyhole.png"
+type = "image"
+title = "dark padlock keyhole"
+
+[[outputs]]
+id = "ua4DuZsxTXC434xrQPVNm"
+uri = "file://screenshots/deck_01_title.jpg"
+type = "image"
+title = "Slide 1 — Hero / Title"
+
+[[outputs]]
+id = "VOr6qXJAdnXyDU4TCpSFH"
+uri = "file://screenshots/deck_02_problem.jpg"
+type = "image"
+title = "Slide 2 — The Problem (6 pain points)"
+
+[[outputs]]
+id = "R3TSlqx-BchLYB_tn4hzy"
+uri = "file://screenshots/deck_05_journey.jpg"
+type = "image"
+title = "Slide 5 — New User Journey (first 15 mins)"
+
+[[outputs]]
+id = "qgDJxC4sVp3V7Wst9mrmx"
+uri = "file://screenshots/deck_07_recall.jpg"
+type = "image"
+title = "Slide 7 — Neural Recall feature deep-dive"
+
+[[outputs]]
+id = "euw_1NAi8XbdoB7xPNTRb"
+uri = "file://screenshots/deck_11_briefing.jpg"
+type = "image"
+title = "Slide 11 — Daily Briefing & Analytics"
+
+[[outputs]]
+id = "_kMrKNHEk2gU-19XkMKax"
+uri = "file://screenshots/deck_16_roadmap.jpg"
+type = "image"
+title = "Slide 16 — Roadmap (3 horizons)"
+
+[[outputs]]
+id = "i_-wxtLA6NSmSqo-Ho3a7"
+uri = "file://screenshots/deck_18_close.jpg"
+type = "image"
+title = "Slide 18 — Closing CTA"
+
+[[outputs]]
+id = "02JrlWA-BWPQ2DE0L3JEv"
+uri = "file://.local/plans/capture-enrichment-plan.md"
+type = "text"
+title = "Recall X247 — Universal Cross-Linking & Smart Capture Plan"
+
+[[outputs]]
+id = "Ab9NLO_tmeShCR---6J_Z"
+uri = "file://.local/plans/implementation-prompts.md"
+type = "text"
+title = "Recall X247 — Implementation Prompts (P0 → P5C)"

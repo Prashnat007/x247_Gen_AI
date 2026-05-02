@@ -1,0 +1,82 @@
+modules = ["nodejs-20", "python-3.12", "web"]
+[agent]
+expertMode = true
+stack = "BEST_EFFORT_FALLBACK"
+integrations = ["notion:1.0.0"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["libxcrypt", "rapidfuzz-cpp", "taskflow", "xcodebuild", "zlib"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "vendor-leaks"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "vendor-leaks"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run check:vendor-leaks"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 5001
+externalPort = 3000
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
+
+[[ports]]
+localPort = 23636
+externalPort = 4200
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["bash", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+build = ["bash", "-c", "pip install -r requirements.txt && npm install && npm run build"]
+
+[userenv]
+
+[userenv.shared]
+GCP_PROJECT_ID = "balmy-vertex-478515-m4"
+GEMINI_MODEL = "gemini-2.0-flash"
+GOOGLE_CALENDAR_ID = "prashantmaurya600@gmail.com"
+GOOGLE_APPLICATION_CREDENTIALS = "./service_account.json"
+FIREBASE_DATABASE_ID = "ai-studio-0d9554f0-7614-463d-8270-18fd12dd72e2"
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 180000
