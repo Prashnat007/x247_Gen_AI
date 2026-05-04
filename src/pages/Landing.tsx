@@ -1518,8 +1518,7 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               ))}
             </div>
           </div>
-          </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ── PRICING — Glass Box ──────────────────────────────────────────────── */}
