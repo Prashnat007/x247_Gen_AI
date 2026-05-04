@@ -1,3 +1,4 @@
+// GiGi-Style Dark Premium Theme - v2
 import { useEffect, useRef, useState, useMemo, type ReactNode, useCallback } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence, useReducedMotion, useInView, useTransform, useMotionValue, MotionValue } from 'framer-motion';
 import {
