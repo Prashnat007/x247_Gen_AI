@@ -54,15 +54,23 @@
   .lx-shell *::before,
   .lx-shell *::after { box-sizing: border-box; }
 
-  /* Scroll progress */
+  /* Scroll progress — glowing purple gradient */
   .lx-progress {
     position: fixed;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #3b82f6, #22d3ee, #818cf8);
+    height: 3px;
+    background: linear-gradient(90deg, #7c3aed, #00d9ff, #a78bfa, #7c3aed);
+    background-size: 300% 100%;
+    animation: lxProgressShimmer 3s ease-in-out infinite;
     transform-origin: 0%;
     z-index: 999;
     pointer-events: none;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5), 0 0 40px rgba(124, 58, 237, 0.3);
+  }
+  @keyframes lxProgressShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   /* ── Background layers ───────────────────────────────────────── */
@@ -77,8 +85,9 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(59, 130, 246, 0.1), transparent 60%),
-      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(34, 211, 238, 0.06), transparent 70%);
+      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(124, 58, 237, 0.15), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 217, 255, 0.08), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 20% 30%, rgba(167, 139, 250, 0.08), transparent 60%);
   }
   .lx-bg-grid {
     position: absolute;
@@ -443,6 +452,80 @@
   @media (prefers-reduced-motion: reduce) {
     .lx-eyebrow-dot::before,
     .lx-eyebrow-dot::after { animation: none; opacity: 0; }
+  }
+
+  /* ── Hero Floating Orbs ─────────────────────────────────────────── */
+  .lx-hero-orbs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .lx-hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+  }
+  .lx-hero-orb-1 {
+    width: 300px; height: 300px;
+    top: 10%; left: 5%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.4) 0%, transparent 70%);
+  }
+  .lx-hero-orb-2 {
+    width: 200px; height: 200px;
+    top: 30%; right: 10%;
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.3) 0%, transparent 70%);
+  }
+  .lx-hero-orb-3 {
+    width: 250px; height: 250px;
+    bottom: 20%; left: 20%;
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.35) 0%, transparent 70%);
+  }
+
+  /* ── Hero Badge ─────────────────────────────────────────────────── */
+  .lx-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 10px;
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #a78bfa;
+    margin-bottom: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .lx-hero-badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #7c3aed;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.8);
+  }
+  .lx-hero-badge svg {
+    opacity: 0.8;
+  }
+
+  /* ── Glowing Button Modifier ────────────────────────────────────── */
+  .lx-pill-glow {
+    position: relative;
+  }
+  .lx-pill-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, #7c3aed, #00d9ff, #a78bfa);
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0.5;
+    animation: lxGlowPulse 3s ease-in-out infinite;
+  }
+  @keyframes lxGlowPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
   }
 
   .lx-hero-title {
@@ -998,21 +1081,29 @@
   }
   .lx-agent-card {
     position: relative;
-    padding: 22px 20px 18px;
     border-radius: var(--lx-radius);
     background: linear-gradient(180deg, rgba(15, 17, 24, 0.85) 0%, rgba(8, 9, 13, 0.95) 100%);
     border: 1px solid var(--lx-border);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(.22,.61,.36,1);
+    min-height: 200px;
+    transform-style: preserve-3d;
+  }
+  .lx-agent-card-inner {
+    padding: 22px 20px 18px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(.22,.61,.36,1);
-    min-height: 200px;
+    height: 100%;
+    position: relative;
   }
-  .lx-agent-card:nth-child(1) { grid-column: span 2; }
+  .lx-agents-grid > div:nth-child(1) .lx-agent-card { grid-column: span 2; }
+  .lx-agents-grid > div:nth-child(1) { grid-column: span 2; }
   .lx-agent-card:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    box-shadow: 
+      0 0 30px color-mix(in srgb, var(--accent) 25%, transparent),
+      0 20px 40px -20px rgba(0, 0, 0, 0.5);
   }
 
   .lx-agent-glow {
@@ -1489,19 +1580,22 @@
     position: relative;
     padding: 80px 32px;
     border-radius: var(--lx-radius-xl);
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(34, 211, 238, 0.08) 100%), #0a0c12;
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(0, 217, 255, 0.08) 100%), #0a0e1a;
+    border: 1px solid rgba(124, 58, 237, 0.35);
     overflow: hidden;
     text-align: center;
-    box-shadow: 0 60px 120px -40px rgba(59, 130, 246, 0.4);
+    box-shadow: 
+      0 60px 120px -40px rgba(124, 58, 237, 0.5),
+      0 0 80px -20px rgba(124, 58, 237, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
   .lx-final-glow {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 60%);
-    filter: blur(80px);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.35), transparent 60%);
+    filter: blur(100px);
     pointer-events: none;
   }
   .lx-final-content {
@@ -1528,10 +1622,16 @@
     font-weight: 400;
   }
   .lx-final-grad {
-    background: linear-gradient(135deg, #3b82f6 0%, #22d3ee 50%, #818cf8 100%);
+    background: linear-gradient(135deg, #7c3aed 0%, #00d9ff 50%, #a78bfa 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 4s ease-in-out infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
   .lx-final-orb {
     position: absolute;
@@ -1542,7 +1642,7 @@
   }
   .lx-final-orb-1 {
     width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.35), transparent 70%);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.4), transparent 70%);
     top: -120px; left: -60px;
     animation: lxFloat 18s ease-in-out infinite;
   }
@@ -1930,10 +2030,13 @@
   .lx-terminal-box {
     position: relative;
     border-radius: var(--lx-radius-lg);
-    background: rgba(5, 6, 9, 0.92);
-    border: 1px solid var(--lx-border);
+    background: rgba(5, 6, 9, 0.95);
+    border: 1px solid rgba(124, 58, 237, 0.2);
     overflow: hidden;
-    box-shadow: var(--lx-shadow-card), 0 0 0 1px rgba(59, 130, 246, 0.08);
+    box-shadow: 
+      var(--lx-shadow-card), 
+      0 0 0 1px rgba(124, 58, 237, 0.15),
+      0 0 60px -20px rgba(124, 58, 237, 0.3);
   }
   .lx-terminal-chrome {
     display: flex;
@@ -1959,13 +2062,15 @@
   }
   .lx-terminal-live {
     display: flex; align-items: center; gap: 5px;
-    font-size: 10.5px; color: #818cf8;
+    font-size: 10.5px; color: #a78bfa;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 500;
   }
   .lx-terminal-live-dot {
     width: 6px; height: 6px; border-radius: 50%;
-    background: #818cf8;
+    background: #7c3aed;
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.8);
+    animation: pulse 2s ease-in-out infinite;
     box-shadow: 0 0 6px #818cf8;
     animation: lxPulse 2s ease-in-out infinite;
   }
@@ -3851,7 +3956,7 @@
 
 /* ─────────────────────────────────────────────────────────────────
    DASHBOARD — phone polish
-   ──────────────────────────────────────────────��────────────────── */
+   ──────────────────────────────────────���───────��────────────────── */
 @media (max-width: 640px) {
   .dash-section-head { flex-wrap: wrap; gap: 8px; }
   .dash-section-head h3 { font-size: 15px !important; }
@@ -5279,7 +5384,7 @@
   }
 }
 
-/* ──────────��──────────────────────────────────────────────────────
+/* ─��────────��──────────────────────────────────────────────────────
    MOBILE POLISH — Projects, Calendar, Discover, Settings
    Phone-width fixes for the 5 main desktop-first surfaces. The
    target is iPhone-width (≈ 390px) but the breakpoints below

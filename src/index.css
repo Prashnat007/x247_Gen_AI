@@ -424,6 +424,40 @@ select:not(.bare-input):focus {
   50% { border-color: rgba(124, 58, 237, 0.8); box-shadow: 0 0 16px rgba(124, 58, 237, 0.4); }
 }
 
+/* Advanced floating animation */
+@keyframes float-advanced {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(1deg); }
+  50% { transform: translateY(-4px) rotate(0deg); }
+  75% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Gradient shift animation */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Scale pulse for attention */
+@keyframes scale-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Rotate glow effect */
+@keyframes rotate-glow {
+  0% { filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.4)) hue-rotate(0deg); }
+  50% { filter: drop-shadow(0 0 16px rgba(0, 217, 255, 0.5)) hue-rotate(30deg); }
+  100% { filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.4)) hue-rotate(0deg); }
+}
+
 /* ── Premium Card System ──────────────────────────────────────────────────── */
 .rs-card {
   background: var(--surface);
@@ -463,15 +497,15 @@ select:not(.bare-input):focus {
   letter-spacing: 0.01em; position: relative; overflow: hidden;
 }
 .rs-btn-primary {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 60%, #92400e 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 60%, #8b5cf6 100%);
   color: #fff;
-  border-color: rgba(37,99,235,0.4);
-  box-shadow: 0 2px 10px rgba(37,99,235,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.35), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 .rs-btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(37,99,235,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-  transform: translateY(-1px);
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 60%, #8b5cf6 100%);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 60%, #a78bfa 100%);
 }
 .rs-btn-ghost {
   background: var(--surface);
@@ -641,7 +675,7 @@ select:not(.bare-input):focus {
   .agent-hub-left { width: 188px !important; }
 }
 
-/* ── Stat cards grid ──────────────────────────────────────────────────────── */
+/* ── Stat cards grid ───────────────────────────────────────────���──────────── */
 .stat-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
