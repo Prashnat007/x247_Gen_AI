@@ -165,26 +165,25 @@ class ChunkErrorBoundary extends Component<
 }
 
 // ── RouteSuspense fallback ──────────────────────────────────────────────────
-// Shows the x247 logo splash while lazy routes are loading.
+// A 2px progress strip pinned to the top of the content area. Keeps the
+// page visually intact instead of flashing the full-screen splash on every
+// navigation between lazy routes.
 const RouteSuspenseFallback = () => (
-  <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0d0d0d' }}>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-      <img src="/x247-logo.webp" alt="x247 AI" width={785} height={421} decoding="async" fetchPriority="high" style={{ width: 'clamp(100px,14vw,160px)', height: 'auto', userSelect: 'none' }} draggable={false} />
-      <div style={{
-        fontFamily: "'Alegreya Sans SC', system-ui, sans-serif",
-        fontSize: 'clamp(28px, 5vw, 42px)',
-        fontWeight: 800,
-        letterSpacing: '0.05em',
-        color: 'transparent',
-        WebkitTextStroke: '1.5px #ffffff',
-        background: 'linear-gradient(90deg, #c5f82a, #7c3aed, #06b6d4, #c5f82a)',
-        backgroundSize: '300% 100%',
-        WebkitBackgroundClip: 'text',
-        backgroundClip: 'text',
-        animation: 'x247-gradient 3s linear infinite',
-      }}>X247</div>
-    </div>
-    <style>{`@keyframes x247-gradient { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }`}</style>
+  <div
+    aria-hidden
+    style={{
+      position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+      overflow: 'hidden', pointerEvents: 'none', zIndex: 5,
+    }}
+  >
+    <div
+      style={{
+        height: '100%', width: '40%',
+        background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
+        animation: 'route-progress 1.1s ease-in-out infinite',
+      }}
+    />
+    <style>{`@keyframes route-progress { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }`}</style>
   </div>
 );
 
@@ -1195,24 +1194,13 @@ function AppRouter() {
 
   if (authLoading || !isReady) {
     return (
-      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0d0d0d' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-          <img src="/x247-logo.webp" alt="x247 AI" width={785} height={421} decoding="async" fetchPriority="high" style={{ width: 'clamp(100px,14vw,160px)', height: 'auto', userSelect: 'none' }} draggable={false} />
-          <div style={{
-            fontFamily: "'Alegreya Sans SC', system-ui, sans-serif",
-            fontSize: 'clamp(28px, 5vw, 42px)',
-            fontWeight: 800,
-            letterSpacing: '0.05em',
-            color: 'transparent',
-            WebkitTextStroke: '1.5px #ffffff',
-            background: 'linear-gradient(90deg, #c5f82a, #7c3aed, #06b6d4, #c5f82a)',
-            backgroundSize: '300% 100%',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            animation: 'x247-gradient 3s linear infinite',
-          }}>X247</div>
+      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#03080f' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+          <img src="/x247-logo.webp" alt="x247 AI" width={785} height={421} decoding="async" fetchPriority="high" style={{ width: 'clamp(120px,15vw,180px)', height: 'auto', userSelect: 'none' }} draggable={false} />
+          <div style={{ display: 'flex', gap: 6 }}>
+            {[0,1,2].map(i => <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.42)', animation: `bounce 1.1s ease-in-out ${i*0.15}s infinite` }} />)}
+          </div>
         </div>
-        <style>{`@keyframes x247-gradient { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }`}</style>
       </div>
     );
   }
