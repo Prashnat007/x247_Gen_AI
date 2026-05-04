@@ -558,23 +558,8 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
         )}
       </AnimatePresence>
 
-      {/* ── HERO — Advanced Framer Motion animations ─────────────────────────── */}
+      {/* ── HERO — Clean, Premium Design ─────────────────────────── */}
       <section className="lx-hero">
-        <NeuralCanvas />
-        
-        {/* Floating accent orbs */}
-        <div className="lx-hero-orbs">
-          <FloatingElement delay={0} amplitude={15}>
-            <div className="lx-hero-orb lx-hero-orb-1" />
-          </FloatingElement>
-          <FloatingElement delay={1.5} amplitude={12}>
-            <div className="lx-hero-orb lx-hero-orb-2" />
-          </FloatingElement>
-          <FloatingElement delay={3} amplitude={18}>
-            <div className="lx-hero-orb lx-hero-orb-3" />
-          </FloatingElement>
-        </div>
-
         <div className="lx-hero-inner">
           {/* Animated badge */}
           <motion.div
@@ -700,31 +685,27 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
             </div>
           </motion.div>
 
-          {/* Animated stats ticker with real counting */}
+          {/* Trusted brands in hero */}
           <motion.div
-            className="lx-hero-ticker"
+            className="lx-hero-brands"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.95 }}
+            transition={{ duration: 0.6, delay: 1 }}
           >
-            {[
-              { val: 1.2, display: '1.2M+', lbl: 'memories', suffix: 'M+' },
-              { val: 400, display: '< 400ms', lbl: 'recall', prefix: '< ', suffix: 'ms' },
-              { val: 7, display: '7', lbl: 'agents', suffix: '' },
-              { val: 98.7, display: '98.7%', lbl: 'accuracy', suffix: '%' },
-            ].map((s, i) => (
-              <motion.div 
-                key={i} 
-                className="lx-hero-tick"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 + i * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-              >
-                <span className="lx-hero-tick-val">{s.display}</span>
-                <span className="lx-hero-tick-lbl">{s.lbl}</span>
-              </motion.div>
-            ))}
+            <span className="lx-hero-brands-label">Trusted by teams at</span>
+            <div className="lx-hero-brands-row">
+              {LOGOS.map((name, i) => (
+                <motion.span 
+                  key={name} 
+                  className="lx-hero-brand"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1 + i * 0.05 }}
+                >
+                  {name}
+                </motion.span>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -867,123 +848,72 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
         </ParallaxSection>
       </section>
 
-      {/* ── LOGO BAR — with staggered reveal ─────────────────────────────────────────────── */}
-      <section className="lx-logobar">
-        <motion.div 
-          className="lx-logobar-label"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Trusted by teams shipping at companies like
-        </motion.div>
-        <div className="lx-logobar-row">
-          {LOGOS.map((name, i) => (
-            <motion.span 
-              key={name} 
-              className="lx-logo"
-              initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              whileHover={{ scale: 1.1, color: '#a78bfa' }}
-            >
-              {name}
-            </motion.span>
-          ))}
-        </div>
-      </section>
-
-      {/* ── LIVE ACTIVITY FEED ───────────────────────────────────── */}
-      <section className="lx-feed-section">
-        <div className="lx-feed-label">
-          <span className="lx-feed-dot" />
-          <span>Live intelligence feed — memories being captured right now</span>
-        </div>
-        <div className="lx-feed-track-wrap">
-          <div className="lx-feed-fade lx-feed-fade-l" />
-          <div className="lx-feed-track">
-            <div className="lx-feed-row">
-              {[...LIVE_FEED, ...LIVE_FEED].map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <div key={i} className="lx-feed-item" style={{ ['--fc' as any]: item.color }}>
-                    <span className="lx-feed-icon"><Icon size={13} /></span>
-                    <span className="lx-feed-text">{item.text}</span>
-                    <span className="lx-feed-meta">{item.meta}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="lx-feed-row lx-feed-row-rev">
-              {[...LIVE_FEED.slice(5), ...LIVE_FEED.slice(0, 5), ...LIVE_FEED.slice(5), ...LIVE_FEED.slice(0, 5)].map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <div key={i} className="lx-feed-item" style={{ ['--fc' as any]: item.color }}>
-                    <span className="lx-feed-icon"><Icon size={13} /></span>
-                    <span className="lx-feed-text">{item.text}</span>
-                    <span className="lx-feed-meta">{item.meta}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div className="lx-feed-fade lx-feed-fade-r" />
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ─────────────────────────────────────────── */}
+      {/* ── HOW IT WORKS — Glass Box ─────────────────────────────────────────── */}
       <section id="how" className="lx-section">
-        <SectionHeader
-          eyebrow="How it works"
-          title={<>From scattered notes to <span className="lx-grad-silver">a thinking partner</span> — in three moves.</>}
-          sub="No setup ceremony. No wikis. Just capture and ask."
-        />
-        <div className="lx-how-grid">
-          {HOW_IT_WORKS.map((step, i) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={step.step}
-                className="lx-how-card"
-                style={{ ['--accent' as any]: step.accent }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-              >
-                <div className="lx-how-num">{step.step}</div>
-                <div className="lx-how-icon"><Icon size={20} /></div>
-                <h3 className="lx-how-title">{step.title}</h3>
-                <p className="lx-how-desc">{step.desc}</p>
-                <div className="lx-how-samples">
-                  {step.samples.map((s, j) => (
-                    <motion.div
-                      key={j}
-                      className="lx-how-sample"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 + 0.3 + j * 0.08 }}
-                    >
-                      {s}
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
+            eyebrow="How it works"
+            title={<>From scattered notes to <span className="lx-grad-silver">a thinking partner</span> — in three moves.</>}
+            sub="No setup ceremony. No wikis. Just capture and ask."
+          />
+          <div className="lx-how-grid">
+            {HOW_IT_WORKS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.step}
+                  className="lx-how-card"
+                  style={{ ['--accent' as string]: step.accent }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                >
+                  <div className="lx-how-num">{step.step}</div>
+                  <div className="lx-how-icon"><Icon size={20} /></div>
+                  <h3 className="lx-how-title">{step.title}</h3>
+                  <p className="lx-how-desc">{step.desc}</p>
+                  <div className="lx-how-samples">
+                    {step.samples.map((s, j) => (
+                      <motion.div
+                        key={j}
+                        className="lx-how-sample"
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 + 0.3 + j * 0.08 }}
+                      >
+                        {s}
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── 7 AGENTS BENTO — with 3D tilt cards ───────────────────────────────────────── */}
+      {/* ── 7 AGENTS BENTO — Glass Box ───────────────────────────────────────── */}
       <section id="agents" className="lx-section">
-        <SectionHeader
-          eyebrow="The team behind the magic"
-          title={<>Seven specialist agents. <span className="lx-grad-silver">One quiet symphony.</span></>}
-          sub="Each agent is great at exactly one thing. Together, they think with you."
-        />
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
+            eyebrow="The team behind the magic"
+            title={<>Seven specialist agents. <span className="lx-grad-silver">One quiet symphony.</span></>}
+            sub="Each agent is great at exactly one thing. Together, they think with you."
+          />
         <div className="lx-agents-grid">
           {AGENTS.map((a, i) => {
             const Icon = a.icon;
@@ -1029,16 +959,24 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               </motion.div>
             );
           })}
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── FEATURE BENTO GRID — with staggered 3D reveals ───────────────────────────────────── */}
+      {/* ── FEATURE BENTO GRID — Glass Box ───────────────────────────────────── */}
       <section className="lx-section">
-        <SectionHeader
-          eyebrow="Built different"
-          title={<>Every feature is a <span className="lx-grad-silver">specialist agent.</span></>}
-          sub="Not a plugin. Not a wrapper. A coordinated intelligence system."
-        />
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
+            eyebrow="Built different"
+            title={<>Every feature is a <span className="lx-grad-silver">specialist agent.</span></>}
+            sub="Not a plugin. Not a wrapper. A coordinated intelligence system."
+          />
         <div className="lx-bento">
           {FEATURES.map((f, i) => {
             const Icon = f.icon;
@@ -1096,59 +1034,75 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               </motion.div>
             );
           })}
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── MODULE MAP — every page in the app, grouped ──────────── */}
+      {/* ── MODULE MAP — Glass Box ──────────── */}
       <section id="modules" className="lx-section">
-        <SectionHeader
-          eyebrow="The full second brain · 24 modules"
-          title={<>One app. <span className="lx-grad-silver">Every part of how you think.</span></>}
-          sub="Five neural groups. Twenty-four purpose-built modules. Each one a click away from your dashboard Power Hub."
-        />
-        <div className="lx-modgrid">
-          {MODULE_MAP.map((g, gi) => {
-            const GIcon = g.icon;
-            return (
-              <motion.div
-                key={g.group}
-                className="lx-modgroup"
-                style={{ ['--accent' as any]: g.color }}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: gi * 0.06 }}
-              >
-                <div className="lx-modgroup-glow" />
-                <div className="lx-modgroup-head">
-                  <div className="lx-modgroup-icon"><GIcon size={16} /></div>
-                  <div className="lx-modgroup-title">{g.group}</div>
-                  <div className="lx-modgroup-count">{g.items.length} modules</div>
-                </div>
-                <p className="lx-modgroup-desc">{g.desc}</p>
-                <div className="lx-modlist">
-                  {g.items.map((m) => {
-                    const MIcon = m.icon;
-                    return (
-                      <div key={m.name} className="lx-modrow">
-                        <div className="lx-modrow-icon"><MIcon size={13} /></div>
-                        <div className="lx-modrow-text">
-                          <div className="lx-modrow-name">{m.name}</div>
-                          <div className="lx-modrow-blurb">{m.blurb}</div>
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
+            eyebrow="The full second brain · 24 modules"
+            title={<>One app. <span className="lx-grad-silver">Every part of how you think.</span></>}
+            sub="Five neural groups. Twenty-four purpose-built modules. Each one a click away from your dashboard Power Hub."
+          />
+          <div className="lx-modgrid">
+            {MODULE_MAP.map((g, gi) => {
+              const GIcon = g.icon;
+              return (
+                <motion.div
+                  key={g.group}
+                  className="lx-modgroup"
+                  style={{ ['--accent' as string]: g.color }}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.5, delay: gi * 0.06 }}
+                >
+                  <div className="lx-modgroup-glow" />
+                  <div className="lx-modgroup-head">
+                    <div className="lx-modgroup-icon"><GIcon size={16} /></div>
+                    <div className="lx-modgroup-title">{g.group}</div>
+                    <div className="lx-modgroup-count">{g.items.length} modules</div>
+                  </div>
+                  <p className="lx-modgroup-desc">{g.desc}</p>
+                  <div className="lx-modlist">
+                    {g.items.map((m) => {
+                      const MIcon = m.icon;
+                      return (
+                        <div key={m.name} className="lx-modrow">
+                          <div className="lx-modrow-icon"><MIcon size={13} /></div>
+                          <div className="lx-modrow-text">
+                            <div className="lx-modrow-name">{m.name}</div>
+                            <div className="lx-modrow-blurb">{m.blurb}</div>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── KNOWLEDGE GRAPH SHOWCASE ─────────────────────────────── */}
+      {/* ── KNOWLEDGE GRAPH SHOWCASE — Glass Box ─────────────────────────────── */}
       <section id="graph" className="lx-section">
-        <div className="lx-graph-wrap">
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="lx-graph-wrap">
           <motion.div
             className="lx-graph-text"
             initial={{ opacity: 0, x: -24 }}
@@ -1213,7 +1167,8 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
           >
             <BigGraph />
           </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* ── DASHBOARD PREVIEW — Power Hub + briefing + streaks ───── */}
@@ -1309,9 +1264,16 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
         </div>
       </section>
 
-      {/* ── LIVE DISCOVER — real YouTube Data API v3 ────────────── */}
+      {/* ── LIVE DISCOVER — Glass Box ────────────── */}
       <section id="discover-preview" className="lx-section">
-        <SectionHeader
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
           eyebrow="Live · YouTube Data API v3"
           title={<>Discover <span className="lx-grad-silver">what to learn next.</span></>}
           sub="Type any topic. Discover Agent pulls real YouTube videos with live view counts, channels and durations — then auto-suggests captures for your second brain."
@@ -1359,12 +1321,20 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               </motion.div>
             ))}
           </div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── INTELLIGENCE TERMINAL ────────────────────────────────── */}
+      {/* ── INTELLIGENCE TERMINAL — Glass Box ────────────────────────────────── */}
       <section className="lx-section">
-        <div className="lx-terminal-wrap">
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="lx-terminal-wrap">
           <motion.div
             className="lx-terminal-text"
             initial={{ opacity: 0, x: -30 }}
@@ -1398,12 +1368,20 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
           >
             <TerminalDemo />
           </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── USE CASES / PERSONAS ─────────────────────────────────── */}
+      {/* ── USE CASES / PERSONAS — Glass Box ─────────────────────────────────── */}
       <section id="use" className="lx-section">
-        <SectionHeader
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
           eyebrow="Built for the way you think"
           title={<>One brain, <span className="lx-grad-silver">three thinkers.</span></>}
           sub="Whether you're shipping product, doing research, or running ops — your second brain adapts."
@@ -1448,7 +1426,8 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               </motion.div>
             </AnimatePresence>
           </div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* ── STATS ─────────────────────────────────────────────────── */}
@@ -1539,12 +1518,20 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               ))}
             </div>
           </div>
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── PRICING ──────────────────────────────────────────────── */}
+      {/* ── PRICING — Glass Box ──────────────────────────────────────────────── */}
       <section id="pricing" className="lx-section">
-        <SectionHeader
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader
           eyebrow="Pricing"
           title={<>Free to start. <span className="lx-grad-silver">Premium when ready.</span></>}
           sub="Every plan unlocks the full multi-agent system. Pay only for scale and team features."
@@ -1578,12 +1565,20 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
             cta="Talk to sales"
             onCta={() => navigate('/login')}
           />
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── FAQ ──────────────────────────────────────────────────── */}
+      {/* ── FAQ — Glass Box ──────────────────────────────────────────────────── */}
       <section id="faq" className="lx-section">
-        <SectionHeader eyebrow="FAQ" title={<>Questions, <span className="lx-grad-silver">answered.</span></>} />
+        <motion.div 
+          className="lx-section-box"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <SectionHeader eyebrow="FAQ" title={<>Questions, <span className="lx-grad-silver">answered.</span></>} />
         <div className="lx-faq">
           {FAQ.map((f, i) => (
             <div key={i} className={`lx-faq-item ${openFaq === i ? 'lx-faq-open' : ''}`}>
@@ -1606,10 +1601,11 @@ export default function Landing({ navigate, isDark, toggleTheme }: LandingProps)
               </AnimatePresence>
             </div>
           ))}
-        </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ── FINAL CTA — with advanced parallax and glow ────────────────────────────────────────────── */}
+      {/* ── FINAL CTA — Glass Box ────────────────────────────────────────────── */}
       <section className="lx-section">
         <ParallaxSection offset={40}>
           <motion.div 
