@@ -10,14 +10,15 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 html, body, #root {
-  background: var(--bg, #0a0e27) !important;
-  color: var(--text-1, #ffffff);
+  background: var(--bg) !important;
+  color: var(--text-1);
   margin: 0; padding: 0;
   min-height: 100vh;
   font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 /* Smooth scrolling globally + iOS momentum scrolling for any inner scrollers.
@@ -27,14 +28,15 @@ html { scroll-behavior: smooth; }
 .scroll-custom, .agent-messages { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 
 @layer base {
-  body { background: var(--bg, #0a0e27); color: var(--text-1, #ffffff); }
+  body { background: var(--bg); color: var(--text-1); }
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: -2;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
     pointer-events: none;
+    transition: background 0.2s ease;
   }
 }
 
@@ -63,33 +65,47 @@ h1, h2, h3, h4, h5, h6 {
   filter: brightness(1.3) contrast(1.25) drop-shadow(0 0 20px rgba(124, 58, 237, 0.5));
 }
 
-/* ── Light Theme Design Tokens — Modern AI-First Aesthetic ─────────────── */
-:root {
-  --bg:              #0a0e27;
-  --surface:         #111726;
-  --surface-2:       #16212f;
-  --surface-3:       #1d2640;
-  --border:          #2d3a52;
-  --border-2:        #3d4a65;
-  --text-1:          #ffffff;
-  --text-2:          #b4bfd4;
-  --text-3:          #7a8699;
+/* ── Light Theme Design Tokens — Modern Clean Aesthetic ─────────────── */
+:root,
+[data-theme="light"] {
+  --bg:              #f8fafc;
+  --surface:         #ffffff;
+  --surface-2:       #f1f5f9;
+  --surface-3:       #e2e8f0;
+  --border:          #e2e8f0;
+  --border-2:        #cbd5e1;
+  --text-1:          #0f172a;
+  --text-2:          #475569;
+  --text-3:          #64748b;
   --primary:         #7c3aed;
-  --primary-bg:      rgba(124, 58, 237, 0.12);
-  --primary-dark:    #a78bfa;
-  --primary-border:  rgba(124, 58, 237, 0.32);
+  --primary-bg:      rgba(124, 58, 237, 0.08);
+  --primary-dark:    #6d28d9;
+  --primary-border:  rgba(124, 58, 237, 0.2);
   --success:         #10b981;
   --warning:         #f59e0b;
   --danger:          #ef4444;
-  --accent-neon:     #00ff88;
-  --accent-cyan:     #00d9ff;
+  --accent-neon:     #10b981;
+  --accent-cyan:     #0ea5e9;
   --radius:          12px;
   --space-md:        20px;
-  --shadow-sm:       0 1px 8px rgba(0, 0, 0, 0.5);
-  --shadow-md:       0 8px 24px rgba(124, 58, 237, 0.15);
-  --shadow-lg:       0 20px 48px rgba(124, 58, 237, 0.25);
-  --inner-glow:      inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2);
-  --card-glow:       0 0 0 1px rgba(124, 58, 237, 0.24);
+  --shadow-sm:       0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:       0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg:       0 12px 32px rgba(0, 0, 0, 0.12);
+  --inner-glow:      inset 0 1px 0 rgba(255,255,255,0.9);
+  --card-glow:       0 0 0 1px rgba(124, 58, 237, 0.12);
+}
+
+/* Light theme body background */
+[data-theme="light"] body {
+  background: #f8fafc !important;
+}
+[data-theme="light"] body::before {
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+}
+[data-theme="light"] html,
+[data-theme="light"] #root {
+  background: #f8fafc !important;
+  color: #0f172a !important;
 }
 
 /* ── Dark Theme Design Tokens — CYBERPUNK (alternate theme, if toggled) ───── */
@@ -273,7 +289,7 @@ h1, h2, h3, h4, h5, h6 {
 .from-indigo-600      { --tw-gradient-from: #7c3aed !important; }
 .to-purple-600        { --tw-gradient-to: #7c3aed !important; }
 
-/* ── Color system mappings ────────────────────────────────────────────────── */
+/* ── Color system mappings ─────────────────────────���──────────────────────── */
 .text-amber-600       { color: #2563eb !important; }
 .text-amber-700       { color: #1d4ed8 !important; }
 .text-amber-500       { color: #06b6d4 !important; }
@@ -641,7 +657,7 @@ select:not(.bare-input):focus {
 .sidebar-backdrop { display: none; }
 @media (max-width: 1023px) { .sidebar-backdrop { display: block; } }
 
-/* ── Responsive visibility helpers ────────────────────────────────────────── */
+/* ── Responsive visibility helpers ──────────���─────────────────────────────── */
 /* Sidebar: hidden on canvas/tablet (≤900px), hamburger takes over */
 .desktop-sidebar { display: block; }
 @media (max-width: 900px) { .desktop-sidebar { display: none !important; } }
@@ -989,7 +1005,7 @@ img { max-width: 100%; }
   outline-offset: 2px;
 }
 
-/* ── Selection ────────────────────────────────────────────────────────────── */
+/* ── Selection ─────────────────────────────────────��──────────────────────── */
 ::selection {
   background: rgba(37,99,235,0.18);
   color: var(--text-1);
@@ -1192,7 +1208,7 @@ h6.md-h { font-size: 12.5px; color: var(--text-2); }
 
 /* ────────────────────────────────────────────────────────────────
    NEON GLOW EFFECTS — Cyberpunk aesthetic utilities
-   ──────────────────────────────────────────────────────────────── */
+   ────────────────────────────────────────────────���─────────────── */
 
 .neon-glow {
   animation: neon-glow 3s ease-in-out infinite;
