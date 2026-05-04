@@ -2647,24 +2647,27 @@
   .lg-home-btn {
     position: absolute;
     top: 24px;
-    left: 28px;
+    left: 24px;
     z-index: 10;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px 8px 12px;
-    font-family: 'Poppins', 'Geist', 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: #71717a;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 999px;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    color: #a1a1aa;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .lg-home-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.15); }
+  .lg-home-btn:hover { 
+    color: #ffffff; 
+    background: rgba(255, 255, 255, 0.12); 
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateX(-2px);
+  }
 
   .lg-form-card {
     position: relative;
@@ -5880,7 +5883,7 @@
   padding: 48px 28px 80px;
 }
 
-/* ── Loading / error ─────────────────────────────────────── */
+/* ── Loading / error ─────────────────────────────────��───── */
 .share-loading {
   padding: 80px 20px; text-align: center; color: var(--sp-text-3);
 }
