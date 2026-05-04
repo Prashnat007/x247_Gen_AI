@@ -165,25 +165,15 @@ class ChunkErrorBoundary extends Component<
 }
 
 // ── RouteSuspense fallback ──────────────────────────────────────────────────
-// A 2px progress strip pinned to the top of the content area. Keeps the
-// page visually intact instead of flashing the full-screen splash on every
-// navigation between lazy routes.
+// Shows the x247 logo with bouncing dots while lazy routes load.
 const RouteSuspenseFallback = () => (
-  <div
-    aria-hidden
-    style={{
-      position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-      overflow: 'hidden', pointerEvents: 'none', zIndex: 5,
-    }}
-  >
-    <div
-      style={{
-        height: '100%', width: '40%',
-        background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
-        animation: 'route-progress 1.1s ease-in-out infinite',
-      }}
-    />
-    <style>{`@keyframes route-progress { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }`}</style>
+  <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#03080f' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+      <img src="/x247-logo.webp" alt="x247 AI" width={785} height={421} decoding="async" fetchPriority="high" style={{ width: 'clamp(120px,15vw,180px)', height: 'auto', userSelect: 'none' }} draggable={false} />
+      <div style={{ display: 'flex', gap: 6 }}>
+        {[0,1,2].map(i => <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.42)', animation: `bounce 1.1s ease-in-out ${i*0.15}s infinite` }} />)}
+      </div>
+    </div>
   </div>
 );
 
