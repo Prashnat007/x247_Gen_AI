@@ -2647,7 +2647,7 @@
   .lg-home-btn {
     position: absolute;
     top: 24px;
-    left: 24px;
+    left: 12px;
     z-index: 10;
     display: inline-flex;
     align-items: center;
