@@ -105,8 +105,7 @@ export default function Login({
           className="lg-home-btn"
           aria-label="Back to home"
         >
-          <ArrowLeft size={14} />
-          <span>Home</span>
+          <ArrowLeft size={16} />
         </button>
 
         <div className="lg-box-left">
