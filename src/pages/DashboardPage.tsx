@@ -38,9 +38,10 @@ type DashAdvanced = {
   totals?: Record<string, number>;
 };
 
-const DOMAIN_COLORS = ['#6366f1', '#9333ea', '#f472b6', '#10b981', '#f59e0b', '#ef4444'];
+// Lime-accent color palette matching landing page
+const DOMAIN_COLORS = ['#c5f82a', '#7c3aed', '#06b6d4', '#10b981', '#f59e0b', '#f472b6'];
 const SRC_ICON: Record<string, any> = { youtube: Youtube, web: Globe, pdf: FileText, note: StickyNote };
-const SRC_CLR: Record<string, string> = { youtube: '#ef4444', web: '#00d4ff', pdf: '#f59e0b', note: '#10b981' };
+const SRC_CLR: Record<string, string> = { youtube: '#ef4444', web: '#06b6d4', pdf: '#f59e0b', note: '#c5f82a' };
 
 type SectionHeaderProps = {
   icon: any;
@@ -53,8 +54,13 @@ type SectionHeaderProps = {
 const SectionHeader = ({ icon: Icon, color, title, eyebrow, actionLabel, onAction }: SectionHeaderProps) => (
   <div className="dash-section-head">
     <div className="dash-title-wrap">
-      <span className="dash-icon-pill" style={{ background: `${color}14`, border: `1px solid ${color}28`, color }}>
-        <Icon size={14} />
+      <span className="dash-icon-pill" style={{ 
+        background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)`, 
+        border: `1px solid ${color}30`, 
+        color,
+        boxShadow: `0 2px 8px -2px ${color}30`
+      }}>
+        <Icon size={15} />
       </span>
       <h3>{title}</h3>
       {eyebrow && <span className="dash-eyebrow">{eyebrow}</span>}
@@ -238,25 +244,43 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     ? domains.slice(0, 6).map((d: any) => ({ subject: d.name, value: d.value, fullMark: Math.max(...domains.map((x: any) => x.value)) + 1 }))
     : [{ subject: 'AI/ML', value: 0, fullMark: 10 }, { subject: 'Science', value: 0, fullMark: 10 }, { subject: 'Tech', value: 0, fullMark: 10 }, { subject: 'Business', value: 0, fullMark: 10 }, { subject: 'Health', value: 0, fullMark: 10 }];
 
+  // Stat cards with lime green accent theme matching landing page
   const statCards = [
-    { label: 'Neural Memories', value: totalMem, icon: Brain, color: '#6366f1', trend: '+12%', sub: 'Total captured', route: '/vault' },
-    { label: 'Pending Tasks', value: stats?.pending_tasks ?? 0, icon: CheckSquare, color: '#9333ea', trend: '2 due today', sub: 'Open tasks', route: '/tasks' },
-    { label: 'AI Interactions', value: stats?.ai_interactions ?? 0, icon: Sparkles, color: '#ec4899', trend: 'Lifetime', sub: 'Recall queries', route: '/recall' },
+    { label: 'Neural Memories', value: totalMem, icon: Brain, color: '#c5f82a', trend: '+12%', sub: 'Total captured', route: '/vault' },
+    { label: 'Pending Tasks', value: stats?.pending_tasks ?? 0, icon: CheckSquare, color: '#7c3aed', trend: '2 due today', sub: 'Open tasks', route: '/tasks' },
+    { label: 'AI Interactions', value: stats?.ai_interactions ?? 0, icon: Sparkles, color: '#06b6d4', trend: 'Lifetime', sub: 'Recall queries', route: '/recall' },
     { label: 'Knowledge Domains', value: domains.length, icon: Network, color: '#10b981', trend: 'Active', sub: 'Topics tracked', route: '/graph' },
     { label: 'Flashcards', value: stats?.flashcards ?? 0, icon: GraduationCap, color: '#f59e0b', trend: 'Study ready', sub: 'Created', route: '/flashcards' },
-    { label: 'Learning Streak', value: stats?.streak_days ?? 0, icon: Zap, color: '#ef4444', trend: 'Days', sub: 'Current streak', route: '/flashcards' },
-    { label: 'Focus Sessions', value: stats?.focus_sessions ?? 0, icon: Timer, color: '#06b6d4', trend: 'This week', sub: 'Deep work', route: '/tasks' },
-    { label: 'Captured Today', value: stats?.captured_today ?? 0, icon: TrendingUp, color: '#8b5cf6', trend: 'Today', sub: 'New memories', route: '/capture' },
+    { label: 'Learning Streak', value: stats?.streak_days ?? 0, icon: Zap, color: '#c5f82a', trend: 'Days', sub: 'Current streak', route: '/flashcards' },
+    { label: 'Focus Sessions', value: stats?.focus_sessions ?? 0, icon: Timer, color: '#7c3aed', trend: 'This week', sub: 'Deep work', route: '/tasks' },
+    { label: 'Captured Today', value: stats?.captured_today ?? 0, icon: TrendingUp, color: '#06b6d4', trend: 'Today', sub: 'New memories', route: '/capture' },
   ];
 
   const dashIconBtn: React.CSSProperties = {
-    width: 28, height: 28, borderRadius: 7, border: '1px solid var(--border)',
-    background: 'var(--surface-2)', color: 'var(--text-2)', cursor: 'pointer',
+    width: 30, height: 30, borderRadius: 8, border: '1px solid var(--border)',
+    background: isDark 
+      ? 'linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)' 
+      : 'linear-gradient(180deg, #ffffff 0%, #f4f4f5 100%)',
+    color: 'var(--text-2)', cursor: 'pointer',
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+    boxShadow: isDark 
+      ? '0 1px 0 0 rgba(255,255,255,0.04) inset, 0 2px 0 0 rgba(0,0,0,0.15)' 
+      : '0 1px 0 0 rgba(255,255,255,1) inset, 0 1px 0 0 rgba(0,0,0,0.05)',
+    transition: 'all 0.15s ease',
   };
 
   const S = {
-    card: { background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, boxShadow: isDark ? '0 2px 14px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)' : '0 1px 4px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.88)', transition: 'all 0.2s' } as React.CSSProperties,
+    card: { 
+      background: isDark 
+        ? 'linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%)' 
+        : 'linear-gradient(180deg, #ffffff 0%, #fafafa 100%)', 
+      border: '1px solid var(--border)', 
+      borderRadius: 14, 
+      boxShadow: isDark 
+        ? '0 1px 0 0 rgba(255,255,255,0.04) inset, 0 -1px 0 0 rgba(0,0,0,0.1) inset, 0 4px 0 0 rgba(0,0,0,0.08), 0 8px 20px -8px rgba(0,0,0,0.15)' 
+        : '0 1px 0 0 rgba(255,255,255,1) inset, 0 2px 0 0 rgba(0,0,0,0.03), 0 4px 16px -4px rgba(0,0,0,0.08)', 
+      transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+    } as React.CSSProperties,
   };
 
   // ── Smart Insights — derived from the data we already have ───────────────
@@ -308,7 +332,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
   }
 
   return (
-    <div style={{ color: 'var(--text-1)' }}>
+    <div className="dash-shell" style={{ color: 'var(--text-1)' }}>
       {/* ── 0. CONTEXT BANNER (Guest demo / Fresh-start welcome) ─────────── */}
       {showWelcomeBanner && (isGuest || isEmptyRealUser) && (
         <motion.div

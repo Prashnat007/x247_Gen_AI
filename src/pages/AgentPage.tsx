@@ -866,19 +866,49 @@ const AgentHubView = () => {
     <div className="agent-hub-v2" style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '14px 0 28px', minHeight: 'calc(100vh - 5rem)' }}>
 
       {/* HEADER — title + status dot + history + new chat */}
-      <header className="agent-hero" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 11, background: 'linear-gradient(135deg, rgba(99,102,241,0.22), rgba(139,92,246,0.16))', border: '1px solid rgba(99,102,241,0.35)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
-            <Cpu size={17} color="#a78bfa" />
+      <header className="agent-hero" style={{ 
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
+        padding: '16px 20px',
+        background: 'linear-gradient(135deg, var(--surface) 0%, rgba(197, 248, 42, 0.02) 100%)',
+        border: '1px solid var(--border)',
+        borderRadius: 14,
+        boxShadow: '0 4px 20px -8px rgba(0, 0, 0, 0.15)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
+          <div style={{ 
+            width: 42, height: 42, borderRadius: 12, 
+            background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.15) 0%, rgba(197, 248, 42, 0.05) 100%)', 
+            border: '1px solid rgba(197, 248, 42, 0.25)', 
+            display: 'grid', placeItems: 'center', flexShrink: 0,
+            boxShadow: '0 4px 12px -4px rgba(197, 248, 42, 0.2)',
+          }}>
+            <Cpu size={19} color="#c5f82a" />
           </div>
-          <h2 style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', fontWeight: 800, color: 'var(--text-1)', margin: 0, letterSpacing: '-0.3px', lineHeight: 1.1, display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
-            Agent Hub
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '2px 8px', background: 'rgba(16,185,129,0.10)', border: '1px solid rgba(16,185,129,0.28)', borderRadius: 20, fontSize: 10, fontWeight: 700, color: '#10b981', letterSpacing: '0.4px' }}
-              title={isStreaming ? 'Working on your request' : 'Ready'}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 6px #10b981', animation: isStreaming ? 'pulse 1.2s ease-in-out infinite' : 'none' }} />
-              {isStreaming ? 'WORKING' : 'READY'}
-            </span>
-          </h2>
+          <div>
+            <h2 style={{ fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 800, color: 'var(--text-1)', margin: 0, letterSpacing: '-0.4px', lineHeight: 1.1 }}>
+              recall x247 <span style={{ color: 'var(--text-3)', fontWeight: 600, fontSize: '0.65em' }}>second brain</span>
+            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+              <span style={{ 
+                display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', 
+                background: isStreaming ? 'rgba(245, 158, 11, 0.12)' : 'rgba(197, 248, 42, 0.12)', 
+                border: isStreaming ? '1px solid rgba(245, 158, 11, 0.35)' : '1px solid rgba(197, 248, 42, 0.30)', 
+                borderRadius: 20, fontSize: 10, fontWeight: 700, 
+                color: isStreaming ? '#f59e0b' : '#c5f82a', 
+                letterSpacing: '0.5px',
+                boxShadow: isStreaming ? '0 0 12px rgba(245, 158, 11, 0.15)' : '0 0 12px rgba(197, 248, 42, 0.1)',
+              }}
+                title={isStreaming ? 'Working on your request' : 'Ready'}>
+                <span style={{ 
+                  width: 6, height: 6, borderRadius: '50%', 
+                  background: isStreaming ? '#f59e0b' : '#c5f82a', 
+                  boxShadow: isStreaming ? '0 0 8px #f59e0b' : '0 0 8px #c5f82a', 
+                  animation: isStreaming ? 'pulse 1.2s ease-in-out infinite' : 'none' 
+                }} />
+                {isStreaming ? 'WORKING' : 'LIVE'}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="agent-hero-actions" style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
@@ -886,19 +916,44 @@ const AgentHubView = () => {
             title="Open chat history"
             aria-label="Open chat history"
             className="agent-hero-btn"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 13px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--text-2)', fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', lineHeight: 1 }}>
-            <MessageSquare size={13} />
+            style={{ 
+              display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 14px', 
+              background: 'var(--surface)', 
+              border: '1px solid var(--border)', 
+              borderRadius: 10, 
+              color: 'var(--text-2)', 
+              fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', 
+              whiteSpace: 'nowrap', lineHeight: 1,
+              transition: 'all 0.18s ease',
+            }}>
+            <MessageSquare size={14} />
             <span className="agent-hero-btn-label">History</span>
             {chatSessions.length > 0 && (
-              <span className="agent-hero-btn-badge" style={{ marginLeft: 2, padding: '1px 7px', borderRadius: 10, background: 'var(--surface-3)', color: 'var(--text-3)', fontSize: 10.5, fontWeight: 700 }}>{chatSessions.length}</span>
+              <span className="agent-hero-btn-badge" style={{ 
+                marginLeft: 2, padding: '2px 8px', borderRadius: 10, 
+                background: 'rgba(197, 248, 42, 0.12)', 
+                color: '#c5f82a', 
+                fontSize: 10.5, fontWeight: 700,
+                border: '1px solid rgba(197, 248, 42, 0.2)',
+              }}>{chatSessions.length}</span>
             )}
           </button>
           <button onClick={startNewChat}
             title="Start a fresh chat — your current chat is saved to history"
             aria-label="Start a new chat"
             className="agent-hero-btn agent-hero-btn-primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: 'linear-gradient(135deg, rgba(99,102,241,0.18), rgba(139,92,246,0.12))', border: '1px solid rgba(99,102,241,0.35)', borderRadius: 10, color: '#a78bfa', fontSize: 12.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', lineHeight: 1 }}>
-            <Plus size={13} />
+            style={{ 
+              display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 16px', 
+              background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.15) 0%, rgba(197, 248, 42, 0.08) 100%)', 
+              border: '1px solid rgba(197, 248, 42, 0.35)', 
+              borderRadius: 10, 
+              color: '#c5f82a', 
+              fontSize: 12.5, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', 
+              whiteSpace: 'nowrap', lineHeight: 1,
+              boxShadow: '0 2px 12px -4px rgba(197, 248, 42, 0.3)',
+              transition: 'all 0.18s ease',
+            }}>
+            <Plus size={14} />
             <span className="agent-hero-btn-label">New chat</span>
           </button>
         </div>
@@ -945,55 +1000,117 @@ const AgentHubView = () => {
           }
           return (
             <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
-              style={{ display: 'flex', flexDirection: 'column', gap: 9, padding: '11px 13px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12 }}>
+              style={{ 
+                display: 'flex', flexDirection: 'column', gap: 12, 
+                padding: '14px 16px', 
+                background: 'linear-gradient(135deg, var(--surface) 0%, rgba(197, 248, 42, 0.02) 100%)', 
+                border: '1px solid var(--border)', 
+                borderRadius: 14,
+                boxShadow: '0 2px 12px -4px rgba(0, 0, 0, 0.1)',
+              }}>
               {/* Row 1 — header + Now: <Agent> — <task verb> */}
-              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', fontSize: 10.5, fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', flexShrink: 0 }}>
-                  <Cpu size={11} color="#a78bfa" /> Live pipeline
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                <span style={{ 
+                  display: 'inline-flex', alignItems: 'center', gap: 6, 
+                  color: '#c5f82a', 
+                  fontSize: 10, fontWeight: 800, letterSpacing: '1.2px', textTransform: 'uppercase', flexShrink: 0,
+                  padding: '3px 8px',
+                  background: 'rgba(197, 248, 42, 0.1)',
+                  borderRadius: 6,
+                  border: '1px solid rgba(197, 248, 42, 0.2)',
+                }}>
+                  <Radio size={10} color="#c5f82a" /> AGENTS ACTIVE
                 </span>
                 {activeAgent ? (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.45)', borderRadius: 14, fontSize: 11, fontWeight: 700, color: '#f59e0b', minWidth: 0 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f59e0b', boxShadow: '0 0 6px #f59e0b', animation: 'pulse 1.2s ease-in-out infinite', flexShrink: 0 }} />
-                    <span style={{ flexShrink: 0 }}>Now: {AGENT_LABEL[activeAgent]}</span>
+                  <span style={{ 
+                    display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', 
+                    background: 'rgba(245,158,11,0.12)', 
+                    border: '1px solid rgba(245,158,11,0.40)', 
+                    borderRadius: 20, fontSize: 11, fontWeight: 700, color: '#f59e0b', minWidth: 0,
+                    boxShadow: '0 2px 8px -2px rgba(245, 158, 11, 0.2)',
+                  }}>
+                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#f59e0b', boxShadow: '0 0 8px #f59e0b', animation: 'pulse 1.2s ease-in-out infinite', flexShrink: 0 }} />
+                    <span style={{ flexShrink: 0 }}>{AGENT_LABEL[activeAgent]}</span>
                     <span style={{ color: 'var(--text-3)', fontWeight: 500 }}>—</span>
                     <span style={{ color: 'var(--text-1)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }} title={currentTaskVerb}>
                       {currentTaskVerb}
                     </span>
                   </span>
                 ) : isStreaming ? (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', background: 'rgba(167,139,250,0.10)', border: '1px solid rgba(167,139,250,0.30)', borderRadius: 14, fontSize: 11, fontWeight: 700, color: '#a78bfa' }}>
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#a78bfa', boxShadow: '0 0 6px #a78bfa', animation: 'pulse 1.2s ease-in-out infinite' }} />
-                    Coordinator planning…
+                  <span style={{ 
+                    display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', 
+                    background: 'rgba(197, 248, 42, 0.10)', 
+                    border: '1px solid rgba(197, 248, 42, 0.30)', 
+                    borderRadius: 20, fontSize: 11, fontWeight: 700, color: '#c5f82a',
+                    boxShadow: '0 2px 8px -2px rgba(197, 248, 42, 0.15)',
+                  }}>
+                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#c5f82a', boxShadow: '0 0 8px #c5f82a', animation: 'pulse 1.2s ease-in-out infinite' }} />
+                    Orchestrator planning...
                   </span>
                 ) : (
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-3)' }}>
-                    {anyDone ? 'All done' : 'Standing by — ask me anything'}
+                  <span style={{ fontSize: 11, fontWeight: 600, color: '#c5f82a' }}>
+                    {anyDone ? 'All done' : 'Standing by'}
                   </span>
                 )}
                 {trail.length > 0 && (
-                  <span style={{ marginLeft: 'auto', fontSize: 10.5, color: 'var(--text-3)', fontFamily: 'JetBrains Mono, monospace', flexShrink: 0 }}>
-                    pipeline: {trail.join(' → ')}
+                  <span style={{ 
+                    marginLeft: 'auto', fontSize: 10, color: 'var(--text-3)', 
+                    fontFamily: 'JetBrains Mono, monospace', flexShrink: 0,
+                    padding: '2px 8px',
+                    background: 'var(--surface-2)',
+                    borderRadius: 4,
+                    border: '1px solid var(--border)',
+                  }}>
+                    {trail.join(' → ')}
                   </span>
                 )}
               </div>
-              {/* Row 2 — full agent roster pills */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {/* Row 2 — full agent roster pills with progress-style bars */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {ALL_AGENTS.map(agent => {
                   const status = agentStatuses[agent] || 'idle';
                   const label = AGENT_LABEL[agent];
-                  const dotColor = status === 'running' ? '#f59e0b' : status === 'done' ? '#10b981' : '#6b7280';
-                  const borderColor = status === 'running' ? 'rgba(245,158,11,0.55)' : status === 'done' ? 'rgba(16,185,129,0.45)' : 'var(--border)';
-                  const bg = status === 'running' ? 'rgba(245,158,11,0.14)' : status === 'done' ? 'rgba(16,185,129,0.10)' : 'var(--surface-2)';
-                  const textColor = status === 'running' ? '#f59e0b' : status === 'done' ? '#10b981' : 'var(--text-3)';
-                  const statusLabel = status === 'running' ? 'working' : status === 'done' ? 'done' : 'idle';
+                  // Use lime green for done, amber for running, muted for idle
+                  const dotColor = status === 'running' ? '#f59e0b' : status === 'done' ? '#c5f82a' : '#4b5563';
+                  const progressWidth = status === 'running' ? '60%' : status === 'done' ? '100%' : '0%';
+                  const progressColor = status === 'running' ? 'rgba(245, 158, 11, 0.4)' : status === 'done' ? 'rgba(197, 248, 42, 0.35)' : 'transparent';
+                  const textColor = status === 'running' ? '#f59e0b' : status === 'done' ? '#c5f82a' : 'var(--text-3)';
                   return (
-                    <span key={agent}
-                      title={`${label} — ${statusLabel}`}
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 9px', background: bg, border: `1px solid ${borderColor}`, borderRadius: 16, fontSize: 11, fontWeight: 700, color: textColor, opacity: status === 'idle' ? 0.55 : 1 }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: dotColor, boxShadow: status === 'running' ? `0 0 6px ${dotColor}` : 'none', animation: status === 'running' ? 'pulse 1.2s ease-in-out infinite' : 'none' }} />
-                      {label}
-                      <span style={{ color: 'var(--text-3)', fontWeight: 500, fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{statusLabel}</span>
-                    </span>
+                    <div key={agent}
+                      title={`${label} — ${status}`}
+                      style={{ 
+                        display: 'flex', alignItems: 'center', gap: 8, 
+                        padding: '6px 10px', 
+                        background: 'var(--surface)', 
+                        border: '1px solid var(--border)', 
+                        borderRadius: 8, 
+                        fontSize: 11.5, fontWeight: 600, 
+                        color: textColor, 
+                        opacity: status === 'idle' ? 0.5 : 1,
+                        position: 'relative',
+                        overflow: 'hidden',
+                        transition: 'all 0.3s ease',
+                      }}>
+                      {/* Progress bar background */}
+                      <div style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: progressWidth,
+                        background: progressColor,
+                        transition: 'width 0.5s ease-out',
+                        borderRadius: 8,
+                      }} />
+                      <span style={{ 
+                        width: 7, height: 7, borderRadius: '50%', background: dotColor, 
+                        boxShadow: status === 'running' ? `0 0 8px ${dotColor}` : status === 'done' ? '0 0 6px rgba(197, 248, 42, 0.5)' : 'none', 
+                        animation: status === 'running' ? 'pulse 1.2s ease-in-out infinite' : 'none',
+                        position: 'relative',
+                        zIndex: 1,
+                      }} />
+                      <span style={{ position: 'relative', zIndex: 1, flex: 1 }}>{label}</span>
+                    </div>
                   );
                 })}
               </div>
@@ -1004,8 +1121,17 @@ const AgentHubView = () => {
         {/* Empty-state quick-action grid — colorful cards for first-time chats */}
         {isEmpty && !isStreaming && (
           <div className="agent-quick-actions">
-            <div className="agent-quick-actions-eyebrow">
-              <Sparkles size={11} color="#a78bfa" /> TRY ONE OF THESE
+            <div className="agent-quick-actions-eyebrow" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              color: '#c5f82a',
+              fontSize: 10, fontWeight: 800, letterSpacing: '1.2px',
+              padding: '4px 10px',
+              background: 'rgba(197, 248, 42, 0.1)',
+              borderRadius: 6,
+              border: '1px solid rgba(197, 248, 42, 0.2)',
+              marginBottom: 12,
+            }}>
+              <Sparkles size={11} color="#c5f82a" /> TRY ONE OF THESE
             </div>
             <div className="agent-quick-actions-grid">
               {SUGGESTIONS.map(s => {
@@ -1051,8 +1177,14 @@ const AgentHubView = () => {
               style={{ display: 'flex', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row', gap: 11, alignItems: 'flex-start' }}>
 
               {msg.role === 'assistant' && (
-                <div style={{ width: 32, height: 32, borderRadius: 10, background: 'linear-gradient(135deg,#312e81,#1e1b4b)', border: '1px solid rgba(99,102,241,0.3)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
-                  <Cpu size={15} color="#a78bfa" />
+                <div style={{ 
+                    width: 34, height: 34, borderRadius: 10, 
+                    background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.15) 0%, rgba(197, 248, 42, 0.05) 100%)', 
+                    border: '1px solid rgba(197, 248, 42, 0.25)', 
+                    display: 'grid', placeItems: 'center', flexShrink: 0,
+                    boxShadow: '0 2px 8px -2px rgba(197, 248, 42, 0.2)',
+                  }}>
+                  <Cpu size={16} color="#c5f82a" />
                 </div>
               )}
 
@@ -1060,12 +1192,19 @@ const AgentHubView = () => {
 
                 {/* In-progress assistant bubble: subtle inline progress + step ticker */}
                 {(msg.type === 'thinking' || msg.type === 'steps') && (
-                  <div style={{ padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px 14px 14px 14px', color: 'var(--text-2)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                      <div style={{ display: 'flex', gap: 4 }}>
-                        {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: '#a78bfa', animation: `bounce 1.2s ${i * 0.18}s ease-in-out infinite` }} />)}
+                  <div style={{ 
+                    padding: '14px 18px', 
+                    background: 'linear-gradient(135deg, var(--surface) 0%, rgba(197, 248, 42, 0.03) 100%)', 
+                    border: '1px solid var(--border)', 
+                    borderRadius: '4px 16px 16px 16px', 
+                    color: 'var(--text-2)',
+                    boxShadow: '0 2px 12px -4px rgba(0, 0, 0, 0.08)',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ display: 'flex', gap: 5 }}>
+                        {[0,1,2].map(i => <div key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: '#c5f82a', boxShadow: '0 0 6px rgba(197, 248, 42, 0.4)', animation: `bounce 1.2s ${i * 0.18}s ease-in-out infinite` }} />)}
                       </div>
-                      <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--text-2)' }}>
+                      <span style={{ fontSize: 12.5, fontWeight: 600, color: '#c5f82a' }}>
                         Thinking
                         {msg.steps && msg.steps.length > 0 && (
                           <span style={{ color: 'var(--text-3)', fontWeight: 500 }}>
@@ -1122,9 +1261,16 @@ const AgentHubView = () => {
 
                 {/* Streaming markdown */}
                 {msg.type === 'streaming' && (
-                  <div style={{ padding: '12px 16px', borderRadius: '4px 14px 14px 14px', background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-1)' }}>
+                  <div style={{ 
+                    padding: '14px 18px', 
+                    borderRadius: '4px 16px 16px 16px', 
+                    background: 'linear-gradient(135deg, var(--surface) 0%, rgba(197, 248, 42, 0.02) 100%)', 
+                    border: '1px solid var(--border)', 
+                    color: 'var(--text-1)',
+                    boxShadow: '0 2px 12px -4px rgba(0, 0, 0, 0.08)',
+                  }}>
                     <MarkdownMessage content={msg.content || ''} />
-                    <span style={{ display: 'inline-block', width: 2, height: '1em', background: '#a78bfa', marginLeft: 2, verticalAlign: 'text-bottom', animation: 'bounce 1s ease-in-out infinite', opacity: 0.8 }} />
+                    <span style={{ display: 'inline-block', width: 2, height: '1em', background: '#c5f82a', marginLeft: 2, verticalAlign: 'text-bottom', animation: 'bounce 1s ease-in-out infinite', opacity: 0.9, boxShadow: '0 0 6px rgba(197, 248, 42, 0.5)' }} />
                   </div>
                 )}
 
@@ -1132,15 +1278,16 @@ const AgentHubView = () => {
                 {(msg.type === 'text' || msg.type === 'welcome') && (
                   <div>
                     <div className={msg.role === 'user' ? 'user-bubble' : ''} style={{
-                      padding: '13px 17px',
-                      borderRadius: msg.role === 'user' ? '14px 4px 14px 14px' : '4px 14px 14px 14px',
+                      padding: '14px 18px',
+                      borderRadius: msg.role === 'user' ? '16px 4px 16px 16px' : '4px 16px 16px 16px',
                       background: msg.role === 'user'
-                        ? 'linear-gradient(135deg,#6366f1,#4f46e5)'
+                        ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.95) 0%, rgba(163, 230, 53, 0.9) 100%)'
                         : msg.type === 'welcome'
-                          ? 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05))'
+                          ? 'linear-gradient(135deg, var(--surface) 0%, rgba(197, 248, 42, 0.05) 100%)'
                           : 'var(--surface)',
-                      border: msg.role === 'user' ? 'none' : msg.type === 'welcome' ? '1px solid rgba(99,102,241,0.22)' : '1px solid var(--border)',
-                      color: msg.role === 'user' ? '#fff' : 'var(--text-1)',
+                      border: msg.role === 'user' ? '1px solid rgba(197, 248, 42, 0.3)' : msg.type === 'welcome' ? '1px solid rgba(197, 248, 42, 0.2)' : '1px solid var(--border)',
+                      color: msg.role === 'user' ? '#0a0a0b' : 'var(--text-1)',
+                      boxShadow: msg.role === 'user' ? '0 4px 16px -4px rgba(197, 248, 42, 0.4)' : '0 2px 12px -4px rgba(0, 0, 0, 0.08)',
                     }}>
                       <MarkdownMessage
                         content={msg.content || ''}
@@ -1181,14 +1328,24 @@ const AgentHubView = () => {
                       const chips = getContextualFollowups(msg);
                       if (chips.length === 0) return null;
                       return (
-                        <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', gap: 6 }} aria-label="Suggested next steps">
-                          <span style={{ alignSelf: 'center', color: 'var(--text-3)', fontSize: 10.5, fontWeight: 600, marginRight: 2 }}>Next:</span>
+                        <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }} aria-label="Suggested next steps">
+                          <span style={{ 
+                            color: '#c5f82a', 
+                            fontSize: 10, 
+                            fontWeight: 700, 
+                            marginRight: 2,
+                            padding: '2px 8px',
+                            background: 'rgba(197, 248, 42, 0.1)',
+                            borderRadius: 4,
+                            border: '1px solid rgba(197, 248, 42, 0.15)',
+                            letterSpacing: '0.5px',
+                          }}>NEXT</span>
                           {chips.map((c, ci) => (
                             <button key={ci} onClick={() => handleSend(c.msg)}
                               className="agent-quick-chip"
-                              style={{ ['--qa-color' as any]: '#a78bfa' } as React.CSSProperties}
+                              style={{ ['--qa-color' as any]: '#c5f82a' } as React.CSSProperties}
                               title={c.msg}>
-                              <ArrowRight size={10} color="#a78bfa" />
+                              <ArrowRight size={10} color="#c5f82a" />
                               <span>{c.label}</span>
                             </button>
                           ))}
@@ -1220,48 +1377,67 @@ const AgentHubView = () => {
         {/* INPUT BAR — sticky bottom; live voice expands inline below the row */}
         <div className="agent-input" style={{
           position: 'sticky', bottom: 12, zIndex: 5,
-          background: 'var(--surface)',
-          border: `1px solid ${isListening ? 'rgba(239,68,68,0.45)' : isStreaming ? 'rgba(99,102,241,0.4)' : 'var(--border)'}`,
-          borderRadius: 14, padding: '10px 12px',
-          boxShadow: '0 -6px 24px rgba(0,0,0,0.10)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          background: 'linear-gradient(135deg, var(--surface) 0%, rgba(197, 248, 42, 0.02) 100%)',
+          border: `1px solid ${isListening ? 'rgba(239,68,68,0.45)' : isStreaming ? 'rgba(197, 248, 42, 0.4)' : 'var(--border)'}`,
+          borderRadius: 16, padding: '12px 14px',
+          boxShadow: isStreaming 
+            ? '0 -6px 28px rgba(0,0,0,0.12), 0 0 0 2px rgba(197, 248, 42, 0.1)' 
+            : '0 -6px 28px rgba(0,0,0,0.12)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          transition: 'all 0.2s ease',
         }}>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
             <AutoGrowTextarea ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
-              placeholder={isListening ? 'Listening…' : isStreaming ? 'Working…' : 'Message your assistant…'}
+              placeholder={isListening ? 'Listening...' : isStreaming ? 'Working...' : 'Ask your second brain...'}
               disabled={isStreaming}
               rows={1}
               maxHeight={200}
               className="bare-input"
               data-testid="agent-composer-input"
-              style={{ flex: 1, color: 'var(--text-1)', fontSize: 14, fontFamily: 'inherit', lineHeight: 1.5, padding: '8px 6px', minHeight: 24 }}
+              style={{ flex: 1, color: 'var(--text-1)', fontSize: 14, fontFamily: 'inherit', lineHeight: 1.5, padding: '10px 8px', minHeight: 26 }}
               title="Press Enter to send, Shift + Enter for a new line"
             />
             <button onClick={toggleVoice}
               title={isListening ? 'Stop voice input' : 'Use voice input'}
               aria-label={isListening ? 'Stop voice input' : 'Use voice input'}
-              style={{ width: 36, height: 36, borderRadius: 9, border: 'none', cursor: 'pointer', flexShrink: 0, background: isListening ? 'rgba(239,68,68,0.15)' : 'var(--surface-2)', display: 'grid', placeItems: 'center', transition: 'all 0.15s' }}>
-              {isListening ? <MicOff size={15} color="#ef4444" style={{ animation: 'pulse 1s ease-in-out infinite' }} /> : <Mic size={15} color="var(--text-3)" />}
+              style={{ 
+                width: 38, height: 38, borderRadius: 10, border: 'none', cursor: 'pointer', flexShrink: 0, 
+                background: isListening ? 'rgba(239,68,68,0.15)' : 'var(--surface-2)', 
+                display: 'grid', placeItems: 'center', 
+                transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}>
+              {isListening ? <MicOff size={16} color="#ef4444" style={{ animation: 'pulse 1s ease-in-out infinite' }} /> : <Mic size={16} color="var(--text-3)" />}
             </button>
             <button onClick={() => setLiveOpen(o => !o)}
               title={liveOpen ? 'Close voice mode' : 'Talk live'}
               aria-label={liveOpen ? 'Close voice mode' : 'Talk live'}
               aria-expanded={liveOpen}
-              style={{ width: 36, height: 36, borderRadius: 9, border: 'none', cursor: 'pointer', flexShrink: 0,
-                  background: liveOpen ? 'linear-gradient(135deg,#6366f1,#06b6d4)' : 'var(--surface-2)',
-                  display: 'grid', placeItems: 'center', transition: 'all 0.15s',
-                  boxShadow: liveOpen ? '0 2px 10px rgba(99,102,241,0.35)' : 'none' }}>
-              <Radio size={15} color={liveOpen ? '#fff' : 'var(--text-3)'} />
+              style={{ 
+                width: 38, height: 38, borderRadius: 10, border: 'none', cursor: 'pointer', flexShrink: 0,
+                background: liveOpen ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.9), rgba(163, 230, 53, 0.85))' : 'var(--surface-2)',
+                display: 'grid', placeItems: 'center', 
+                transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                boxShadow: liveOpen ? '0 4px 16px rgba(197, 248, 42, 0.35)' : 'none',
+              }}>
+              <Radio size={16} color={liveOpen ? '#0a0a0b' : 'var(--text-3)'} />
             </button>
             <button onClick={() => handleSend()} disabled={!input.trim() || isStreaming}
               aria-label="Send message"
               data-testid="agent-composer-send"
-              style={{ minWidth: 80, height: 36, borderRadius: 10, border: 'none', cursor: input.trim() && !isStreaming ? 'pointer' : 'default', fontFamily: 'inherit', flexShrink: 0,
-                  background: input.trim() && !isStreaming ? 'linear-gradient(135deg,#6366f1,#4f46e5)' : 'var(--surface-3)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '0 14px',
-                  color: input.trim() && !isStreaming ? '#fff' : 'var(--text-3)', fontSize: 13, fontWeight: 700,
-                  transition: 'all 0.15s' }}>
+              style={{ 
+                minWidth: 88, height: 38, borderRadius: 10, border: 'none', 
+                cursor: input.trim() && !isStreaming ? 'pointer' : 'default', 
+                fontFamily: 'inherit', flexShrink: 0,
+                background: input.trim() && !isStreaming 
+                  ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.95) 0%, rgba(163, 230, 53, 0.9) 100%)' 
+                  : 'var(--surface-3)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '0 16px',
+                color: input.trim() && !isStreaming ? '#0a0a0b' : 'var(--text-3)', 
+                fontSize: 13, fontWeight: 700,
+                transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                boxShadow: input.trim() && !isStreaming ? '0 4px 16px -4px rgba(197, 248, 42, 0.4)' : 'none',
+              }}>
               {isStreaming ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <><Send size={14} /> Send</>}
             </button>
           </div>

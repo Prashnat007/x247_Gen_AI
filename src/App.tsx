@@ -183,7 +183,7 @@ const CORE_NAV = [
   { id: 'briefing',  label: 'Daily Briefing', desc: 'Today, with audio & actions', path: '/briefing',  icon: Sparkles,        color: '#8b5cf6', shortcut: '2' },
   { id: 'library',   label: 'Library',        desc: 'Vault, notes, files & inbox', path: '/library',   icon: Library,         color: '#f472b6', shortcut: '3' },
   { id: 'recall',    label: 'Recall AI',      desc: 'Ask & get answers',           path: '/recall',    icon: Bot,             color: '#00d4ff', shortcut: '4' },
-  { id: 'agent',     label: 'Agent Hub',      desc: 'Multi-agent workflows',       path: '/agent',     icon: Cpu,             color: '#a78bfa', shortcut: '5' },
+  { id: 'agent',     label: 'Agent Hub',      desc: 'Multi-agent workflows',       path: '/agent',     icon: Cpu,             color: '#c5f82a', shortcut: '5' },
 ];
 
 // ── Tools nav — workspace + learning destinations, always flat ──────────────
@@ -218,8 +218,14 @@ const SidebarNavItem = React.memo(({
   badgeCount, badgeCapped, badgeTitle,
 }: SidebarNavItemProps) => {
   const [hovered, setHovered] = useState(false);
-  const bg = active ? `${color}18` : hovered ? 'var(--surface-2)' : 'transparent';
-  const shadow = active ? `inset 0 0 0 1px ${color}28` : 'none';
+  // Use lime accent for active state
+  const accentColor = active ? '#c5f82a' : color;
+  const bg = active 
+    ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.12) 0%, rgba(197, 248, 42, 0.06) 100%)' 
+    : hovered ? 'var(--surface-2)' : 'transparent';
+  const shadow = active 
+    ? 'inset 0 0 0 1px rgba(197, 248, 42, 0.25), 0 2px 8px -2px rgba(197, 248, 42, 0.15)' 
+    : hovered ? '0 1px 4px -2px rgba(0,0,0,0.1)' : 'none';
   return (
     <button
       onClick={() => navigate(path)}
@@ -228,30 +234,36 @@ const SidebarNavItem = React.memo(({
       onMouseLeave={() => setHovered(false)}
       style={{
         display: 'flex', alignItems: 'center', gap: 10,
-        padding: isCollapsed ? '9px 0' : '7px 10px',
-        borderRadius: 9, border: 'none',
+        padding: isCollapsed ? '9px 0' : '8px 12px',
+        borderRadius: 10, border: 'none',
         background: bg, boxShadow: shadow,
         cursor: 'pointer',
-        transition: 'background 0.14s ease, box-shadow 0.14s ease',
+        transition: 'all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)',
         position: 'relative',
         justifyContent: isCollapsed ? 'center' : 'flex-start',
-        width: '100%', marginBottom: 1, fontFamily: 'inherit',
+        width: '100%', marginBottom: 2, fontFamily: 'inherit',
+        transform: hovered && !active ? 'translateX(2px)' : 'none',
       }}>
       {active && (
         <div style={{
-          position: 'absolute', left: 0, top: '18%', bottom: '18%', width: 3,
-          background: `linear-gradient(to bottom, ${color}, ${color}88)`,
-          borderRadius: '0 3px 3px 0',
+          position: 'absolute', left: 0, top: '15%', bottom: '15%', width: 3,
+          background: 'linear-gradient(to bottom, #c5f82a, #a3e635)',
+          borderRadius: '0 4px 4px 0',
+          boxShadow: '0 0 8px rgba(197, 248, 42, 0.5)',
         }} />
       )}
       <div style={{
-        width: 28, height: 28, borderRadius: 7, flexShrink: 0,
+        width: 30, height: 30, borderRadius: 8, flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: active ? `${color}22` : 'transparent',
-        transition: 'background 0.14s ease',
+        background: active 
+          ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.2) 0%, rgba(197, 248, 42, 0.1) 100%)' 
+          : hovered ? 'var(--surface-3)' : 'transparent',
+        border: active ? '1px solid rgba(197, 248, 42, 0.25)' : '1px solid transparent',
+        transition: 'all 0.18s ease',
         position: 'relative',
+        boxShadow: active ? '0 2px 6px -2px rgba(197, 248, 42, 0.3)' : 'none',
       }}>
-        <Icon size={15} color={active ? color : hovered ? 'var(--text-2)' : 'var(--text-3)'} strokeWidth={active ? 2 : 1.75} />
+        <Icon size={16} color={active ? '#c5f82a' : hovered ? 'var(--text-1)' : 'var(--text-3)'} strokeWidth={active ? 2 : 1.75} />
         {/* Collapsed-mode badge: a small red dot pinned to the icon */}
         {isCollapsed && badgeCount !== undefined && badgeCount > 0 && (
           <span
@@ -318,12 +330,23 @@ SidebarNavItem.displayName = 'SidebarNavItem';
 // Divider with optional label — also at module level for the same reason.
 const SidebarSectionLabel = React.memo(({ label, isCollapsed }: { label: string; isCollapsed: boolean }) => (
   !isCollapsed ? (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 10px 4px', marginTop: 2 }}>
-      <span style={{ color: 'var(--text-3)', fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', flexShrink: 0 }}>{label}</span>
-      <div style={{ flex: 1, height: 1, background: 'var(--border)', opacity: 0.6 }} />
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 12px 6px', marginTop: 4 }}>
+      <span style={{ 
+        color: '#c5f82a', 
+        fontSize: 9.5, 
+        fontWeight: 700, 
+        letterSpacing: '1.2px', 
+        textTransform: 'uppercase', 
+        flexShrink: 0,
+        padding: '2px 6px',
+        background: 'rgba(197, 248, 42, 0.08)',
+        borderRadius: 4,
+        border: '1px solid rgba(197, 248, 42, 0.15)',
+      }}>{label}</span>
+      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(197, 248, 42, 0.2), transparent)', opacity: 0.8 }} />
     </div>
   ) : (
-    <div style={{ height: 1, background: 'var(--border)', margin: '8px 10px', opacity: 0.5 }} />
+    <div style={{ height: 1, background: 'linear-gradient(90deg, rgba(197, 248, 42, 0.3), transparent)', margin: '10px 10px', opacity: 0.6 }} />
   )
 ));
 SidebarSectionLabel.displayName = 'SidebarSectionLabel';
@@ -458,14 +481,14 @@ const Sidebar = ({
                   title={activeNav.label}
                   aria-label={`Current page: ${activeNav.label}`}
                   style={{
-                    width: 26, height: 26, borderRadius: 7,
+                    width: 28, height: 28, borderRadius: 8,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: `${activeNav.color}1f`,
-                    boxShadow: `inset 0 0 0 1px ${activeNav.color}33`,
+                    background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.15) 0%, rgba(197, 248, 42, 0.08) 100%)',
+                    boxShadow: 'inset 0 0 0 1px rgba(197, 248, 42, 0.25), 0 2px 6px -2px rgba(197, 248, 42, 0.2)',
                     flexShrink: 0,
                   }}
                 >
-                  <ActiveIcon size={14} color={activeNav.color} strokeWidth={2} />
+                  <ActiveIcon size={14} color="#c5f82a" strokeWidth={2} />
                 </div>
               );
             })()}
@@ -494,24 +517,25 @@ const Sidebar = ({
       {/* ── System Ready badge ──────────────────────────────────────────────── */}
       {!isCollapsed ? (
         <div style={{
-          margin: '10px 10px 2px',
-          padding: '6px 10px',
-          background: 'rgba(16,185,129,0.07)',
-          border: '1px solid rgba(16,185,129,0.18)',
-          borderRadius: 8,
-          display: 'flex', alignItems: 'center', gap: 8,
+          margin: '12px 12px 4px',
+          padding: '8px 12px',
+          background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.08) 0%, rgba(197, 248, 42, 0.03) 100%)',
+          border: '1px solid rgba(197, 248, 42, 0.2)',
+          borderRadius: 10,
+          display: 'flex', alignItems: 'center', gap: 10,
           flexShrink: 0,
+          boxShadow: '0 2px 8px -4px rgba(197, 248, 42, 0.15)',
         }}>
-          <div style={{ position: 'relative', width: 7, height: 7, flexShrink: 0 }}>
-            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 5px rgba(16,185,129,0.7)', animation: 'sidebarPulse 2.4s ease-in-out infinite' }} />
+          <div style={{ position: 'relative', width: 8, height: 8, flexShrink: 0 }}>
+            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#c5f82a', boxShadow: '0 0 8px rgba(197, 248, 42, 0.7)', animation: 'sidebarPulse 2.4s ease-in-out infinite' }} />
           </div>
-          <span style={{ color: '#10b981', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.15px', flex: 1 }}>System Ready</span>
-          <span style={{ color: 'var(--text-3)', fontSize: 9.5 }}>
+          <span style={{ color: '#c5f82a', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.2px', flex: 1 }}>LIVE</span>
+          <span style={{ color: 'var(--text-3)', fontSize: 9.5, fontWeight: 500 }}>
             {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
           </span>
         </div>
       ) : (
-        <div title="System Ready" style={{ margin: '10px auto 2px', width: 7, height: 7, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 6px rgba(16,185,129,0.6)', flexShrink: 0, animation: 'sidebarPulse 2.4s ease-in-out infinite' }} />
+        <div title="System Live" style={{ margin: '10px auto 2px', width: 8, height: 8, borderRadius: '50%', background: '#c5f82a', boxShadow: '0 0 8px rgba(197, 248, 42, 0.6)', flexShrink: 0, animation: 'sidebarPulse 2.4s ease-in-out infinite' }} />
       )}
 
       {/* ── Scrollable nav area ─────────────────────────────────────────────── */}
@@ -575,7 +599,7 @@ const Sidebar = ({
           onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.background = 'var(--surface-2)'; }}>
           {user?.photoURL
             ? <img src={user.photoURL} alt="avatar" style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '2px solid rgba(99,102,241,0.3)' }} />
-            : <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg,#6366f1,#4f46e5)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#fff', fontSize: 12, fontWeight: 700, letterSpacing: '-0.3px', border: '2px solid rgba(99,102,241,0.3)' }}>
+            : <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.9), rgba(163, 230, 53, 0.85))', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#0a0a0b', fontSize: 12, fontWeight: 700, letterSpacing: '-0.3px', border: '2px solid rgba(197, 248, 42, 0.3)' }}>
                 {user?.displayName?.[0]?.toUpperCase() ?? 'U'}
               </div>
           }
@@ -1100,7 +1124,7 @@ function AppRouter() {
   const [authLoading, setAuthLoading] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    (localStorage.getItem('recall-theme-v2') as 'light' | 'dark') || 'light'
+    (localStorage.getItem('recall-theme-v2') as 'light' | 'dark') || 'dark'
   );
   const navigate = useNavigate();
 
