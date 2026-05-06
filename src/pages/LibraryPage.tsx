@@ -64,8 +64,8 @@ const LibraryPage: React.FC = () => {
   return (
     <TabbedPage
       icon={Library}
-      iconColor="#f472b6"
-      iconBg="rgba(244,114,182,0.15)"
+      iconColor="#c5f82a"
+      iconBg="rgba(197,248,42,0.15)"
       title="Library"
       subtitle="Vault, notes, bookmarks, files, inbox, tasks, habits, flashcards & revisits — your full second brain in one place"
       hub="library"

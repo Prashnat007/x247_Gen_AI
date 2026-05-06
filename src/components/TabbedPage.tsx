@@ -93,8 +93,8 @@ const TabbedPage: React.FC<Props> = ({
           screen, so it's safe to declare globally. */}
       <style>{`
         @keyframes tabbed-urgent-pulse {
-          0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.55); }
-          50%     { box-shadow: 0 0 0 4px rgba(239,68,68,0); }
+          0%,100% { box-shadow: 0 0 0 0 rgba(197,248,42,0.55); }
+          50%     { box-shadow: 0 0 0 4px rgba(197,248,42,0); }
         }
       `}</style>
       {hub && <LegacyRedirectBanner hub={hub} />}
@@ -167,16 +167,14 @@ const TabbedPage: React.FC<Props> = ({
                   boxShadow: isActive
                     ? 'var(--shadow-sm)'
                     : isUrgent
-                      // Soft red halo so the eye lands on the tab even
-                      // before the user reads the pill. Matches the
-                      // sidebar's #ef4444 accent.
-                      ? '0 0 0 1px rgba(239,68,68,0.35), 0 0 12px rgba(239,68,68,0.25)'
+                      // Soft neon glow so the eye lands on the tab
+                      ? '0 0 0 1px rgba(197,248,42,0.35), 0 0 12px rgba(197,248,42,0.25)'
                       : 'none',
                   display: 'flex', alignItems: 'center', gap: 6,
                   whiteSpace: 'nowrap',
                 }}
               >
-                {TabIcon && <TabIcon size={13} color={isUrgent && !isActive ? '#ef4444' : undefined} />}
+                {TabIcon && <TabIcon size={13} color={isUrgent && !isActive ? '#c5f82a' : undefined} />}
                 {t.label}
                 {hasBadge && (
                   isUrgent ? (
@@ -196,8 +194,8 @@ const TabbedPage: React.FC<Props> = ({
                         fontWeight: 700,
                         lineHeight: '16px',
                         textAlign: 'center',
-                        background: '#ef4444',
-                        color: '#fff',
+                        background: '#c5f82a',
+                        color: '#0a0a0a',
                         letterSpacing: '0.2px',
                         whiteSpace: 'nowrap',
                         animation: 'tabbed-urgent-pulse 1.8s ease-in-out infinite',

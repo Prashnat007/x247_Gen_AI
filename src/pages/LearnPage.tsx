@@ -10,8 +10,8 @@ const LearnPage: React.FC = () => {
   return (
     <TabbedPage
       icon={GraduationCap}
-      iconColor="#7c3aed"
-      iconBg="rgba(124,58,237,0.15)"
+      iconColor="#c5f82a"
+      iconBg="rgba(197,248,42,0.15)"
       title="Learn"
       subtitle="Plans, flashcards, and revisits — everything that helps you remember"
       hub="learn"

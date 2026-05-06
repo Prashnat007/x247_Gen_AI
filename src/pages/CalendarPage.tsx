@@ -23,13 +23,14 @@ type EventItem = {
 
 type Topic = { id: string; label: string; color: string };
 
+const NEON = '#c5f82a';
 const FALLBACK_TOPICS: Topic[] = [
-  { id: 'Study',    label: 'Study',    color: '#6366f1' },
-  { id: 'Work',     label: 'Work',     color: '#06b6d4' },
-  { id: 'Personal', label: 'Personal', color: '#10b981' },
-  { id: 'Research', label: 'Research', color: '#f59e0b' },
-  { id: 'Health',   label: 'Health',   color: '#ef4444' },
-  { id: 'Other',    label: 'Other',    color: '#94a3b8' },
+  { id: 'Study',    label: 'Study',    color: NEON },
+  { id: 'Work',     label: 'Work',     color: NEON },
+  { id: 'Personal', label: 'Personal', color: NEON },
+  { id: 'Research', label: 'Research', color: NEON },
+  { id: 'Health',   label: 'Health',   color: NEON },
+  { id: 'Other',    label: 'Other',    color: NEON },
 ];
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -601,7 +602,7 @@ const CalendarModule: React.FC = () => {
           <ModalShell onClose={() => setEventDetail(null)} maxWidth={460}>
             <ModalHeader title={eventDetail.title} onClose={() => setEventDetail(null)} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 13 }}>
-              <Pill label="When" value={`${eventDetail.date} · ${eventDetail.time} · ${eventDetail.duration_minutes || 60} min`} />
+              <Pill label="When" value={`${eventDetail.date} · ${eventDetail.time} �� ${eventDetail.duration_minutes || 60} min`} />
               <Pill label="Topic" value={eventDetail.topic || 'Other'} color={colorOf(eventDetail)} />
               {eventDetail.source && eventDetail.source !== 'manual' && (
                 <Pill label="Source" value={eventDetail.source} />

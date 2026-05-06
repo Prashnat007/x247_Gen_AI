@@ -61,14 +61,15 @@ const buildWelcomeMsg = (): AgentMsg => ({
 // fires a real message — surfaced as colorful action cards on the welcome
 // screen and as a compact chip strip above the input once a conversation
 // is in flight (so common follow-ups stay one tap away).
+const NEON = '#c5f82a';
 type Suggestion = { label: string; msg: string; icon: LucideIcon; color: string };
 const SUGGESTIONS: Suggestion[] = [
-  { label: 'Plan my day',         msg: 'Give me my daily briefing with what I should focus on today.',         icon: Sparkles,      color: '#f59e0b' },
-  { label: 'Show my tasks',       msg: 'Show me all my pending tasks and help me prioritise them.',            icon: ListChecks,    color: '#22d3ee' },
-  { label: 'Recall recent saves', msg: 'Recall the most important things I have saved recently.',              icon: SearchIcon,    color: '#a78bfa' },
-  { label: 'Build a study plan',  msg: 'Create a study plan for this week and put it on my calendar.',         icon: GraduationCap, color: '#10b981' },
-  { label: 'What is on my calendar?', msg: 'What is on my calendar this week?',                                icon: CalendarDays,  color: '#f472b6' },
-  { label: 'Quiz me',             msg: 'Quiz me on what I have been learning this week using my flashcards.',  icon: Brain,         color: '#6366f1' },
+  { label: 'Plan my day',         msg: 'Give me my daily briefing with what I should focus on today.',         icon: Sparkles,      color: NEON },
+  { label: 'Show my tasks',       msg: 'Show me all my pending tasks and help me prioritise them.',            icon: ListChecks,    color: NEON },
+  { label: 'Recall recent saves', msg: 'Recall the most important things I have saved recently.',              icon: SearchIcon,    color: NEON },
+  { label: 'Build a study plan',  msg: 'Create a study plan for this week and put it on my calendar.',         icon: GraduationCap, color: NEON },
+  { label: 'What is on my calendar?', msg: 'What is on my calendar this week?',                                icon: CalendarDays,  color: NEON },
+  { label: 'Quiz me',             msg: 'Quiz me on what I have been learning this week using my flashcards.',  icon: Brain,         color: NEON },
 ];
 
 // Contextual follow-up chips shown immediately under an assistant reply that

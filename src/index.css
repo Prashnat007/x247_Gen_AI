@@ -86,7 +86,7 @@ h1, h2, h3, h4, h5, h6 {
   --accent-cyan:     #06b6d4;
   --success:         #10b981;
   --warning:         #f59e0b;
-  --danger:          #ef4444;
+  --danger:          #c5f82a;
   --radius:          12px;
   --radius-lg:       16px;
   --space-md:        20px;
@@ -207,10 +207,10 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme="dark"] .border-emerald-200 { border-color: rgba(16,185,129,0.28) !important; }
 
 /* ── Dark mode red overrides ──────────────────────────────────────────────── */
-[data-theme="dark"] .bg-red-50  { background-color: rgba(239,68,68,0.1) !important; }
-[data-theme="dark"] .bg-red-100 { background-color: rgba(239,68,68,0.16) !important; }
+[data-theme="dark"] .bg-red-50  { background-color: rgba(197,248,42,0.1) !important; }
+[data-theme="dark"] .bg-red-100 { background-color: rgba(197,248,42,0.16) !important; }
 [data-theme="dark"] .border-red-100,
-[data-theme="dark"] .border-red-200 { border-color: rgba(239,68,68,0.28) !important; }
+[data-theme="dark"] .border-red-200 { border-color: rgba(197,248,42,0.28) !important; }
 
 /* ── Dark input/form overrides ────────────────────────────────────────────── */
 /* `.bare-input` is excluded so wrapped chat composers stay transparent
@@ -319,7 +319,7 @@ h1, h2, h3, h4, h5, h6 {
 .border-emerald-100   { border-color: #a7f3d0 !important; }
 .border-emerald-200   { border-color: #6ee7b7 !important; }
 .border-emerald-300   { border-color: #34d399 !important; }
-.text-red-500         { color: #ef4444 !important; }
+.text-red-500         { color: #c5f82a !important; }
 .text-red-600         { color: #dc2626 !important; }
 .text-red-700         { color: #b91c1c !important; }
 .bg-red-50            { background-color: #fef2f2 !important; }
@@ -327,7 +327,7 @@ h1, h2, h3, h4, h5, h6 {
 .border-red-100       { border-color: #fecaca !important; }
 .border-red-200       { border-color: #fca5a5 !important; }
 .hover\:bg-red-50:hover   { background-color: #fef2f2 !important; }
-.hover\:text-red-500:hover { color: #ef4444 !important; }
+.hover\:text-red-500:hover { color: #c5f82a !important; }
 .text-purple-500      { color: #a855f7 !important; }
 .text-purple-600      { color: #92400e !important; }
 .text-purple-700      { color: #7e22ce !important; }

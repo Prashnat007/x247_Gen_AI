@@ -32,13 +32,13 @@ const FocusPage: React.FC = () => {
         <div
           style={{
             width: 40, height: 40, borderRadius: 11,
-            background: 'rgba(16,185,129,0.15)',
-            border: '1px solid rgba(16,185,129,0.4)',
+            background: 'rgba(197,248,42,0.15)',
+            border: '1px solid rgba(197,248,42,0.4)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
           }}
         >
-          <Target size={19} color="#10b981" />
+          <Target size={19} color="#c5f82a" />
         </div>
         <div style={{ minWidth: 0 }}>
           <h1 style={{ fontSize: 22, fontWeight: 800, margin: 0, letterSpacing: '-0.4px', color: 'var(--text-1)' }}>Focus</h1>
@@ -57,7 +57,7 @@ const FocusPage: React.FC = () => {
             fontSize: 11, letterSpacing: '1.4px', textTransform: 'uppercase', fontWeight: 700,
           }}
         >
-          <Flame size={12} color="#f59e0b" />
+          <Flame size={12} color="#c5f82a" />
           Daily rituals
         </div>
         <Suspense fallback={<SectionFallback />}>

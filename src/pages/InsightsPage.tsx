@@ -10,8 +10,8 @@ const InsightsPage: React.FC = () => {
   return (
     <TabbedPage
       icon={BarChart2}
-      iconColor="#10b981"
-      iconBg="rgba(16,185,129,0.15)"
+      iconColor="#c5f82a"
+      iconBg="rgba(197,248,42,0.15)"
       title="Insights"
       subtitle="Timeline, mind graph, and analytics — see your knowledge from every angle"
       hub="insights"
