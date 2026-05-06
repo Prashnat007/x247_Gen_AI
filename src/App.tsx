@@ -1124,7 +1124,7 @@ function AppRouter() {
   const [authLoading, setAuthLoading] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    (localStorage.getItem('recall-theme-v2') as 'light' | 'dark') || 'light'
+    (localStorage.getItem('recall-theme-v2') as 'light' | 'dark') || 'dark'
   );
   const navigate = useNavigate();
 
