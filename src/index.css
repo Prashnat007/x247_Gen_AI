@@ -28,13 +28,13 @@ html { scroll-behavior: smooth; }
 .scroll-custom, .agent-messages { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 
 @layer base {
-  body { background: var(--bg); color: var(--text-1); }
+  body { background: var(--bg); color: var(--text-1); overflow-x: hidden; }
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     z-index: -2;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(197, 248, 42, 0.04) 0%, transparent 70%);
     pointer-events: none;
     transition: background 0.2s ease;
   }

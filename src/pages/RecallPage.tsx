@@ -39,8 +39,9 @@ interface RecallMessage {
   streaming?: boolean;
 }
 
+const NEON = '#c5f82a';
 const SRC_ICON: Record<string, any> = { youtube: Youtube, web: Globe, pdf: FileText, note: StickyNote };
-const SRC_CLR: Record<string, string> = { youtube: '#ef4444', web: '#00d4ff', pdf: '#f59e0b', note: '#10b981' };
+const SRC_CLR: Record<string, string> = { youtube: NEON, web: NEON, pdf: NEON, note: NEON };
 
 const QUICK_PROMPTS = [
   { icon: Sparkles, label: 'Top insights', q: 'Give me my top 5 insights from across everything I have saved.' },

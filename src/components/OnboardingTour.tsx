@@ -7,6 +7,9 @@ import {
   GraduationCap, Compass, BarChart2, Plug, Settings,
 } from 'lucide-react';
 
+// Single neon green accent
+const NEON = '#c5f82a';
+
 const STEPS = [
   {
     eyebrow: 'WELCOME TO RECALL X247',
@@ -14,7 +17,7 @@ const STEPS = [
     description:
       'Seven specialist AI agents capture, link, and recall everything you learn — so every idea is one question away. Forever.',
     icon: Sparkles,
-    accent: '#3b82f6',
+    accent: NEON,
     chips: [
       { icon: LayoutDashboard, label: 'Dashboard' },
       { icon: Library,         label: 'Library' },
@@ -28,7 +31,7 @@ const STEPS = [
     description:
       'Dashboard for your daily overview. Library now holds Vault, Notes, Bookmarks, Files and your Inbox as tabs in one place. Recall AI answers questions in plain English. Agent Hub runs multi-agent workflows.',
     icon: Library,
-    accent: '#f472b6',
+    accent: NEON,
     chips: [
       { icon: LayoutDashboard, label: 'Dashboard' },
       { icon: Library,         label: 'Library' },
@@ -42,7 +45,7 @@ const STEPS = [
     description:
       'The Workspace group keeps Projects, Focus and Calendar one click apart. Tasks and Habits now live as sections inside Focus, so your daily rituals and to-dos share a single screen.',
     icon: Kanban,
-    accent: '#f59e0b',
+    accent: NEON,
     chips: [
       { icon: Kanban,       label: 'Projects' },
       { icon: Target,       label: 'Focus' },
@@ -56,7 +59,7 @@ const STEPS = [
     description:
       'Learn brings Study Plan, Flashcards and Revisits together as tabs. Discover surfaces fresh ideas based on what you save. Insights merges Timeline, Mind Graph and Analytics into one hub. Integrations and Settings sit quietly in the footer when you need them.',
     icon: GraduationCap,
-    accent: '#7c3aed',
+    accent: NEON,
     chips: [
       { icon: GraduationCap, label: 'Learn' },
       { icon: Compass,       label: 'Discover' },
@@ -70,7 +73,7 @@ const STEPS = [
     description:
       'Capture something, ask a question, or just take a look around. You can re-open this tour any time from Settings.',
     icon: Sparkles,
-    accent: '#3b82f6',
+    accent: NEON,
     chips: [
       { icon: Plus,     label: 'Capture' },
       { icon: Bot,      label: 'Recall AI' },
@@ -141,11 +144,12 @@ export default function OnboardingTour({
             width: '100%', maxWidth: 540,
             maxHeight: '92vh',
             overflowY: 'auto',
-            background: 'linear-gradient(180deg, rgba(13,21,38,0.96) 0%, rgba(8,14,28,0.98) 100%)',
-            border: '1px solid rgba(59,130,246,0.22)',
-            borderRadius: 22,
+            overflowX: 'hidden',
+            background: 'linear-gradient(180deg, rgba(13,13,13,0.98) 0%, rgba(10,10,11,0.99) 100%)',
+            border: '1px solid rgba(197,248,42,0.2)',
+            borderRadius: 20,
             padding: '28px 28px 22px',
-            boxShadow: '0 30px 80px -20px rgba(0,0,0,0.7), 0 0 60px -10px rgba(59,130,246,0.18), inset 0 1px 0 rgba(255,255,255,0.05)',
+            boxShadow: '0 30px 80px -20px rgba(0,0,0,0.8), 0 0 60px -10px rgba(197,248,42,0.12), inset 0 1px 0 rgba(255,255,255,0.03)',
             color: '#f4f6fb',
           }}
         >
@@ -261,9 +265,9 @@ export default function OnboardingTour({
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 18 }}>
                   {[
-                    { icon: Plus,     label: 'Capture your first item',  desc: 'Paste a link, video or note — lands in Library Inbox', color: '#22d3ee', path: '/library?tab=inbox' },
-                    { icon: Bot,      label: 'Try Recall AI',            desc: 'Ask a question in plain English',                      color: '#3b82f6', path: '/recall' },
-                    { icon: Library,  label: 'Browse your Library',      desc: 'Vault, Notes, Bookmarks, Files — all in one place',    color: '#f472b6', path: '/library' },
+                    { icon: Plus,     label: 'Capture your first item',  desc: 'Paste a link, video or note — lands in Library Inbox', color: NEON, path: '/library?tab=inbox' },
+                    { icon: Bot,      label: 'Try Recall AI',            desc: 'Ask a question in plain English',                      color: NEON, path: '/recall' },
+                    { icon: Library,  label: 'Browse your Library',      desc: 'Vault, Notes, Bookmarks, Files — all in one place',    color: NEON, path: '/library' },
                   ].map((q, i) => {
                     const QIcon = q.icon;
                     return (
@@ -350,17 +354,17 @@ export default function OnboardingTour({
                 onClick={() => isLast ? handleFinish() : setStep(s => s + 1)}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '9px 18px',
-                  background: `linear-gradient(135deg, ${s.accent}, ${s.accent}cc)`,
-                  border: `1px solid ${s.accent}`,
+                  padding: '10px 20px',
+                  background: NEON,
+                  border: `1px solid ${NEON}`,
                   borderRadius: 10,
-                  color: '#fff', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.02em',
+                  color: '#0a0a0a', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.02em',
                   cursor: 'pointer', fontFamily: 'inherit',
-                  boxShadow: `0 4px 16px ${s.accent}55, inset 0 1px 0 rgba(255,255,255,0.2)`,
+                  boxShadow: `0 4px 16px rgba(197,248,42,0.35)`,
                   transition: 'all 0.18s',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 6px 22px ${s.accent}77, inset 0 1px 0 rgba(255,255,255,0.2)`; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 16px ${s.accent}55, inset 0 1px 0 rgba(255,255,255,0.2)`; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 6px 22px rgba(197,248,42,0.5)`; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 16px rgba(197,248,42,0.35)`; }}
               >
                 {isLast ? <>I'll explore on my own <Sparkles size={13} /></> : <>Next <ArrowRight size={13} /></>}
               </button>
