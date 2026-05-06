@@ -177,13 +177,16 @@ const RouteSuspenseFallback = () => (
   </div>
 );
 
+// ── Single neon green accent for entire app ──────
+const NEON = '#c5f82a';
+
 // ── Core nav — the 5 daily-driver pages, each with a keyboard shortcut ──────
 const CORE_NAV = [
-  { id: 'dashboard', label: 'Dashboard',      desc: 'Your daily overview',         path: '/dashboard', icon: LayoutDashboard, color: '#3b82f6', shortcut: '1' },
-  { id: 'briefing',  label: 'Daily Briefing', desc: 'Today, with audio & actions', path: '/briefing',  icon: Sparkles,        color: '#8b5cf6', shortcut: '2' },
-  { id: 'library',   label: 'Library',        desc: 'Vault, notes, files & inbox', path: '/library',   icon: Library,         color: '#f472b6', shortcut: '3' },
-  { id: 'recall',    label: 'Recall AI',      desc: 'Ask & get answers',           path: '/recall',    icon: Bot,             color: '#00d4ff', shortcut: '4' },
-  { id: 'agent',     label: 'Agent Hub',      desc: 'Multi-agent workflows',       path: '/agent',     icon: Cpu,             color: '#c5f82a', shortcut: '5' },
+  { id: 'dashboard', label: 'Dashboard',      desc: 'Your daily overview',         path: '/dashboard', icon: LayoutDashboard, color: NEON, shortcut: '1' },
+  { id: 'briefing',  label: 'Daily Briefing', desc: 'Today, with audio & actions', path: '/briefing',  icon: Sparkles,        color: NEON, shortcut: '2' },
+  { id: 'library',   label: 'Library',        desc: 'Vault, notes, files & inbox', path: '/library',   icon: Library,         color: NEON, shortcut: '3' },
+  { id: 'recall',    label: 'Recall AI',      desc: 'Ask & get answers',           path: '/recall',    icon: Bot,             color: NEON, shortcut: '4' },
+  { id: 'agent',     label: 'Agent Hub',      desc: 'Multi-agent workflows',       path: '/agent',     icon: Cpu,             color: NEON, shortcut: '5' },
 ];
 
 // ── Tools nav — workspace + learning destinations, always flat ──────────────
