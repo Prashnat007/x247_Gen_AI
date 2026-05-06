@@ -38,10 +38,11 @@ type DashAdvanced = {
   totals?: Record<string, number>;
 };
 
-// Lime-accent color palette matching landing page
-const DOMAIN_COLORS = ['#c5f82a', '#7c3aed', '#06b6d4', '#10b981', '#f59e0b', '#f472b6'];
+// Single neon green accent for entire app
+const NEON = '#c5f82a';
+const DOMAIN_COLORS = [NEON, NEON, NEON, NEON, NEON, NEON];
 const SRC_ICON: Record<string, any> = { youtube: Youtube, web: Globe, pdf: FileText, note: StickyNote };
-const SRC_CLR: Record<string, string> = { youtube: '#ef4444', web: '#06b6d4', pdf: '#f59e0b', note: '#c5f82a' };
+const SRC_CLR: Record<string, string> = { youtube: NEON, web: NEON, pdf: NEON, note: NEON };
 
 type SectionHeaderProps = {
   icon: any;
@@ -244,16 +245,16 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     ? domains.slice(0, 6).map((d: any) => ({ subject: d.name, value: d.value, fullMark: Math.max(...domains.map((x: any) => x.value)) + 1 }))
     : [{ subject: 'AI/ML', value: 0, fullMark: 10 }, { subject: 'Science', value: 0, fullMark: 10 }, { subject: 'Tech', value: 0, fullMark: 10 }, { subject: 'Business', value: 0, fullMark: 10 }, { subject: 'Health', value: 0, fullMark: 10 }];
 
-  // Stat cards with lime green accent theme matching landing page
+  // All stat cards use single neon green accent
   const statCards = [
-    { label: 'Neural Memories', value: totalMem, icon: Brain, color: '#c5f82a', trend: '+12%', sub: 'Total captured', route: '/vault' },
-    { label: 'Pending Tasks', value: stats?.pending_tasks ?? 0, icon: CheckSquare, color: '#7c3aed', trend: '2 due today', sub: 'Open tasks', route: '/tasks' },
-    { label: 'AI Interactions', value: stats?.ai_interactions ?? 0, icon: Sparkles, color: '#06b6d4', trend: 'Lifetime', sub: 'Recall queries', route: '/recall' },
-    { label: 'Knowledge Domains', value: domains.length, icon: Network, color: '#10b981', trend: 'Active', sub: 'Topics tracked', route: '/graph' },
-    { label: 'Flashcards', value: stats?.flashcards ?? 0, icon: GraduationCap, color: '#f59e0b', trend: 'Study ready', sub: 'Created', route: '/flashcards' },
-    { label: 'Learning Streak', value: stats?.streak_days ?? 0, icon: Zap, color: '#c5f82a', trend: 'Days', sub: 'Current streak', route: '/flashcards' },
-    { label: 'Focus Sessions', value: stats?.focus_sessions ?? 0, icon: Timer, color: '#7c3aed', trend: 'This week', sub: 'Deep work', route: '/tasks' },
-    { label: 'Captured Today', value: stats?.captured_today ?? 0, icon: TrendingUp, color: '#06b6d4', trend: 'Today', sub: 'New memories', route: '/capture' },
+    { label: 'Neural Memories', value: totalMem, icon: Brain, color: NEON, trend: '+12%', sub: 'Total captured', route: '/vault' },
+    { label: 'Pending Tasks', value: stats?.pending_tasks ?? 0, icon: CheckSquare, color: NEON, trend: '2 due today', sub: 'Open tasks', route: '/tasks' },
+    { label: 'AI Interactions', value: stats?.ai_interactions ?? 0, icon: Sparkles, color: NEON, trend: 'Lifetime', sub: 'Recall queries', route: '/recall' },
+    { label: 'Knowledge Domains', value: domains.length, icon: Network, color: NEON, trend: 'Active', sub: 'Topics tracked', route: '/graph' },
+    { label: 'Flashcards', value: stats?.flashcards ?? 0, icon: GraduationCap, color: NEON, trend: 'Study ready', sub: 'Created', route: '/flashcards' },
+    { label: 'Learning Streak', value: stats?.streak_days ?? 0, icon: Zap, color: NEON, trend: 'Days', sub: 'Current streak', route: '/flashcards' },
+    { label: 'Focus Sessions', value: stats?.focus_sessions ?? 0, icon: Timer, color: NEON, trend: 'This week', sub: 'Deep work', route: '/tasks' },
+    { label: 'Captured Today', value: stats?.captured_today ?? 0, icon: TrendingUp, color: NEON, trend: 'Today', sub: 'New memories', route: '/capture' },
   ];
 
   const dashIconBtn: React.CSSProperties = {
@@ -290,7 +291,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
   const smartInsights: { id: string; icon: any; color: string; eyebrow: string; headline: string; sub: string; onClick?: () => void }[] = [];
   if (velocityWk) {
     const dirSign = velocityWk.direction === 'up' ? '+' : velocityWk.direction === 'down' ? '−' : '';
-    const dirClr = velocityWk.direction === 'up' ? '#10b981' : velocityWk.direction === 'down' ? '#ef4444' : '#94a3b8';
+    const dirClr = velocityWk.direction === 'up' ? NEON : velocityWk.direction === 'down' ? NEON : NEON;
     smartInsights.push({
       id: 'velocity',
       icon: TrendingUp,
@@ -305,7 +306,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     smartInsights.push({
       id: 'topic',
       icon: Hash,
-      color: '#06b6d4',
+      color: NEON,
       eyebrow: 'TOPIC LEAD',
       headline: topicLead.tag,
       sub: `${topicLead.count} item${topicLead.count === 1 ? '' : 's'} tagged across your vault`,
@@ -323,7 +324,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     smartInsights.push({
       id: 'revisit',
       icon: Bell,
-      color: overdue ? '#ef4444' : '#f59e0b',
+      color: overdue ? NEON : NEON,
       eyebrow: 'NEXT REVISIT',
       headline: nextRevisit.title || 'Untitled',
       sub: meta,
@@ -345,20 +346,20 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            border: isGuest ? '1px solid rgba(245,158,11,0.32)' : '1px solid var(--primary-border)',
-            background: isGuest ? 'rgba(245,158,11,0.06)' : 'var(--primary-bg)',
+            border: isGuest ? '1px solid rgba(197,248,42,0.32)' : '1px solid var(--primary-border)',
+            background: isGuest ? 'rgba(197,248,42,0.06)' : 'var(--primary-bg)',
           }}
         >
           <div
             style={{
               width: 32, height: 32, borderRadius: 9,
-              background: isGuest ? 'rgba(245,158,11,0.16)' : 'var(--primary-bg)',
-              border: isGuest ? '1px solid rgba(245,158,11,0.32)' : '1px solid var(--primary-border)',
+              background: isGuest ? 'rgba(197,248,42,0.16)' : 'var(--primary-bg)',
+              border: isGuest ? '1px solid rgba(197,248,42,0.32)' : '1px solid var(--primary-border)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
           >
             {isGuest
-              ? <Sparkles size={15} color="#f59e0b" />
+              ? <Sparkles size={15} color="NEON" />
               : <Sparkles size={15} color="var(--primary)" />}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -378,7 +379,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
               data-testid="button-guest-upgrade"
               style={{
                 padding: '7px 14px', borderRadius: 8, fontSize: 12, fontWeight: 600,
-                background: '#f59e0b', color: '#fff', border: 'none', cursor: 'pointer',
+                background: NEON, color: '#fff', border: 'none', cursor: 'pointer',
                 whiteSpace: 'nowrap', flexShrink: 0,
               }}
             >
@@ -418,7 +419,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
         <div className="dash-header-row" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-              <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981' }} />
+              <div style={{ width: 7, height: 7, borderRadius: '50%', background: NEON }} />
               <span style={{ color: 'var(--text-3)', fontSize: 11, letterSpacing: '0.08em', fontWeight: 500 }}>NEURAL OS ACTIVE</span>
             </div>
             <h1 style={{ fontSize: 26, fontWeight: 800, color: 'var(--text-1)', margin: 0, lineHeight: 1.15, letterSpacing: '-0.5px' }}>
@@ -427,7 +428,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
             <p style={{ color: 'var(--text-3)', fontSize: 13, marginTop: 4, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <span>{today}</span>
               {adv?.streak && (adv.streak.current > 0 || adv.streak.longest > 0) && (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.28)', color: '#f59e0b', padding: '2px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(197,248,42,0.12)', border: '1px solid rgba(197,248,42,0.28)', color: NEON, padding: '2px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700 }}>
                   <Flame size={11} /> {adv.streak.current}d streak · best {adv.streak.longest}d
                 </span>
               )}
@@ -590,8 +591,8 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
               {[
                 { label: 'Save a Website', sub: 'Paste a URL', icon: Globe, color: '#22d3ee', path: '/capture' },
-                { label: 'YouTube Video', sub: 'Auto transcribe', icon: Youtube, color: '#ef4444', path: '/capture' },
-                { label: 'Quick Note', sub: 'Type a thought', icon: StickyNote, color: '#10b981', path: '/capture' },
+                { label: 'YouTube Video', sub: 'Auto transcribe', icon: Youtube, color: NEON, path: '/capture' },
+                { label: 'Quick Note', sub: 'Type a thought', icon: StickyNote, color: NEON, path: '/capture' },
                 { label: 'Ask Recall AI', sub: 'Try a question', icon: Bot, color: '#818cf8', path: '/recall' },
               ].map((t) => (
                 <button key={t.label} onClick={() => navigate(t.path)}
@@ -624,14 +625,14 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
         <div className="dash-section">
           <SectionHeader
             icon={Bell}
-            color="#f59e0b"
+            color="NEON"
             title="Revisit reminders"
             eyebrow={revisits.length > 0 ? `${revisits.length} DUE NOW` : 'UPCOMING'}
             actionLabel="Manage all"
             onAction={() => navigate('/revisits')}
           />
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            style={{ ...S.card, padding: '14px 16px', borderLeft: '3px solid #f59e0b' }}>
+            style={{ ...S.card, padding: '14px 16px', borderLeft: '3px solid NEON' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[...revisits, ...revisitsUpcoming].slice(0, 5).map(rv => {
                 const overdue = (rv.overdue_hours ?? 0) > 0;
@@ -644,21 +645,21 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                 return (
                   <div key={rv.id} style={{
                     display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px',
-                    background: 'var(--surface-2)', border: `1px solid ${overdue ? 'rgba(239,68,68,0.35)' : 'var(--border)'}`,
+                    background: 'var(--surface-2)', border: `1px solid ${overdue ? 'rgba(197,248,42,0.35)' : 'var(--border)'}`,
                     borderRadius: 10, minWidth: 0,
                   }}>
-                    <div style={{ width: 30, height: 30, borderRadius: 8, background: overdue ? 'rgba(239,68,68,0.15)' : 'rgba(245,158,11,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Bell size={13} color={overdue ? '#ef4444' : '#f59e0b'} />
+                    <div style={{ width: 30, height: 30, borderRadius: 8, background: overdue ? 'rgba(197,248,42,0.15)' : 'rgba(197,248,42,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Bell size={13} color={overdue ? NEON : NEON} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text-1)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{rv.title}</div>
                       <div style={{ fontSize: 10.5, color: 'var(--text-3)', display: 'flex', gap: 8, alignItems: 'center', marginTop: 2 }}>
-                        <span style={{ color: overdue ? '#ef4444' : 'var(--text-3)', fontWeight: 600 }}>{meta}</span>
+                        <span style={{ color: overdue ? NEON : 'var(--text-3)', fontWeight: 600 }}>{meta}</span>
                         <span>·</span>
                         <span style={{ textTransform: 'capitalize' }}>{String(rv.frequency || '').replace('_', ' ')}</span>
                       </div>
                     </div>
-                    <button onClick={() => handleRevisitGo(rv)} title="Go to" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '6px 11px', borderRadius: 8, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#f59e0b,#ef4444)', color: '#fff', fontSize: 11.5, fontWeight: 700, fontFamily: 'inherit' }}>
+                    <button onClick={() => handleRevisitGo(rv)} title="Go to" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '6px 11px', borderRadius: 8, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,NEON,NEON)', color: '#fff', fontSize: 11.5, fontWeight: 700, fontFamily: 'inherit' }}>
                       {rv.url ? <ExternalLink size={11} /> : <ChevronRight size={11} />} Go
                     </button>
                     <button onClick={() => handleRevisitDone(rv)} title="Mark done" style={dashIconBtn}><Check size={12} /></button>
@@ -717,14 +718,14 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                 aria-label={`Pick up where you left off: ${adv.pick_up.title}`}
                 onClick={() => navigate(`/memory/${adv.pick_up!.id}`)}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/memory/${adv.pick_up!.id}`); } }}
-                style={{ ...S.card, padding: '16px 18px', cursor: 'pointer', borderLeft: '3px solid #10b981' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(16,185,129,0.18)'; }}
+                style={{ ...S.card, padding: '16px 18px', cursor: 'pointer', borderLeft: '3px solid NEON' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(197,248,42,0.18)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = ''; (e.currentTarget as HTMLDivElement).style.boxShadow = ''; }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <History size={13} color="#10b981" />
+                  <History size={13} color="NEON" />
                   <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Pick up where you left off</div>
                 </div>
-                <div style={{ fontSize: 9.5, letterSpacing: '0.16em', color: '#10b981', textTransform: 'uppercase', fontWeight: 700, marginBottom: 6 }}>
+                <div style={{ fontSize: 9.5, letterSpacing: '0.16em', color: NEON, textTransform: 'uppercase', fontWeight: 700, marginBottom: 6 }}>
                   {adv.pick_up.suggestion}
                 </div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-1)', lineHeight: 1.25, marginBottom: 6 }}>
@@ -742,7 +743,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                   {adv.pick_up.source_type && (
                     <span style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>{adv.pick_up.source_type}</span>
                   )}
-                  <div style={{ marginLeft: 'auto', color: '#10b981', fontSize: 11.5, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <div style={{ marginLeft: 'auto', color: NEON, fontSize: 11.5, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                     Resume <ArrowUpRight size={12} />
                   </div>
                 </div>
@@ -755,14 +756,14 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
       {/* ── 7. ACTIVITY INSIGHTS — Heatmap + 7-day Forecast ────────────────── */}
       {(adv?.activity_heatmap?.cells?.length || adv?.forecast_7d?.length) && (
         <div className="dash-section">
-          <SectionHeader icon={Activity} color="#06b6d4" title="Activity & forecast" eyebrow="LAST 12W · NEXT 7D" />
+          <SectionHeader icon={Activity} color="NEON" title="Activity & forecast" eyebrow="LAST 12W · NEXT 7D" />
           <div className="dash-grid-2">
             {adv?.activity_heatmap && adv.activity_heatmap.cells.length > 0 && (
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid #06b6d4' }}>
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid NEON' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Activity size={13} color="#06b6d4" />
+                      <Activity size={13} color="NEON" />
                       <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Capture heatmap</div>
                     </div>
                     <div style={{ color: 'var(--text-3)', fontSize: 11, marginTop: 2 }}>Last 12 weeks</div>
@@ -822,7 +823,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                 </Suspense>
                 <div style={{ display: 'flex', gap: 14, marginTop: 4, fontSize: 11 }}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                    <span style={{ width: 9, height: 9, borderRadius: 2, background: '#f59e0b' }} /> Revisits
+                    <span style={{ width: 9, height: 9, borderRadius: 2, background: NEON }} /> Revisits
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                     <span style={{ width: 9, height: 9, borderRadius: 2, background: '#9333ea' }} /> Tasks
@@ -847,9 +848,9 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
         <div className="dash-grid-2">
           {/* Top topics tag cloud */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid #06b6d4' }}>
+            style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid NEON' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-              <Tag size={13} color="#06b6d4" />
+              <Tag size={13} color="NEON" />
               <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Top topics</div>
               <span style={{ fontSize: 10, color: 'var(--text-3)' }}>by frequency</span>
             </div>
@@ -870,7 +871,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                       }}
                       onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.opacity = String(op); }}>
-                      <Hash size={Math.round(sz * 0.7)} color="#06b6d4" /> {t.tag}
+                      <Hash size={Math.round(sz * 0.7)} color="NEON" /> {t.tag}
                       <span style={{ fontSize: 10, color: 'var(--text-3)', fontWeight: 500 }}>{t.count}</span>
                     </button>
                   );
@@ -995,33 +996,33 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
 
       {/* ── 10. WEEKLY LEARNING GOALS ──────────────────────────────────────── */}
       <div className="dash-section">
-        <SectionHeader icon={Trophy} color="#f59e0b" title="Weekly goals" eyebrow="THIS WEEK" />
+        <SectionHeader icon={Trophy} color="NEON" title="Weekly goals" eyebrow="THIS WEEK" />
         <div>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid #f59e0b' }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid NEON' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Trophy size={13} color="#f59e0b" />
+                <Trophy size={13} color="NEON" />
                 <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Learning goals</div>
               </div>
-              <span style={{ padding: '3px 9px', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 999, fontSize: 10, color: '#f59e0b', fontWeight: 700 }}>This week</span>
+              <span style={{ padding: '3px 9px', background: 'rgba(197,248,42,0.1)', border: '1px solid rgba(197,248,42,0.25)', borderRadius: 999, fontSize: 10, color: NEON, fontWeight: 700 }}>This week</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[
                 { label: 'Knowledge captures', current: totalMem, target: 20, color: '#6366f1' },
                 { label: 'AI recall sessions', current: stats?.ai_interactions ?? 0, target: 10, color: '#9333ea' },
-                { label: 'Flashcard reviews', current: stats?.flashcards ?? 0, target: 15, color: '#f59e0b' },
-                { label: 'Tasks completed', current: Math.max(0, (stats?.total_tasks ?? 0) - (stats?.pending_tasks ?? 0)), target: 8, color: '#10b981' },
+                { label: 'Flashcard reviews', current: stats?.flashcards ?? 0, target: 15, color: NEON },
+                { label: 'Tasks completed', current: Math.max(0, (stats?.total_tasks ?? 0) - (stats?.pending_tasks ?? 0)), target: 8, color: NEON },
               ].map((goal) => {
                 const pct = Math.min(100, Math.round((goal.current / goal.target) * 100));
                 return (
                   <div key={goal.label}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
                       <span style={{ color: 'var(--text-2)', fontSize: 12, fontWeight: 500 }}>{goal.label}</span>
-                      <span style={{ color: pct >= 100 ? '#10b981' : 'var(--text-3)', fontSize: 11, fontWeight: 600 }}>{goal.current}/{goal.target}</span>
+                      <span style={{ color: pct >= 100 ? NEON : 'var(--text-3)', fontSize: 11, fontWeight: 600 }}>{goal.current}/{goal.target}</span>
                     </div>
                     <div style={{ height: 6, background: 'var(--surface-3)', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)' }}>
                       <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.7, delay: 0.2 }}
-                        style={{ height: '100%', borderRadius: 6, background: pct >= 100 ? '#10b981' : goal.color, boxShadow: `0 0 8px ${goal.color}40` }} />
+                        style={{ height: '100%', borderRadius: 6, background: pct >= 100 ? NEON : goal.color, boxShadow: `0 0 8px ${goal.color}40` }} />
                     </div>
                   </div>
                 );

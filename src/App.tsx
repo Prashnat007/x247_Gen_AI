@@ -188,18 +188,18 @@ const CORE_NAV = [
 
 // ── Tools nav — workspace + learning destinations, always flat ──────────────
 const TOOLS_NAV = [
-  { id: 'workspace', label: 'Projects',  path: '/workspace', icon: Kanban,        color: '#f59e0b' },
-  { id: 'focus',     label: 'Focus',     path: '/focus',     icon: Target,        color: '#10b981' },
-  { id: 'calendar',  label: 'Calendar',  path: '/calendar',  icon: CalendarIcon,  color: '#818cf8' },
-  { id: 'learn',     label: 'Learn',     path: '/learn',     icon: GraduationCap, color: '#7c3aed' },
-  { id: 'discover',  label: 'Discover',  path: '/discover',  icon: Compass,       color: '#06b6d4' },
-  { id: 'insights',  label: 'Insights',  path: '/insights',  icon: BarChart2,     color: '#34d399' },
+  { id: 'workspace', label: 'Projects',  path: '/workspace', icon: Kanban,        color: NEON },
+  { id: 'focus',     label: 'Focus',     path: '/focus',     icon: Target,        color: NEON },
+  { id: 'calendar',  label: 'Calendar',  path: '/calendar',  icon: CalendarIcon,  color: NEON },
+  { id: 'learn',     label: 'Learn',     path: '/learn',     icon: GraduationCap, color: NEON },
+  { id: 'discover',  label: 'Discover',  path: '/discover',  icon: Compass,       color: NEON },
+  { id: 'insights',  label: 'Insights',  path: '/insights',  icon: BarChart2,     color: NEON },
 ];
 
-// ── System nav — settings & integrations as proper nav rows ─────────────────
+// ── System nav — settings & integrations ─────────────────
 const SYSTEM_NAV = [
-  { id: 'settings',     label: 'Settings',     path: '/settings',     icon: Settings, color: '#94a3b8' },
-  { id: 'integrations', label: 'Integrations', path: '/integrations', icon: Plug,     color: '#22d3ee' },
+  { id: 'settings',     label: 'Settings',     path: '/settings',     icon: Settings, color: NEON },
+  { id: 'integrations', label: 'Integrations', path: '/integrations', icon: Plug,     color: NEON },
 ];
 
 // ── SidebarNavItem — defined at module level so React never sees a new
@@ -218,135 +218,82 @@ const SidebarNavItem = React.memo(({
   badgeCount, badgeCapped, badgeTitle,
 }: SidebarNavItemProps) => {
   const [hovered, setHovered] = useState(false);
-  // Use lime accent for active state
-  const accentColor = active ? '#c5f82a' : color;
-  const bg = active 
-    ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.12) 0%, rgba(197, 248, 42, 0.06) 100%)' 
-    : hovered ? 'var(--surface-2)' : 'transparent';
-  const shadow = active 
-    ? 'inset 0 0 0 1px rgba(197, 248, 42, 0.25), 0 2px 8px -2px rgba(197, 248, 42, 0.15)' 
-    : hovered ? '0 1px 4px -2px rgba(0,0,0,0.1)' : 'none';
   return (
     <button
       onClick={() => navigate(path)}
-      title={isCollapsed ? (desc ? `${label} — ${desc}` : label) : undefined}
+      title={isCollapsed ? label : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        padding: isCollapsed ? '9px 0' : '8px 12px',
-        borderRadius: 10, border: 'none',
-        background: bg, boxShadow: shadow,
+        display: 'flex', alignItems: 'center', gap: 12,
+        padding: isCollapsed ? '10px 0' : '10px 14px',
+        borderRadius: 8, border: 'none',
+        background: active ? 'rgba(197, 248, 42, 0.1)' : hovered ? 'rgba(255,255,255,0.03)' : 'transparent',
         cursor: 'pointer',
-        transition: 'all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transition: 'all 0.15s ease',
         position: 'relative',
         justifyContent: isCollapsed ? 'center' : 'flex-start',
-        width: '100%', marginBottom: 2, fontFamily: 'inherit',
-        transform: hovered && !active ? 'translateX(2px)' : 'none',
+        width: '100%', marginBottom: 1, fontFamily: 'inherit',
       }}>
+      {/* Left accent bar for active state */}
       {active && (
         <div style={{
-          position: 'absolute', left: 0, top: '15%', bottom: '15%', width: 3,
-          background: 'linear-gradient(to bottom, #c5f82a, #a3e635)',
-          borderRadius: '0 4px 4px 0',
-          boxShadow: '0 0 8px rgba(197, 248, 42, 0.5)',
+          position: 'absolute', left: 0, top: '20%', bottom: '20%', width: 2,
+          background: NEON,
+          borderRadius: '0 2px 2px 0',
         }} />
       )}
-      <div style={{
-        width: 30, height: 30, borderRadius: 8, flexShrink: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: active 
-          ? 'linear-gradient(135deg, rgba(197, 248, 42, 0.2) 0%, rgba(197, 248, 42, 0.1) 100%)' 
-          : hovered ? 'var(--surface-3)' : 'transparent',
-        border: active ? '1px solid rgba(197, 248, 42, 0.25)' : '1px solid transparent',
-        transition: 'all 0.18s ease',
-        position: 'relative',
-        boxShadow: active ? '0 2px 6px -2px rgba(197, 248, 42, 0.3)' : 'none',
-      }}>
-        <Icon size={16} color={active ? '#c5f82a' : hovered ? 'var(--text-1)' : 'var(--text-3)'} strokeWidth={active ? 2 : 1.75} />
-        {/* Collapsed-mode badge: a small red dot pinned to the icon */}
-        {isCollapsed && badgeCount !== undefined && badgeCount > 0 && (
-          <span
-            data-testid={`sidebar-badge-${id}-dot`}
-            title={badgeTitle ?? `${badgeCount}${badgeCapped ? '+' : ''} waiting`}
-            style={{
-              position: 'absolute', top: -2, right: -2,
-              minWidth: 8, height: 8, borderRadius: 999,
-              background: '#ef4444',
-              boxShadow: '0 0 0 2px var(--surface)',
-            }}
-          />
-        )}
-      </div>
+      {/* Icon */}
+      <Icon 
+        size={18} 
+        color={active ? NEON : hovered ? '#ffffff' : 'var(--text-3)'} 
+        strokeWidth={1.5} 
+        style={{ flexShrink: 0, transition: 'color 0.15s ease' }}
+      />
+      {/* Label - only when expanded */}
       {!isCollapsed && (
-        <>
-          <div style={{ minWidth: 0, flex: 1, textAlign: 'left' }}>
-            <div style={{
-              color: active ? 'var(--text-1)' : 'var(--text-2)',
-              fontSize: 13, fontWeight: active ? 700 : 500,
-              lineHeight: 1.2, letterSpacing: active ? '-0.2px' : '-0.1px',
-              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-            }}>{label}</div>
-            {desc && (
-              <div style={{
-                color: 'var(--text-3)', fontSize: 10.5, marginTop: 1,
-                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                opacity: active ? 0.9 : 0.7,
-              }}>{desc}</div>
-            )}
-          </div>
-          {/* Expanded-mode numeric badge — small unread-style pill */}
-          {badgeCount !== undefined && badgeCount > 0 && (
-            <span
-              data-testid={`sidebar-badge-${id}`}
-              title={badgeTitle ?? `${badgeCount}${badgeCapped ? '+' : ''} waiting`}
-              style={{
-                fontSize: 10, fontWeight: 700, color: '#fff',
-                background: '#ef4444',
-                borderRadius: 999, padding: '1px 6px', flexShrink: 0,
-                letterSpacing: '0.2px', minWidth: 16, textAlign: 'center',
-                lineHeight: '14px',
-              }}
-            >
-              {badgeCount > 99 ? '99+' : `${badgeCount}${badgeCapped ? '+' : ''}`}
-            </span>
-          )}
-          {shortcut && (
-            <span style={{
-              fontSize: 9.5, fontWeight: 600, color: active ? color : 'var(--text-3)',
-              opacity: active ? 0.8 : 0.55,
-              background: active ? `${color}14` : 'var(--surface-3)',
-              border: `1px solid ${active ? color + '28' : 'var(--border)'}`,
-              borderRadius: 5, padding: '1px 5px', flexShrink: 0, letterSpacing: '0.3px',
-            }}>⌘{shortcut}</span>
-          )}
-        </>
+        <span style={{
+          color: active ? '#ffffff' : hovered ? '#ffffff' : 'var(--text-2)',
+          fontSize: 13, fontWeight: active ? 600 : 400,
+          letterSpacing: '-0.1px',
+          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          transition: 'color 0.15s ease',
+        }}>{label}</span>
+      )}
+      {/* Badge - minimal neon dot */}
+      {!isCollapsed && badgeCount !== undefined && badgeCount > 0 && (
+        <span
+          data-testid={`sidebar-badge-${id}`}
+          title={badgeTitle ?? `${badgeCount} items`}
+          style={{
+            fontSize: 9, fontWeight: 600, color: '#0a0a0a',
+            background: NEON,
+            borderRadius: 999, padding: '2px 6px', flexShrink: 0,
+            marginLeft: 'auto',
+          }}
+        >
+          {badgeCount > 99 ? '99+' : badgeCount}
+        </span>
       )}
     </button>
   );
 });
 SidebarNavItem.displayName = 'SidebarNavItem';
 
-// Divider with optional label — also at module level for the same reason.
+// Minimal section divider
 const SidebarSectionLabel = React.memo(({ label, isCollapsed }: { label: string; isCollapsed: boolean }) => (
   !isCollapsed ? (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 12px 6px', marginTop: 4 }}>
+    <div style={{ padding: '16px 14px 6px' }}>
       <span style={{ 
-        color: '#c5f82a', 
-        fontSize: 9.5, 
-        fontWeight: 700, 
-        letterSpacing: '1.2px', 
-        textTransform: 'uppercase', 
-        flexShrink: 0,
-        padding: '2px 6px',
-        background: 'rgba(197, 248, 42, 0.08)',
-        borderRadius: 4,
-        border: '1px solid rgba(197, 248, 42, 0.15)',
+        color: 'var(--text-3)', 
+        fontSize: 10, 
+        fontWeight: 500, 
+        letterSpacing: '0.5px', 
+        textTransform: 'uppercase',
       }}>{label}</span>
-      <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(197, 248, 42, 0.2), transparent)', opacity: 0.8 }} />
     </div>
   ) : (
-    <div style={{ height: 1, background: 'linear-gradient(90deg, rgba(197, 248, 42, 0.3), transparent)', margin: '10px 10px', opacity: 0.6 }} />
+    <div style={{ height: 1, background: 'var(--border)', margin: '12px 8px', opacity: 0.5 }} />
   )
 ));
 SidebarSectionLabel.displayName = 'SidebarSectionLabel';
@@ -471,24 +418,21 @@ const Sidebar = ({
       }}>
         {isCollapsed ? (
           <>
-            {/* "You are here" cue — a tiny pill showing the active page's icon
-                so the user can tell which page they're on while collapsed. */}
+            {/* Active page icon when collapsed */}
             {activeNav && (() => {
               const ActiveIcon = activeNav.icon;
               return (
                 <div
                   data-testid="sidebar-active-cue"
                   title={activeNav.label}
-                  aria-label={`Current page: ${activeNav.label}`}
                   style={{
-                    width: 28, height: 28, borderRadius: 8,
+                    width: 32, height: 32, borderRadius: 8,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.15) 0%, rgba(197, 248, 42, 0.08) 100%)',
-                    boxShadow: 'inset 0 0 0 1px rgba(197, 248, 42, 0.25), 0 2px 6px -2px rgba(197, 248, 42, 0.2)',
+                    background: 'rgba(197, 248, 42, 0.1)',
                     flexShrink: 0,
                   }}
                 >
-                  <ActiveIcon size={14} color="#c5f82a" strokeWidth={2} />
+                  <ActiveIcon size={16} color={NEON} strokeWidth={1.5} />
                 </div>
               );
             })()}
@@ -513,30 +457,6 @@ const Sidebar = ({
           </>
         )}
       </div>
-
-      {/* ── System Ready badge ──────────────────────────────────────────────── */}
-      {!isCollapsed ? (
-        <div style={{
-          margin: '12px 12px 4px',
-          padding: '8px 12px',
-          background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.08) 0%, rgba(197, 248, 42, 0.03) 100%)',
-          border: '1px solid rgba(197, 248, 42, 0.2)',
-          borderRadius: 10,
-          display: 'flex', alignItems: 'center', gap: 10,
-          flexShrink: 0,
-          boxShadow: '0 2px 8px -4px rgba(197, 248, 42, 0.15)',
-        }}>
-          <div style={{ position: 'relative', width: 8, height: 8, flexShrink: 0 }}>
-            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#c5f82a', boxShadow: '0 0 8px rgba(197, 248, 42, 0.7)', animation: 'sidebarPulse 2.4s ease-in-out infinite' }} />
-          </div>
-          <span style={{ color: '#c5f82a', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.2px', flex: 1 }}>LIVE</span>
-          <span style={{ color: 'var(--text-3)', fontSize: 9.5, fontWeight: 500 }}>
-            {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-          </span>
-        </div>
-      ) : (
-        <div title="System Live" style={{ margin: '10px auto 2px', width: 8, height: 8, borderRadius: '50%', background: '#c5f82a', boxShadow: '0 0 8px rgba(197, 248, 42, 0.6)', flexShrink: 0, animation: 'sidebarPulse 2.4s ease-in-out infinite' }} />
-      )}
 
       {/* ── Scrollable nav area ─────────────────────────────────────────────── */}
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -583,60 +503,39 @@ const Sidebar = ({
       </div>
 
       {/* ── Profile footer ──────────────────────────────────────────────────── */}
-      <div style={{ padding: isCollapsed ? '8px 6px 10px' : '8px 8px 10px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
+      <div style={{ padding: isCollapsed ? '8px 6px 12px' : '10px 10px 14px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
         <div
           onClick={() => navigate('/profile')}
           title={isCollapsed ? 'Profile' : 'Open profile'}
           style={{
-            display: 'flex', alignItems: 'center', gap: 9,
-            padding: isCollapsed ? '6px' : '7px 9px',
-            borderRadius: 10, cursor: 'pointer', transition: 'all 0.15s',
-            background: 'var(--surface-2)',
-            border: '1px solid var(--border)',
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: isCollapsed ? '8px' : '8px 10px',
+            borderRadius: 8, cursor: 'pointer', transition: 'all 0.15s',
+            background: 'transparent',
             justifyContent: isCollapsed ? 'center' : 'flex-start',
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(99,102,241,0.35)'; (e.currentTarget as HTMLDivElement).style.background = 'var(--surface-3)'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLDivElement).style.background = 'var(--surface-2)'; }}>
+          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.03)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent'; }}>
           {user?.photoURL
-            ? <img src={user.photoURL} alt="avatar" style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '2px solid rgba(99,102,241,0.3)' }} />
-            : <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, rgba(197, 248, 42, 0.9), rgba(163, 230, 53, 0.85))', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#0a0a0b', fontSize: 12, fontWeight: 700, letterSpacing: '-0.3px', border: '2px solid rgba(197, 248, 42, 0.3)' }}>
+            ? <img src={user.photoURL} alt="avatar" style={{ width: 28, height: 28, borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: `2px solid ${NEON}30` }} />
+            : <div style={{ width: 28, height: 28, borderRadius: '50%', background: NEON, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#0a0a0a', fontSize: 11, fontWeight: 600 }}>
                 {user?.displayName?.[0]?.toUpperCase() ?? 'U'}
               </div>
           }
           {!isCollapsed && (
             <>
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ color: 'var(--text-1)', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.3, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {user?.isAnonymous || user?.isGuest ? 'Guest User' : (user?.displayName || (user?.email ? user.email.split('@')[0] : 'User'))}
-                  </span>
-                  {(user?.isAnonymous || user?.isGuest) && (
-                    <span
-                      title="You're using sample data. Sign up to save your own captures."
-                      style={{
-                        fontSize: 8.5, letterSpacing: '0.6px', fontWeight: 700,
-                        padding: '1px 5px', borderRadius: 4,
-                        background: 'rgba(245,158,11,0.16)',
-                        color: '#f59e0b',
-                        border: '1px solid rgba(245,158,11,0.32)',
-                        flexShrink: 0,
-                      }}
-                    >
-                      DEMO
-                    </span>
-                  )}
-                </div>
-                <div style={{ color: 'var(--text-3)', fontSize: 10, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: 1.3 }}>
-                  {user?.isAnonymous || user?.isGuest ? 'Sample data — sign up to save yours' : (user?.email ?? '')}
+                <div style={{ color: 'var(--text-1)', fontSize: 12, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {user?.isAnonymous || user?.isGuest ? 'Guest' : (user?.displayName || (user?.email ? user.email.split('@')[0] : 'User'))}
                 </div>
               </div>
               <button
                 onClick={e => { e.stopPropagation(); onSignOut(); }}
                 title="Sign out"
-                style={{ padding: 5, background: 'transparent', border: 'none', borderRadius: 7, cursor: 'pointer', color: 'var(--text-3)', flexShrink: 0, display: 'flex', alignItems: 'center', transition: 'all 0.15s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.1)'; (e.currentTarget as HTMLButtonElement).style.color = '#ef4444'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-3)'; }}>
-                <LogOut size={14} strokeWidth={2} />
+                style={{ padding: 5, background: 'transparent', border: 'none', borderRadius: 6, cursor: 'pointer', color: 'var(--text-3)', flexShrink: 0, display: 'flex', alignItems: 'center', transition: 'all 0.15s' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = NEON; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-3)'; }}>
+                <LogOut size={14} strokeWidth={1.5} />
               </button>
             </>
           )}
