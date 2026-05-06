@@ -799,6 +799,14 @@ select:not(.bare-input):focus {
 .sidebar-nav { -ms-overflow-style: none; scrollbar-width: none; }
 .sidebar-nav::-webkit-scrollbar { display: none; }
 
+/* Enhanced sidebar hover effects */
+.sidebar-nav button:hover {
+  transform: translateX(2px);
+}
+.sidebar-nav button:active {
+  transform: translateX(1px) scale(0.99);
+}
+
 /* ── Agent hub messages ───────────────────────────────────────────────────── */
 .agent-messages::-webkit-scrollbar { width: 4px; }
 .agent-messages::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
@@ -1006,13 +1014,13 @@ img { max-width: 100%; }
 @media (min-width: 900px)  { .flashcard-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1200px) { .flashcard-grid { grid-template-columns: repeat(4, 1fr); } }
 
-/* ── Empty state ──────────────────────────────────────────────────────────── */
+/* ── Empty state ─────────────────��────────────────────────────────────────── */
 .empty-state {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 56px 24px; text-align: center; gap: 10px;
 }
 
-/* ── Loading spinner center ───────────────────────────────────────────────── */
+/* ── Loading spinner center ─────────────────────────���─────────────────────── */
 .loading-center {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 64px 24px; gap: 14px;
@@ -1100,7 +1108,7 @@ div:hover .task-delete-btn { opacity: 1 !important; }
   .responsive-content { padding: 12px 18px !important; }
 }
 
-/* ── Stat cards: 2 cols on very constrained widths ────────────────────────── */
+/* ── Stat cards: 2 cols on very constrained widths ───��────────────────────── */
 @media (min-width: 720px) and (max-width: 830px) {
   .stat-cards-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
@@ -1283,11 +1291,11 @@ h6.md-h { font-size: 12.5px; color: var(--text-2); }
   text-shadow: 0 0 10px rgba(0, 217, 255, 0.6), 0 0 20px rgba(0, 217, 255, 0.4);
 }
 
-/* ─────────────────────────────────────────────────────────────────
+/* ─────────────────────────��───────────────────────────────────────
    GLOBAL MOBILE SAFETY NET — additive, small overrides only.
    These plug the gaps left after page-specific @media rules so the
    site never has horizontal scroll or cramped overlap on phones.
-   ───────────────────────────────────────────────────────────────── */
+   ─────────────────────────────���─────────────────────────────────── */
 
 /* Safety: prevent any image / pre / svg from forcing horizontal scroll. */
 @media (max-width: 640px) {
