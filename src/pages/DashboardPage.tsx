@@ -348,6 +348,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
             gap: 12,
             border: isGuest ? '1px solid rgba(197,248,42,0.32)' : '1px solid var(--primary-border)',
             background: isGuest ? 'rgba(197,248,42,0.06)' : 'var(--primary-bg)',
+            borderRadius: 20,
           }}
         >
           <div
@@ -436,7 +437,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
           </div>
           <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="dash-briefing"
-            style={{ ...S.card, maxWidth: 420, padding: '14px 18px', border: '1px solid var(--primary-border)', flex: '1 1 320px' }}>
+            style={{ ...S.card, maxWidth: 420, padding: '14px 18px', border: '1px solid var(--primary-border)', flex: '1 1 320px', borderRadius: 20 }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
               <div className="dash-briefing-icon" style={{ width: 32, height: 32, borderRadius: 9, background: 'var(--primary-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <Sparkles size={15} color="var(--primary)" />
