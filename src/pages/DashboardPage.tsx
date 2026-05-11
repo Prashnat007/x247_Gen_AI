@@ -273,12 +273,12 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
   const S = {
     card: { 
       background: isDark 
-        ? 'linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%)' 
+        ? '#0a0a0a'
         : 'linear-gradient(180deg, #ffffff 0%, #fafafa 100%)', 
-      border: '1px solid var(--border)', 
-      borderRadius: 14, 
+      border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid var(--border)', 
+      borderRadius: isDark ? 20 : 14, 
       boxShadow: isDark 
-        ? '0 1px 0 0 rgba(255,255,255,0.04) inset, 0 -1px 0 0 rgba(0,0,0,0.1) inset, 0 4px 0 0 rgba(0,0,0,0.08), 0 8px 20px -8px rgba(0,0,0,0.15)' 
+        ? '0 4px 24px rgba(0,0,0,0.6)'
         : '0 1px 0 0 rgba(255,255,255,1) inset, 0 2px 0 0 rgba(0,0,0,0.03), 0 4px 16px -4px rgba(0,0,0,0.08)', 
       transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)' 
     } as React.CSSProperties,
@@ -466,7 +466,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
 
       {/* ── 2. KPI STAT CARDS — moved to TOP per your request ──────────────── */}
       <div className="dash-section">
-        <SectionHeader icon={Activity} color="#6366f1" title="At a glance" eyebrow="LIVE METRICS" />
+        <SectionHeader icon={Activity} color="NEON" title="At a glance" eyebrow="LIVE METRICS" />
         <div className="stat-cards-grid">
           {statCards.map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
@@ -502,7 +502,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
       {/* ── 3. SMART INSIGHTS — derived from your live data ────────────────── */}
       {smartInsights.length > 0 && (
         <div className="dash-section">
-          <SectionHeader icon={Sparkles} color="#9333ea" title="Smart insights" eyebrow="AI-DERIVED" />
+          <SectionHeader icon={Sparkles} color="NEON" title="Smart insights" eyebrow="AI-DERIVED" />
           <div className="dash-insight-strip">
             {smartInsights.map((ins, i) => (
               <motion.button key={ins.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + i * 0.05 }}
@@ -677,14 +677,14 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
       {/* ── 6. TODAY'S FOCUS + PICK UP WHERE YOU LEFT OFF ──────────────────── */}
       {(adv?.today_focus?.length || adv?.pick_up) && (
         <div className="dash-section">
-          <SectionHeader icon={Target} color="#6366f1" title="What to do next" eyebrow="AUTO-RANKED" />
+          <SectionHeader icon={Target} color="NEON" title="What to do next" eyebrow="AUTO-RANKED" />
           <div className="dash-grid-2">
             {adv?.today_focus && adv.today_focus.length > 0 && (
               <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid #6366f1' }}>
+                style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid NEON' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Target size={13} color="#6366f1" />
+                    <Target size={13} color="NEON" />
                     <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Today's focus · top {adv.today_focus.length}</div>
                   </div>
                   <span style={{ fontSize: 10, color: 'var(--text-3)' }}>by urgency</span>
@@ -739,7 +739,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                   {adv.pick_up.domain && (
-                    <span style={{ fontSize: 10, color: '#6366f1', background: 'rgba(99,102,241,0.1)', padding: '2px 8px', borderRadius: 999, fontWeight: 600 }}>{adv.pick_up.domain}</span>
+                    <span style={{ fontSize: 10, color: 'NEON', background: 'rgba(99,102,241,0.1)', padding: '2px 8px', borderRadius: 999, fontWeight: 600 }}>{adv.pick_up.domain}</span>
                   )}
                   {adv.pick_up.source_type && (
                     <span style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>{adv.pick_up.source_type}</span>
@@ -813,9 +813,9 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
             )}
 
             {adv?.forecast_7d && adv.forecast_7d.length > 0 && (
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid #9333ea' }}>
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid NEON' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                  <CalendarClock size={13} color="#9333ea" />
+                  <CalendarClock size={13} color="NEON" />
                   <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Coming up · next 7 days</div>
                 </div>
                 <div style={{ color: 'var(--text-3)', fontSize: 11, marginBottom: 10 }}>Revisits + tasks scheduled</div>
@@ -827,7 +827,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
                     <span style={{ width: 9, height: 9, borderRadius: 2, background: NEON }} /> Revisits
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                    <span style={{ width: 9, height: 9, borderRadius: 2, background: '#9333ea' }} /> Tasks
+                    <span style={{ width: 9, height: 9, borderRadius: 2, background: 'NEON' }} /> Tasks
                   </span>
                 </div>
               </motion.div>
@@ -840,7 +840,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
       <div className="dash-section">
         <SectionHeader
           icon={Network}
-          color="#6366f1"
+          color="NEON"
           title="Your knowledge map"
           eyebrow="TOPICS · DOMAINS"
           actionLabel="Open vault"
@@ -885,9 +885,9 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
 
           {/* Combined: radar + domain list — single panel */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-            style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid #6366f1' }}>
+            style={{ ...S.card, padding: '16px 18px', borderLeft: '3px solid NEON' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-              <Network size={13} color="#6366f1" />
+              <Network size={13} color="NEON" />
               <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Knowledge domains</div>
               <span style={{ fontSize: 10, color: 'var(--text-3)' }}>{domains.length} active</span>
             </div>
@@ -924,15 +924,15 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
 
       {/* ── 9. RECENT ACTIVITY — Memories + AI Interactions ────────────────── */}
       <div className="dash-section">
-        <SectionHeader icon={History} color="#9333ea" title="Recent activity" eyebrow="LAST CAPTURES + QUERIES" />
+        <SectionHeader icon={History} color="NEON" title="Recent activity" eyebrow="LAST CAPTURES + QUERIES" />
         <div className="dash-grid-2">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} style={{ ...S.card, padding: '16px 18px', overflow: 'hidden', borderLeft: '3px solid #6366f1' }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} style={{ ...S.card, padding: '16px 18px', overflow: 'hidden', borderLeft: '3px solid NEON' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Brain size={13} color="#6366f1" />
+                <Brain size={13} color="NEON" />
                 <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Recent memories</div>
               </div>
-              <button onClick={() => navigate('/insights?view=timeline')} className="dash-action-link" style={{ color: '#6366f1' }}>
+              <button onClick={() => navigate('/insights?view=timeline')} className="dash-action-link" style={{ color: 'NEON' }}>
                 View all <ArrowUpRight size={11} />
               </button>
             </div>
@@ -940,7 +940,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {recent.map((mem) => {
                   const Icon = SRC_ICON[mem.source_type] ?? Brain;
-                  const clr = SRC_CLR[mem.source_type] ?? '#6366f1';
+                  const clr = SRC_CLR[mem.source_type] ?? 'NEON';
                   return (
                     <div key={mem.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 11px', borderRadius: 9, background: 'var(--surface-2)', border: '1px solid var(--border)', transition: 'all 0.15s', cursor: 'default', overflow: 'hidden', minWidth: 0 }}
                       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--primary-border)'; (e.currentTarget as HTMLDivElement).style.background = 'var(--primary-bg)'; }}
@@ -961,18 +961,18 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
               <div style={{ padding: '28px 0', textAlign: 'center' }}>
                 <Brain size={28} color="var(--text-3)" style={{ margin: '0 auto 10px' }} />
                 <p style={{ color: 'var(--text-3)', fontSize: 12.5, margin: 0 }}>No memories yet</p>
-                <button onClick={() => navigate('/capture')} style={{ marginTop: 8, color: '#6366f1', fontSize: 12, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Capture your first memory →</button>
+                <button onClick={() => navigate('/capture')} style={{ marginTop: 8, color: 'NEON', fontSize: 12, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Capture your first memory →</button>
               </div>
             )}
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} style={{ ...S.card, padding: '16px 18px', overflow: 'hidden', borderLeft: '3px solid #9333ea' }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} style={{ ...S.card, padding: '16px 18px', overflow: 'hidden', borderLeft: '3px solid NEON' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Bot size={13} color="#9333ea" />
+                <Bot size={13} color="NEON" />
                 <div style={{ color: 'var(--text-1)', fontWeight: 700, fontSize: 13 }}>Recent AI interactions</div>
               </div>
-              <button onClick={() => navigate('/recall')} className="dash-action-link" style={{ color: '#9333ea' }}>
+              <button onClick={() => navigate('/recall')} className="dash-action-link" style={{ color: 'NEON' }}>
                 Open Recall <ArrowUpRight size={11} />
               </button>
             </div>
@@ -1009,8 +1009,8 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[
-                { label: 'Knowledge captures', current: totalMem, target: 20, color: '#6366f1' },
-                { label: 'AI recall sessions', current: stats?.ai_interactions ?? 0, target: 10, color: '#9333ea' },
+                { label: 'Knowledge captures', current: totalMem, target: 20, color: 'NEON' },
+                { label: 'AI recall sessions', current: stats?.ai_interactions ?? 0, target: 10, color: 'NEON' },
                 { label: 'Flashcard reviews', current: stats?.flashcards ?? 0, target: 15, color: NEON },
                 { label: 'Tasks completed', current: Math.max(0, (stats?.total_tasks ?? 0) - (stats?.pending_tasks ?? 0)), target: 8, color: NEON },
               ].map((goal) => {
