@@ -29,15 +29,6 @@ html { scroll-behavior: smooth; }
 
 @layer base {
   body { background: var(--bg); color: var(--text-1); overflow-x: hidden; }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(197, 248, 42, 0.04) 0%, transparent 70%);
-    pointer-events: none;
-    transition: background 0.2s ease;
-  }
 }
 
 /* ── Typography ───────────────────────────────────────────────────────────── */
@@ -51,108 +42,43 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Alegreya Sans SC', system-ui, sans-serif;
 }
 
-/* ── x247 brand logo — theme-aware filtering ─────────────────────────────── */
+/* ── x247 brand logo ────────────────────────────────────────────────────── */
 .x247-logo-img {
   user-select: none;
   -webkit-user-drag: none;
   display: block;
-  /* light mode: keep white */
   filter: brightness(1.1) contrast(1.2);
   transition: filter 0.3s ease;
 }
-[data-theme="dark"] .x247-logo-img {
-  /* dark mode: bright white with neon green glow */
-  filter: brightness(1.3) contrast(1.25) drop-shadow(0 0 16px rgba(197, 248, 42, 0.4));
-}
 
-/* ── Dark Theme Design Tokens — 3-Color: Black + Neon Green + White ─── */
-:root,
-[data-theme="dark"] {
-  --bg:              #000000;
-  --surface:         #0a0a0a;
-  --surface-2:       #111111;
-  --surface-3:       #1a1a1a;
-  --border:          rgba(255, 255, 255, 0.08);
-  --border-2:        rgba(255, 255, 255, 0.12);
-  --text-1:          #ffffff;
-  --text-2:          #a1a1aa;
-  --text-3:          #52525b;
+/* ── Design Tokens — Dark only, minimal neon usage ─────────────────────── */
+:root {
+  --bg:              #0c0c0c;
+  --surface:         #141414;
+  --surface-2:       #1c1c1c;
+  --surface-3:       #242424;
+  --border:          rgba(255, 255, 255, 0.07);
+  --border-2:        rgba(255, 255, 255, 0.11);
+  --text-1:          #f0f0f0;
+  --text-2:          #888888;
+  --text-3:          #555555;
+  /* neon is used sparingly — only for the single interactive accent */
   --primary:         #c5f82a;
-  --primary-dark:    #a3e635;
-  --primary-text:    #000000;
-  --primary-bg:      rgba(197, 248, 42, 0.1);
-  --primary-border:  rgba(197, 248, 42, 0.35);
-  --accent-purple:   #c5f82a;
-  --accent-cyan:     #c5f82a;
-  --success:         #c5f82a;
-  --warning:         #c5f82a;
-  --danger:          #c5f82a;
-  --radius:          18px;
-  --radius-lg:       24px;
-  --space-md:        20px;
-  --shadow-sm:       0 1px 8px rgba(0, 0, 0, 0.8);
-  --shadow-md:       0 8px 32px rgba(0, 0, 0, 0.7);
-  --shadow-lg:       0 24px 60px rgba(0, 0, 0, 0.8);
-  --inner-glow:      inset 0 1px 0 rgba(255,255,255,0.04);
-  --card-glow:       0 0 0 1px rgba(197, 248, 42, 0.18);
-  --btn-3d-edge:     #a3e635;
-}
-
-/* ── Light Theme Design Tokens — Green Accent ─────────────── */
-[data-theme="light"] {
-  --bg:              #fafafa;
-  --surface:         #ffffff;
-  --surface-2:       #f4f4f5;
-  --surface-3:       #e4e4e7;
-  --border:          #e4e4e7;
-  --border-2:        #d4d4d8;
-  --text-1:          #0a0a0a;
-  --text-2:          #525252;
-  --text-3:          #737373;
-  --primary:         #c5f82a;
-  --primary-dark:    #a3e635;
+  --primary-dark:    #aad620;
   --primary-text:    #0a0a0a;
-  --primary-bg:      rgba(197, 248, 42, 0.12);
-  --primary-border:  rgba(197, 248, 42, 0.3);
-  --accent-purple:   #7c3aed;
-  --accent-cyan:     #06b6d4;
-  --shadow-sm:       0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-md:       0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lg:       0 12px 32px rgba(0, 0, 0, 0.1);
-  --inner-glow:      inset 0 1px 0 rgba(255,255,255,0.9);
-  --card-glow:       0 0 0 1px rgba(197, 248, 42, 0.15);
-  --btn-3d-edge:     #7cb518;
-}
-
-/* Light theme body background */
-[data-theme="light"] body {
-  background: #f8fafc !important;
-}
-[data-theme="light"] body::before {
-  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
-}
-[data-theme="light"] html,
-[data-theme="light"] #root {
-  background: #f8fafc !important;
-  color: #0f172a !important;
-}
-
-/* ── Dark mode root overrides ─────────────────────────────────────────────── */
-[data-theme="dark"] html,
-[data-theme="dark"] body,
-[data-theme="dark"] #root {
-  background: #000000 !important;
-  color: #ffffff !important;
-}
-
-/* ── Dark mode background — pure black, no gradients ─────────────────────── */
-[data-theme="dark"] body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: #000000;
-  pointer-events: none;
+  --primary-bg:      rgba(197, 248, 42, 0.07);
+  --primary-border:  rgba(197, 248, 42, 0.2);
+  --success:         #c5f82a;
+  --warning:         #a3a3a3;
+  --danger:          #a3a3a3;
+  --radius:          12px;
+  --radius-lg:       16px;
+  --space-md:        20px;
+  --shadow-sm:       0 1px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md:       0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg:       0 16px 48px rgba(0, 0, 0, 0.6);
+  --inner-glow:      inset 0 1px 0 rgba(255,255,255,0.04);
+  --card-glow:       none;
 }
 
 /* ── Dark mode text overrides ─────────────────────────────────────────────── */
@@ -1024,7 +950,7 @@ img { max-width: 100%; }
   padding: 64px 24px; gap: 14px;
 }
 
-/* ── Section title ────────────────────────────────────────────────────────── */
+/* ── Section title ────────────��───────────────────────────────────────────── */
 .section-title {
   font-size: 14px; font-weight: 700; color: var(--text-1);
   margin: 0 0 4px;

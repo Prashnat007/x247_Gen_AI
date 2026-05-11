@@ -38,11 +38,13 @@ type DashAdvanced = {
   totals?: Record<string, number>;
 };
 
-// Single neon green accent for entire app
+// Primary accent — used sparingly for key interactive elements only
 const NEON = '#c5f82a';
-const DOMAIN_COLORS = [NEON, NEON, NEON, NEON, NEON, NEON];
+// Subdued icon/label tint used everywhere else
+const MUTED = '#888888';
+const DOMAIN_COLORS = ['#c5f82a', '#888888', '#aaaaaa', '#666666', '#999999', '#777777'];
 const SRC_ICON: Record<string, any> = { youtube: Youtube, web: Globe, pdf: FileText, note: StickyNote };
-const SRC_CLR: Record<string, string> = { youtube: NEON, web: NEON, pdf: NEON, note: NEON };
+const SRC_CLR: Record<string, string> = { youtube: '#888888', web: '#888888', pdf: '#888888', note: '#888888' };
 
 type SectionHeaderProps = {
   icon: any;
@@ -245,16 +247,16 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     ? domains.slice(0, 6).map((d: any) => ({ subject: d.name, value: d.value, fullMark: Math.max(...domains.map((x: any) => x.value)) + 1 }))
     : [{ subject: 'AI/ML', value: 0, fullMark: 10 }, { subject: 'Science', value: 0, fullMark: 10 }, { subject: 'Tech', value: 0, fullMark: 10 }, { subject: 'Business', value: 0, fullMark: 10 }, { subject: 'Health', value: 0, fullMark: 10 }];
 
-  // All stat cards use single neon green accent
+  // Stat cards — neon only on the primary "Memories" metric, rest use muted
   const statCards = [
     { label: 'Neural Memories', value: totalMem, icon: Brain, color: NEON, trend: '+12%', sub: 'Total captured', route: '/vault' },
-    { label: 'Pending Tasks', value: stats?.pending_tasks ?? 0, icon: CheckSquare, color: NEON, trend: '2 due today', sub: 'Open tasks', route: '/tasks' },
-    { label: 'AI Interactions', value: stats?.ai_interactions ?? 0, icon: Sparkles, color: NEON, trend: 'Lifetime', sub: 'Recall queries', route: '/recall' },
-    { label: 'Knowledge Domains', value: domains.length, icon: Network, color: NEON, trend: 'Active', sub: 'Topics tracked', route: '/graph' },
-    { label: 'Flashcards', value: stats?.flashcards ?? 0, icon: GraduationCap, color: NEON, trend: 'Study ready', sub: 'Created', route: '/flashcards' },
+    { label: 'Pending Tasks', value: stats?.pending_tasks ?? 0, icon: CheckSquare, color: MUTED, trend: '2 due today', sub: 'Open tasks', route: '/tasks' },
+    { label: 'AI Interactions', value: stats?.ai_interactions ?? 0, icon: Sparkles, color: MUTED, trend: 'Lifetime', sub: 'Recall queries', route: '/recall' },
+    { label: 'Knowledge Domains', value: domains.length, icon: Network, color: MUTED, trend: 'Active', sub: 'Topics tracked', route: '/graph' },
+    { label: 'Flashcards', value: stats?.flashcards ?? 0, icon: GraduationCap, color: MUTED, trend: 'Study ready', sub: 'Created', route: '/flashcards' },
     { label: 'Learning Streak', value: stats?.streak_days ?? 0, icon: Zap, color: NEON, trend: 'Days', sub: 'Current streak', route: '/flashcards' },
-    { label: 'Focus Sessions', value: stats?.focus_sessions ?? 0, icon: Timer, color: NEON, trend: 'This week', sub: 'Deep work', route: '/tasks' },
-    { label: 'Captured Today', value: stats?.captured_today ?? 0, icon: TrendingUp, color: NEON, trend: 'Today', sub: 'New memories', route: '/capture' },
+    { label: 'Focus Sessions', value: stats?.focus_sessions ?? 0, icon: Timer, color: MUTED, trend: 'This week', sub: 'Deep work', route: '/tasks' },
+    { label: 'Captured Today', value: stats?.captured_today ?? 0, icon: TrendingUp, color: MUTED, trend: 'Today', sub: 'New memories', route: '/capture' },
   ];
 
   const dashIconBtn: React.CSSProperties = {
@@ -272,15 +274,10 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
 
   const S = {
     card: { 
-      background: isDark 
-        ? '#0a0a0a'
-        : 'linear-gradient(180deg, #ffffff 0%, #fafafa 100%)', 
-      border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid var(--border)', 
-      borderRadius: isDark ? 20 : 14, 
-      boxShadow: isDark 
-        ? '0 4px 24px rgba(0,0,0,0.6)'
-        : '0 1px 0 0 rgba(255,255,255,1) inset, 0 2px 0 0 rgba(0,0,0,0.03), 0 4px 16px -4px rgba(0,0,0,0.08)', 
-      transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)' 
+      background: 'var(--surface)',
+      border: '1px solid var(--border)', 
+      borderRadius: 'var(--radius)',
+      transition: 'border-color 0.15s ease',
     } as React.CSSProperties,
   };
 
@@ -291,7 +288,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
   const smartInsights: { id: string; icon: any; color: string; eyebrow: string; headline: string; sub: string; onClick?: () => void }[] = [];
   if (velocityWk) {
     const dirSign = velocityWk.direction === 'up' ? '+' : velocityWk.direction === 'down' ? '−' : '';
-    const dirClr = velocityWk.direction === 'up' ? NEON : velocityWk.direction === 'down' ? NEON : NEON;
+    const dirClr = velocityWk.direction === 'up' ? NEON : MUTED;
     smartInsights.push({
       id: 'velocity',
       icon: TrendingUp,
@@ -306,7 +303,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     smartInsights.push({
       id: 'topic',
       icon: Hash,
-      color: NEON,
+      color: MUTED,
       eyebrow: 'TOPIC LEAD',
       headline: topicLead.tag,
       sub: `${topicLead.count} item${topicLead.count === 1 ? '' : 's'} tagged across your vault`,
@@ -324,7 +321,7 @@ const Dashboard = ({ isDark, user, onSignOut, onUpgradeGuest }: { isDark?: boole
     smartInsights.push({
       id: 'revisit',
       icon: Bell,
-      color: overdue ? NEON : NEON,
+      color: overdue ? NEON : MUTED,
       eyebrow: 'NEXT REVISIT',
       headline: nextRevisit.title || 'Untitled',
       sub: meta,

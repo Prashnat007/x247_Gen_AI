@@ -231,7 +231,7 @@ const SidebarNavItem = React.memo(({
         display: 'flex', alignItems: 'center', gap: 12,
         padding: isCollapsed ? '10px 0' : '10px 14px',
         borderRadius: 8, border: 'none',
-        background: active ? 'rgba(197, 248, 42, 0.1)' : hovered ? 'rgba(255,255,255,0.03)' : 'transparent',
+        background: active ? 'rgba(255,255,255,0.05)' : hovered ? 'rgba(255,255,255,0.03)' : 'transparent',
         cursor: 'pointer',
         transition: 'all 0.15s ease',
         position: 'relative',
@@ -249,14 +249,14 @@ const SidebarNavItem = React.memo(({
       {/* Icon */}
       <Icon 
         size={18} 
-        color={active ? NEON : hovered ? '#ffffff' : 'var(--text-3)'} 
+        color={active ? NEON : hovered ? 'var(--text-1)' : 'var(--text-3)'} 
         strokeWidth={1.5} 
         style={{ flexShrink: 0, transition: 'color 0.15s ease' }}
       />
       {/* Label - only when expanded */}
       {!isCollapsed && (
         <span style={{
-          color: active ? '#ffffff' : hovered ? '#ffffff' : 'var(--text-2)',
+          color: active ? 'var(--text-1)' : hovered ? 'var(--text-1)' : 'var(--text-2)',
           fontSize: 13, fontWeight: active ? 600 : 400,
           letterSpacing: '-0.1px',
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
@@ -909,13 +909,10 @@ const AppShell = ({ user, onSignOut, onUpgradeGuest, isDark, toggleTheme }: { us
             <button onClick={() => setShowTour(true)} className="theme-toggle" title="Take the tour">
               <HelpCircle size={14} />
             </button>
-            <button onClick={toggleTheme} className="theme-toggle" title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
-              {isDark ? <Sun size={14} /> : <Moon size={14} />}
-            </button>
             <button onClick={() => navigate('/capture')}
-              style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', background: 'linear-gradient(135deg,#2563eb,#1d4ed8)', border: '1px solid rgba(37,99,235,0.4)', borderRadius: 8, color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer', boxShadow: '0 2px 8px rgba(37,99,235,0.3), inset 0 1px 0 rgba(255,255,255,0.15)', fontFamily: 'inherit', transition: 'all 0.15s', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 14px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.15)'; (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(37,99,235,0.3), inset 0 1px 0 rgba(255,255,255,0.15)'; (e.currentTarget as HTMLButtonElement).style.transform = ''; }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', background: 'var(--primary)', border: 'none', borderRadius: 8, color: 'var(--primary-text)', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'opacity 0.15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}>
               <Plus size={13} /> <span className="desktop-text">Capture</span>
             </button>
           </div>
@@ -1025,9 +1022,7 @@ function AppRouter() {
   const [user, setUser] = useState<any>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [isReady, setIsReady] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    (localStorage.getItem('recall-theme-v2') as 'light' | 'dark') || 'dark'
-  );
+  const [theme] = useState<'light' | 'dark'>('dark');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -1093,7 +1088,7 @@ function AppRouter() {
     navigate(redirectTo, { replace: true });
   };
 
-  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+  const toggleTheme = () => {}; // theme is locked to dark
   const isDark = theme === 'dark';
 
   // Public share view — accessible without auth, before all other gating
